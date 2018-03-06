@@ -2,21 +2,12 @@
 
 namespace gdv {
 
-//16bit�����Ȃ������̃G���f�B�A���𑊌݂ɕϊ�����
 constexpr uint16 ConvertEndian(uint16 val) noexcept {
 	return ((val & 0xff00) >> 8)
 		|  ((val & 0x00ff) << 8);
 }
 
 
-//16bit�������萮���̃G���f�B�A���𑊌݂ɕϊ�����
-constexpr int16 ConvertEndian(int16 val) noexcept {
-	return ((val & 0xff00) >> 8)
-		|  ((val & 0x00ff) << 8);
-}
-
-
-//32bit�����Ȃ������̃G���f�B�A���𑊌݂ɕϊ�����
 constexpr uint32 ConvertEndian(uint32 val) noexcept {
 	return ((val & 0xff000000) >> 24)
 		|  ((val & 0x00ff0000) >>  8)
@@ -24,7 +15,7 @@ constexpr uint32 ConvertEndian(uint32 val) noexcept {
 		|  ((val & 0x000000ff) << 24);
 }
 
-//64bit�����Ȃ������̃G���f�B�A���𑊌݂ɕϊ�����
+
 constexpr uint64 ConvertEndian(uint64 val) noexcept {
 	return ((val & 0xff00000000000000) >> 56)
 		|  ((val & 0x00ff000000000000) >> 40)
@@ -37,7 +28,8 @@ constexpr uint64 ConvertEndian(uint64 val) noexcept {
 }
 
 
-//���������@�ŗ����Ă����r�b�g�̐����J�E���g����
+
+
 constexpr int BitCount(uint8 value) noexcept {
 	uint16
 	count = (value & 0x55) + ((value >> 1) & 0x55);
@@ -77,7 +69,7 @@ constexpr int BitCount(uint64 value) noexcept {
 
 
 
-//�ŏ��ʃr�b�g�����߂��֐�
+
 constexpr int MostSignificantBit(uint8 value) noexcept {
 	value |= (value >>  1);
 	value |= (value >>  2);

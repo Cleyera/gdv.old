@@ -1,30 +1,18 @@
 #ifndef GDV_EULER_H_
 #define GDV_EULER_H_
 
-
 #include <type_traits>
 
 
 namespace gdv {
 
-
-///	<summery>
-///		�I�C���[�p�������N���X�ł�
-///	</summery>
-///	<param name='Ty'>
-///		�X�J���^
-///	</param>
-/// <remarks>
-///		�e���v���[�g�����̓X�J���^�݂̂��T�|�[�g���Ă��܂�
-///	</remarks>
 template<class Ty>
-class Euler{
-	//	Euler�N���X�̓X�J���^�݂̂̃T�|�[�g
+class Euler {
 	static_assert(std::is_integral<Ty>::value || std::is_floating_point<Ty>::value, "invalid template parameter.");
 
 public:
 	///	<summery>
-	///		�f�t�H���g�R���X�g���N�^
+	///		default constructor
 	///	</summery>
 	constexpr Euler() noexcept :
 		x{},y{},z{}{}
@@ -32,7 +20,7 @@ public:
 
 
 	///	<summery>
-	///		�R���X�g���N�^
+	///		constructor
 	///	</summery>
 	///	<param name='x'>
 	///		roll
@@ -48,7 +36,7 @@ public:
 
 
 	///	<summery>
-	///		�R���X�g���N�^
+	///		constructor
 	///	</summery>
 	///	<param name='x'>
 	///		roll
@@ -64,7 +52,7 @@ public:
 
 
 	///	<summery>
-	///		�������Z�q
+	///		assignment operator
 	///	</summery>
 	Euler<Ty>& operator = (const Euler<Ty> &e) noexcept = default;
 

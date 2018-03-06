@@ -2,33 +2,33 @@
 
 namespace gdv {
 
-RGB::RGB(HSV c) noexcept :
+ColorRGB::ColorRGB(ColorHSV c) noexcept :
 	a{}, r{}, g{}, b{} {
 	*this = ToRGB(c);
 }
 
 
 
-HSV::HSV(RGB c) noexcept :
+ColorHSV::ColorHSV(ColorRGB c) noexcept :
 	a{}, h{}, s{}, v{} {
 	*this = ToHSV(c);
 }
 
 
 
-RGB operator + (const RGB &co1, const RGB &co2) noexcept {
+ColorRGB operator + (const ColorRGB &co1, const ColorRGB &co2) noexcept {
 	return {co1.a + co2.a, co1.r + co2.r, co1.g + co2.g, co1.b + co2.b};
 }
 
-RGB operator - (const RGB &co1, const RGB &co2) noexcept {
+ColorRGB operator - (const ColorRGB &co1, const ColorRGB &co2) noexcept {
 	return {co1.a - co2.a, co1.r - co2.r, co1.g - co2.g, co1.b - co2.b};
 }
 
-RGB operator * (const RGB &co1, const RGB &co2) noexcept {
+ColorRGB operator * (const ColorRGB &co1, const ColorRGB &co2) noexcept {
 	return {co1.a * co2.a, co1.r * co2.r, co1.g * co2.g, co1.b * co2.b};
 }
 
-RGB& operator += (RGB &co1, const RGB &co2) noexcept {
+ColorRGB& operator += (ColorRGB &co1, const ColorRGB &co2) noexcept {
 	co1.a += co2.a;
 	co1.r += co2.r;
 	co1.g += co2.g;
@@ -36,7 +36,7 @@ RGB& operator += (RGB &co1, const RGB &co2) noexcept {
 	return co1;
 }
 
-RGB& operator -= (RGB &co1, const RGB &co2) noexcept {
+ColorRGB& operator -= (ColorRGB &co1, const ColorRGB &co2) noexcept {
 	co1.a -= co2.a;
 	co1.r -= co2.r;
 	co1.g -= co2.g;
@@ -44,7 +44,7 @@ RGB& operator -= (RGB &co1, const RGB &co2) noexcept {
 	return co1;
 }
 
-RGB& operator *= (RGB &co1, const RGB &co2) noexcept {
+ColorRGB& operator *= (ColorRGB &co1, const ColorRGB &co2) noexcept {
 	co1.a *= co2.a;
 	co1.r *= co2.r;
 	co1.g *= co2.g;
@@ -53,11 +53,11 @@ RGB& operator *= (RGB &co1, const RGB &co2) noexcept {
 }
 
 
-HSV ToHSV(RGB c) noexcept {
+ColorHSV ToHSV(ColorRGB c) noexcept {
 	float max = std::max({c.r, c.g, c.b});
 	float min = std::min({c.r, c.g, c.b});
 	float diff = max - min;
-	HSV hsv;
+	ColorHSV hsv;
 
 	hsv.s = diff / max;
 	hsv.v = max;
@@ -76,13 +76,13 @@ HSV ToHSV(RGB c) noexcept {
 
 
 
-RGB ToRGB(HSV c) noexcept {
+ColorRGB ToRGB(ColorHSV c) noexcept {
 	float p[] {
 		abs(fmod( 1.0f			+ c.h, 1.0f) * 6.0f - 3.0f),
 		abs(fmod((2.0f / 3.0f)	+ c.h, 1.0f) * 6.0f - 3.0f),
 		abs(fmod((1.0f / 3.0f)	+ c.h, 1.0f) * 6.0f - 3.0f),
 	};
-	RGB rgb {
+	ColorRGB rgb {
 		c.a,
 		c.v * Tween::Linear(1.0f, std::min(std::max(p[0], 0.0f), 1.0f), c.s),
 		c.v * Tween::Linear(1.0f, std::min(std::max(p[1], 0.0f), 1.0f), c.s),

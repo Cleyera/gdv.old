@@ -3,10 +3,10 @@
 
 namespace gdv {
 
-//�֐��̖߂��l�̒��`
+//関数の戻り値
 enum ReturnState : int {
-	RETURN_FAILED	= 0,	//�ُ��I��
-	RETURN_SUCCESS	= 1,	//�����I��
+	RETURN_FAILED	= 0,	//正常終了
+	RETURN_SUCCESS	= 1,	//異常終了
 };
 
 

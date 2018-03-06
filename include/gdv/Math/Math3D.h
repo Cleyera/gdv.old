@@ -11,29 +11,29 @@ namespace gdv {
 
 
 ///	<summery>
-///		�P�ʍs�����擾���܂�
+///		単位行列を作成
 ///	</summery>
-Mat4 UnitMatrix()noexcept;
+Mat4 UnitMatrix() noexcept;
 
 
 
 /// <summary>
-///		3x3�s���̓]�u�s�����v�Z���܂�
+///		3x3の行列を転地します
 /// </summary>
 /// <param name="m">
-///		�s��
+///		Matrix3x3
 /// </param>
-Mat3 Transpose(const Mat3 &m)noexcept;
+Mat3 Transpose(const Mat3 &m) noexcept;
 
 
 
 /// <summary>
-///		4x4�s���̓]�u�s�����v�Z���܂�
+///		4x4の行列を転地します
 /// </summary>
 /// <param name="m">
-///		�s��
+///		Matrix4x4
 /// </param>
-Mat4 Transpose(const Mat4 &m)noexcept;
+Mat4 Transpose(const Mat4 &m) noexcept;
 
 
 
@@ -44,98 +44,95 @@ Mat4 Transpose(const Mat4 &m)noexcept;
 
 
 //-----------------------------------------------------------------------------
-// �s�D���̊i�[�`��
+// function decralation
 //-----------------------------------------------------------------------------
 
 
 ///	<summery>
-///		�s�D���̍s���p�֐������`���܂�
+///		列優先の格納形式
 ///	</summery>
 namespace ColumnMajor {
 
 
 
 ///	<summery>
-///		�g���s�����v�Z���܂�
+///		スケーリング行列を作成
 ///	</summery>
 ///	<param name='x'>
-///		x�����̊g�嗦
+///		scale x
 ///	</param>
 ///	<param name='y'>
-///		y�����̊g�嗦
+///		scale y
 ///	</param>
 ///	<param name='z'>
-///		z�����̊g�嗦
+///		scale z
 ///	</param>
-Mat4 Scaling(float x, float y, float z)noexcept;
+Mat4 Scaling(float x, float y, float z) noexcept;
 
 
 
 ///	<summery>
-///		�ړ��s�����v�Z���܂�
+///		移動行列を作成
 ///	</summery>
 ///	<param name='x'>
-///		x�����̈ړ���
+///		Amount of movement in x
 ///	</param>
 ///	<param name='y'>
-///		y�����̈ړ���
+///		Amount of movement in y
 ///	</param>
 ///	<param name='z'>
-///		z�����̈ړ���
+///		Amount of movement in z
 ///	</param>
-Mat4 Translation(float x, float y, float z)noexcept;
+Mat4 Translation(float x, float y, float z) noexcept;
 
 
 
 
 ///	<summery>
-///		x�������̉��]�s�����v�Z���܂�
+///		x軸に関する回転行列を作成
 ///	</summery>
 ///	<param name='radians'>
-///		���]�p�x(���W�A��)
+///		amount of rotation
 ///	</param>
-Mat4 RotationX(float radians)noexcept;
+Mat4 RotationX(float radians) noexcept;
 
 
 
 ///	<summery>
-///		y�������̉��]�s�����v�Z���܂�
+///		y軸に関する回転行列を作成
 ///	</summery>
 ///	<param name='radians'>
-///		���]�p�x(���W�A��)
+///		amount of rotation
 ///	</param>
-Mat4 RotationY(float radians)noexcept;
+Mat4 RotationY(float radians) noexcept;
 
 
 
 ///	<summery>
-///		z�������̉��]�s�����v�Z���܂�
+///		z軸に関する回転行列を作成
 ///	</summery>
 ///	<param name='radians'>
-///		���]�p�x(���W�A��)
+///		amount of rotation
 ///	</param>
-Mat4 RotationZ(float radians)noexcept;
+Mat4 RotationZ(float radians) noexcept;
 
 
 ///	<summery>
-///		�C�ӎ����]���\���s�����v�Z���܂�
+///		任意軸による回転行列を作成
 ///	</summery>
 ///	<param name='axis'>
-///		�C�ӎ�
+///		回転軸
 ///	</param>
 ///	<param name='angle'>
-///		���]��
+///		回転角
 ///	</param>
-/// <remarks>
-///		�����\���x�N�g���͐��K�������Ă����K�v�͂����܂���
-///	</remarks>
-Mat4 Rotation(Vec3 axis, float angle)noexcept;
+Mat4 Rotation(Vec3 axis, float angle) noexcept;
 
 
 
 
 ///	<summery>
-///		�E�����W�n�p�̊֐�
+///		right hand coordinate system
 ///	</summery>
 namespace RH {
 
@@ -152,7 +149,7 @@ namespace RH {
 /// <param name="up">
 ///		�J�����̏����x�N�g��
 /// </param>
-Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up)noexcept;
+Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept;
 
 
 
@@ -177,7 +174,7 @@ Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up)noexcept;
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far)noexcept;
+Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept;
 
 
 /// <summary>
@@ -195,7 +192,7 @@ Mat4 Orthogonal(float left, float right, float top, float bottom, float near, fl
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Orthogonal(float width, float height, float near, float far)noexcept;
+Mat4 Orthogonal(float width, float height, float near, float far) noexcept;
 
 
 
@@ -221,7 +218,7 @@ Mat4 Orthogonal(float width, float height, float near, float far)noexcept;
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far)noexcept;
+Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept;
 
 
 /// <summary>
@@ -239,7 +236,7 @@ Mat4 Perspective(float left, float right, float top, float bottom, float near, f
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Perspective(float width, float height, float near, float far)noexcept;
+Mat4 Perspective(float width, float height, float near, float far) noexcept;
 
 
 /// <summary>
@@ -258,13 +255,13 @@ Mat4 Perspective(float width, float height, float near, float far)noexcept;
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
 /// <returns></returns>
-Mat4 PerspectiveFov(float angle, float aspect, float near, float far)noexcept;
+Mat4 PerspectiveFov(float angle, float aspect, float near, float far) noexcept;
 
 } // namespace RH
 
 
 ///	<summery>
-///		�������W�n�p�̊֐�
+///		left hand coordinate system
 ///	</summery>
 namespace LH {
 
@@ -280,7 +277,7 @@ namespace LH {
 /// <param name="up">
 ///		�J�����̏����x�N�g��
 /// </param>
-Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up)noexcept;
+Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept;
 
 
 /// <summary>
@@ -304,7 +301,7 @@ Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up)noexcept;
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far)noexcept;
+Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept;
 
 
 /// <summary>
@@ -322,7 +319,7 @@ Mat4 Orthogonal(float left, float right, float top, float bottom, float near, fl
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Orthogonal(float width, float height, float near, float far)noexcept;
+Mat4 Orthogonal(float width, float height, float near, float far) noexcept;
 
 
 
@@ -348,7 +345,7 @@ Mat4 Orthogonal(float width, float height, float near, float far)noexcept;
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far)noexcept;
+Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept;
 
 
 
@@ -367,7 +364,7 @@ Mat4 Perspective(float left, float right, float top, float bottom, float near, f
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Perspective(float width, float height, float near, float far)noexcept;
+Mat4 Perspective(float width, float height, float near, float far) noexcept;
 
 
 /// <summary>
@@ -385,11 +382,11 @@ Mat4 Perspective(float width, float height, float near, float far)noexcept;
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 PerspectiveFov(float angle, float aspect, float near, float far)noexcept;
+Mat4 PerspectiveFov(float angle, float aspect, float near, float far) noexcept;
 
 } // namespace LH
 
-}
+} // namespace ColumnMajor
 
 
 
@@ -421,7 +418,7 @@ namespace RowMajor {
 ///	<param name='z'>
 ///		z�����̊g�嗦
 ///	</param>
-Mat4 Scaling(float x, float y, float z)noexcept;
+Mat4 Scaling(float x, float y, float z) noexcept;
 
 
 
@@ -438,7 +435,7 @@ Mat4 Scaling(float x, float y, float z)noexcept;
 ///	<param name='z'>
 ///		z�����̈ړ���
 ///	</param>
-Mat4 Translation(float x, float y, float z)noexcept;
+Mat4 Translation(float x, float y, float z) noexcept;
 
 
 
@@ -448,7 +445,7 @@ Mat4 Translation(float x, float y, float z)noexcept;
 ///	<param name='radians'>
 ///		���]�p�x(���W�A��)
 ///	</param>
-Mat4 RotationX(float radians)noexcept;
+Mat4 RotationX(float radians) noexcept;
 
 
 
@@ -458,7 +455,7 @@ Mat4 RotationX(float radians)noexcept;
 ///	<param name='radians'>
 ///		���]�p�x(���W�A��)
 ///	</param>
-Mat4 RotationY(float radians)noexcept;
+Mat4 RotationY(float radians) noexcept;
 
 
 
@@ -468,7 +465,7 @@ Mat4 RotationY(float radians)noexcept;
 ///	<param name='radians'>
 ///		���]�p�x(���W�A��)
 ///	</param>
-Mat4 RotationZ(float radians)noexcept;
+Mat4 RotationZ(float radians) noexcept;
 
 
 ///	<summery>
@@ -483,11 +480,11 @@ Mat4 RotationZ(float radians)noexcept;
 /// <remarks>
 ///		�����\���x�N�g���͐��K�������Ă����K�v�͂����܂���
 ///	</remarks>
-Mat4 Rotation(Vec3 axis, float angle)noexcept;
+Mat4 Rotation(Vec3 axis, float angle) noexcept;
 
 
 ///	<summery>
-///		�E�����W�n�p�̊֐�
+///		right hand coordinate system
 ///	</summery>
 namespace RH {
 
@@ -504,7 +501,7 @@ namespace RH {
 /// <param name="up">
 ///		�J�����̏����x�N�g��
 /// </param>
-Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up)noexcept;
+Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept;
 
 
 /// <summary>
@@ -528,7 +525,7 @@ Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up)noexcept;
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far)noexcept;
+Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept;
 
 
 /// <summary>
@@ -546,7 +543,7 @@ Mat4 Orthogonal(float left, float right, float top, float bottom, float near, fl
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Orthogonal(float width, float height, float near, float far)noexcept;
+Mat4 Orthogonal(float width, float height, float near, float far) noexcept;
 
 
 
@@ -572,7 +569,7 @@ Mat4 Orthogonal(float width, float height, float near, float far)noexcept;
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far)noexcept;
+Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept;
 
 
 /// <summary>
@@ -590,7 +587,7 @@ Mat4 Perspective(float left, float right, float top, float bottom, float near, f
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Perspective(float width, float height, float near, float far)noexcept;
+Mat4 Perspective(float width, float height, float near, float far) noexcept;
 
 
 /// <summary>
@@ -609,13 +606,13 @@ Mat4 Perspective(float width, float height, float near, float far)noexcept;
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
 /// <returns></returns>
-Mat4 PerspectiveFov(float angle, float aspect, float near, float far)noexcept;
+Mat4 PerspectiveFov(float angle, float aspect, float near, float far) noexcept;
 
 } // namespace RH
 
 
 ///	<summery>
-///		�������W�n�p�̊֐�
+///		left hand coordinate system
 ///	</summery>
 namespace LH {
 
@@ -632,7 +629,7 @@ namespace LH {
 /// <param name="up">
 ///		�J�����̏����x�N�g��
 /// </param>
-Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up)noexcept;
+Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept;
 
 
 /// <summary>
@@ -656,7 +653,7 @@ Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up)noexcept;
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far)noexcept;
+Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept;
 
 
 /// <summary>
@@ -674,7 +671,7 @@ Mat4 Orthogonal(float left, float right, float top, float bottom, float near, fl
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Orthogonal(float width, float height, float near, float far)noexcept;
+Mat4 Orthogonal(float width, float height, float near, float far) noexcept;
 
 
 
@@ -700,7 +697,7 @@ Mat4 Orthogonal(float width, float height, float near, float far)noexcept;
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far)noexcept;
+Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept;
 
 
 /// <summary>
@@ -718,7 +715,7 @@ Mat4 Perspective(float left, float right, float top, float bottom, float near, f
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 Perspective(float width, float height, float near, float far)noexcept;
+Mat4 Perspective(float width, float height, float near, float far) noexcept;
 
 
 /// <summary>
@@ -736,7 +733,7 @@ Mat4 Perspective(float width, float height, float near, float far)noexcept;
 /// <param name="far">
 ///		�����̃N���b�v�ʂƂ̋���
 /// </param>
-Mat4 PerspectiveFov(float angle, float aspect, float near, float far)noexcept;
+Mat4 PerspectiveFov(float angle, float aspect, float near, float far) noexcept;
 
 } // namespace RowMajor
 } // namespace LH

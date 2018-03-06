@@ -1,8 +1,3 @@
-//-----------------------------------------------------------------------------
-//
-//	���W�Ǘ��N���X
-//
-//-----------------------------------------------------------------------------
 #ifndef GDV_MATRIX3X3_H_
 #define GDV_MATRIX3X3_H_
 
@@ -11,32 +6,17 @@
 
 namespace gdv {
 
-///	<summery>
-///		3x3�̍s�����\���\����
-///	</summery>
-///	<param name='Ty'>
-///		�X�J���^
-///	</param>
-/// <remarks>
-///		�e���v���[�g�����̓X�J���^�݂̂��T�|�[�g���Ă��܂�
-///	</remarks>
 template<class Ty>
 class Matrix3x3 {
-	//	Matrix3x3�N���X�̓X�J���^�݂̂̃T�|�[�g
+
 	static_assert(std::is_integral<Ty>::value || std::is_floating_point<Ty>::value, "invalid template parameter.");
 
 public:
 
-	///	<summery>
-	///		�f�t�H���g�R���X�g���N�^
-	///	</summery>
 	constexpr Matrix3x3<Ty>() noexcept :
 		m{}{}
 
 
-	///	<summery>
-	///		�R���X�g���N�^
-	///	</summery>
 	constexpr Matrix3x3<Ty>(Ty m11, Ty m12, Ty m13,
 							Ty m21, Ty m22, Ty m23,
 							Ty m31, Ty m32, Ty m33) noexcept :
@@ -45,25 +25,12 @@ public:
 								m31, m32, m33}{}
 
 
-	///	<summery>
-	///		�R�s�[�R���X�g���N�^
-	///	</summery>
-	///	<param name='m'>
-	///		Matrix3x3
-	///	</param>
 	constexpr Matrix3x3<Ty>(const Matrix3x3<Ty> &m) noexcept = default;
 
 
-
-	///	<summery>
-	///		�������Z�q
-	///	</summery>
 	Matrix3x3<Ty>& operator = (const Matrix3x3<Ty> &v) noexcept = default;
 
 
-	///	<summery>
-	///		�Y�����Z�q
-	///	</summery>
 	float* operator[](int i) noexcept {return &m[3 * i];}
 
 

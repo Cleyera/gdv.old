@@ -4,69 +4,69 @@
 #include <algorithm>
 #include <math.h>
 #include "gdv/Common/Types.h"
-#include "Tween.h"
+#include "gdv/Util/Tween.h"
 
 
 namespace gdv {
 
 
-struct HSV;
+struct ColorHSV;
 
 
 ///	<summary>
-///		RGB(A)�F���Ǘ������\����
+///		RGB(A)Color
 ///	</summary>
-struct RGB {
+struct ColorRGB {
 
 	///	<summary>
-	///		�f�t�H���g�R���X�g���N�^
+	///		default constructor
 	///	</summary>
-	constexpr RGB() noexcept :
+	constexpr ColorRGB() noexcept :
 		a{1.0f}, r{0.0f}, g{0.0f}, b{0.0f}{}
 
 
 	///	<summary>
-	///		�R���X�g���N�^
+	///		constructor
 	///	</summary>
 	///	<param name='r'>
-	///		��
+	///		red
 	/// </param>
 	///	<param name='g'>
-	///		��
+	///		green
 	/// </param>
 	///	<param name='b'>
-	///		��
+	///		blue
 	/// </param>
-	constexpr RGB(float r, float g, float b) noexcept :
+	constexpr ColorRGB(float r, float g, float b) noexcept :
 		a{1.0f}, r{r}, g{g}, b{b}{}
 
 
 	///	<summary>
-	///		�R���X�g���N�^
+	///		constructor
 	///	</summary>
 	///	<param name='a'>
-	///		����
+	///		alpha
 	/// </param>
 	///	<param name='r'>
-	///		��
+	///		red
 	/// </param>
 	///	<param name='g'>
-	///		��
+	///		green
 	/// </param>
 	///	<param name='b'>
-	///		��
+	///		blue
 	/// </param>
-	constexpr RGB(float a, float r, float g, float b) noexcept :
+	constexpr ColorRGB(float a, float r, float g, float b) noexcept :
 		a{a}, r{r}, g{g}, b{b}{}
 
 
 	///	<summary>
-	///		�R���X�g���N�^
+	///		constructor
 	///	</summary>
 	///	<param name='c'>
-	///		ARGB�J���[
+	///		uint32 ARGB color
 	/// </param>
-	constexpr RGB(uint32 c) noexcept :
+	constexpr ColorRGB(uint32 c) noexcept :
 		a{((c & 0xff000000) >> 24) / 255.0f},
 		r{((c & 0x00ff0000) >> 16) / 255.0f},
 		g{((c & 0x0000ff00) >>  8) / 255.0f},
@@ -74,32 +74,32 @@ struct RGB {
 
 
 	///	<summary>
-	///		�R���X�g���N�^
+	///		constructor
 	///	</summary>
 	///	<param name='c'>
-	///		HSV�J���[
+	///		HSV
 	/// </param>
-	RGB(HSV c)noexcept;
+	ColorRGB(ColorHSV c) noexcept;
 
 
 	///	<summary>
-	///		�R�s�[�R���X�g���N�^
+	///		copy constructor
 	///	</summary>
 	///	<param name='co'>
 	///		RGB
 	/// </param>
-	constexpr RGB(const RGB &co) noexcept :
+	constexpr ColorRGB(const ColorRGB &co) noexcept :
 		a{co.a}, r{co.r}, g{co.g}, b{co.b}{}
 
 
 
 	///	<summary>
-	///		�������Z�q
+	///		assignment operator
 	///	</summary>
 	///	<param name='c'>
-	///		RGB�\����
+	///		ColorRGB
 	/// </param>
-	RGB& operator = (RGB c){
+	ColorRGB& operator = (ColorRGB c){
 		a = c.a;
 		r = c.r;
 		g = c.g;
@@ -116,83 +116,83 @@ struct RGB {
 
 
 ///	<summary>
-///		HSV(A)�F���Ǘ������\����
+///		HSV(A)Color
 ///	</summary>
-struct HSV {
+struct ColorHSV {
 
 	///	<summary>
-	///		�f�t�H���g�R���X�g���N�^
+	///		default constructor
 	///	</summary>
-	constexpr HSV() noexcept :
+	constexpr ColorHSV() noexcept :
 		a{1.0f}, h{0.0f}, s{0.0f}, v{0.0f}{}
 
 
 
 	///	<summary>
-	///		�R���X�g���N�^
+	///		constructor
 	///	</summary>
 	///	<param name='a'>
-	///		����
+	///		alpha
 	/// </param>
 	///	<param name='h'>
-	///		�F��
+	///		hue
 	/// </param>
 	///	<param name='s'>
-	///		�ʓx
+	///		saturation
 	/// </param>
 	///	<param name='v'>
-	///		���x
+	///		value
 	/// </param>
-	constexpr HSV(float h, float s, float v) noexcept :
+	constexpr ColorHSV(float h, float s, float v) noexcept :
 		a{1.0f}, h{h}, s{s}, v{v}{}
 
 
 
 	///	<summary>
-	///		�R���X�g���N�^
+	///		constructor
 	///	</summary>
 	///	<param name='h'>
-	///		�F��
+	///		hue
 	/// </param>
 	///	<param name='s'>
-	///		�ʓx
+	///		saturation
 	/// </param>
 	///	<param name='v'>
-	///		���x
+	///		value
 	/// </param>
-	constexpr HSV(float a, float h, float s, float v) noexcept :
+	constexpr ColorHSV(float a, float h, float s, float v) noexcept :
 		a{a}, h{h}, s{s}, v{v}{}
 
 
 
 	///	<summary>
-	///		�R�s�[�R���X�g���N�^
+	///		copy constructor
 	///	</summary>
 	///	<param name='co'>
-	///		HSV
+	///		ColorHSV
 	/// </param>
-	constexpr HSV(const HSV &c) noexcept :
+	constexpr ColorHSV(const ColorHSV &c) noexcept :
 		a{c.a}, h{c.h}, s{c.s}, v{c.v}{}
 
 
 
 	///	<summary>
-	///		�R�s�[�R���X�g���N�^
+	///		constructor
 	///	</summary>
 	///	<param name='co'>
-	///		RGB
+	///		ColorRGB
 	/// </param>
-	HSV(RGB c)noexcept;
+	ColorHSV(ColorRGB c) noexcept;
 
 
 
 	///	<summary>
-	///		�������Z�q
+	///		assignment operator
 	///	</summary>
 	///	<param name='c'>
-	///		HSV�\����
+	///		ColorHSV
 	/// </param>
-	HSV& operator = (const HSV &c) {
+	ColorHSV& operator = (const ColorHSV &c) {
 		a = c.a;
 		h = c.h;
 		s = c.s;
@@ -209,19 +209,19 @@ struct HSV {
 
 
 
-RGB operator + (const RGB &co1, const RGB &co2)noexcept;
-RGB operator - (const RGB &co1, const RGB &co2)noexcept;
-RGB operator * (const RGB &co1, const RGB &co2)noexcept;
-RGB& operator += (RGB &co1, const RGB &co2)noexcept;
-RGB& operator -= (RGB &co1, const RGB &co2)noexcept;
-RGB& operator *= (RGB &co1, const RGB &co2)noexcept;
+ColorRGB operator + (const ColorRGB &co1, const ColorRGB &co2) noexcept;
+ColorRGB operator - (const ColorRGB &co1, const ColorRGB &co2) noexcept;
+ColorRGB operator * (const ColorRGB &co1, const ColorRGB &co2) noexcept;
+ColorRGB& operator += (ColorRGB &co1, const ColorRGB &co2) noexcept;
+ColorRGB& operator -= (ColorRGB &co1, const ColorRGB &co2) noexcept;
+ColorRGB& operator *= (ColorRGB &co1, const ColorRGB &co2) noexcept;
 
 
-HSV ToHSV(RGB c)noexcept;
-RGB ToRGB(HSV c)noexcept;
+ColorHSV ToHSV(ColorRGB c) noexcept;
+ColorRGB ToRGB(ColorHSV c) noexcept;
 
 
-using Color = RGB;
+using Color = ColorRGB;
 
 } // namespace gdv
 

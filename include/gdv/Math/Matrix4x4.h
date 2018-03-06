@@ -11,32 +11,16 @@
 
 namespace gdv {
 
-///	<summery>
-///		4x4�̍s�����\���\����
-///	</summery>
-///	<param name='Ty'>
-///		�X�J���^
-///	</param>
-/// <remarks>
-///		�e���v���[�g�����̓X�J���^�݂̂��T�|�[�g���Ă��܂�
-///	</remarks>
 template<class Ty>
 class Matrix4x4 {
-	//	Matrix4x4�N���X�̓X�J���^�݂̂̃T�|�[�g
 	static_assert(std::is_integral<Ty>::value || std::is_floating_point<Ty>::value, "invalid template parameter.");
 
 public:
 
-	///	<summery>
-	///		�f�t�H���g�R���X�g���N�^
-	///	</summery>
 	constexpr Matrix4x4<Ty>() noexcept :
 		m{}{}
 
 
-	///	<summery>
-	///		�R���X�g���N�^
-	///	</summery>
 	constexpr Matrix4x4<Ty>(Ty m11, Ty m12, Ty m13, Ty m14,
 							Ty m21, Ty m22, Ty m23, Ty m24,
 							Ty m31, Ty m32, Ty m33, Ty m34,
@@ -47,25 +31,13 @@ public:
 								m41, m42, m43, m44}{}
 
 
-	///	<summery>
-	///		�R�s�[�R���X�g���N�^
-	///	</summery>
-	///	<param name='m'>
-	///		Matrix4x4
-	///	</param>
 	constexpr Matrix4x4<Ty>(const Matrix4x4<Ty> &m) noexcept = default;
 
 
 
-	///	<summery>
-	///		�������Z�q
-	///	</summery>
 	Matrix4x4<Ty>& operator = (const Matrix4x4<Ty> &v) noexcept = default;
 
 
-	///	<summery>
-	///		�Y�����Z�q
-	///	</summery>
 	float* operator[](int i) noexcept {return &m[4 * i];}
 
 

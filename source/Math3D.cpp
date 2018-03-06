@@ -4,7 +4,6 @@
 namespace gdv {
 
 
-//�P�ʍs���擾�֐�
 Mat4 UnitMatrix() noexcept {
 	return {
 		1.0f, 0.0f, 0.0f, 0.0f,
@@ -15,7 +14,6 @@ Mat4 UnitMatrix() noexcept {
 }
 
 
-//�]�u�s���v�Z�֐�
 Mat4 Transpose(const Mat4 &m) noexcept {
 	return {
 		m.m[0], m.m[4], m.m[ 8], m.m[12],
@@ -26,7 +24,6 @@ Mat4 Transpose(const Mat4 &m) noexcept {
 }
 
 
-//�]�u�s���v�Z�֐�
 Mat3 Transpose(const Mat3 &m) noexcept {
 	return {
 		m.m[0], m.m[3], m.m[6],

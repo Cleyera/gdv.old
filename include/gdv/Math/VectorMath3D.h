@@ -34,32 +34,32 @@ Matrix Transpose(Matrix m);
 namespace ColumnMajor {
 
 ///	<summery>
-///		�g���s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='x'>
-///		x�����̊g�嗦
+///
 ///	</param>
 ///	<param name='y'>
-///		y�����̊g�嗦
+///
 ///	</param>
 ///	<param name='z'>
-///		z�����̊g�嗦
+///
 ///	</param>
 Mat4 Scaling(float x, float y, float z);
 
 
 
 ///	<summery>
-///		�ړ��s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='x'>
-///		x�����̈ړ���
+///
 ///	</param>
 ///	<param name='y'>
-///		y�����̈ړ���
+///
 ///	</param>
 ///	<param name='z'>
-///		z�����̈ړ���
+///
 ///	</param>
 Mat4 Translation(float x, float y, float z);
 
@@ -67,45 +67,45 @@ Mat4 Translation(float x, float y, float z);
 
 
 ///	<summery>
-///		x�������̉��]�s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='radians'>
-///		���]�p�x(���W�A��)
+///
 ///	</param>
 Mat4 RotationX(float radians);
 
 
 
 ///	<summery>
-///		y�������̉��]�s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='radians'>
-///		���]�p�x(���W�A��)
+///
 ///	</param>
 Mat4 RotationY(float radians);
 
 
 
 ///	<summery>
-///		z�������̉��]�s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='radians'>
-///		���]�p�x(���W�A��)
+///
 ///	</param>
 Mat4 RotationZ(float radians);
 
 
 ///	<summery>
-///		�C�ӎ����]���\���s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='axis'>
-///		�C�ӎ�
+///
 ///	</param>
 ///	<param name='angle'>
-///		���]��
+///
 ///	</param>
 /// <remarks>
-///		�����\���x�N�g���͐��K�������Ă����K�v�͂����܂���
+///
 ///	</remarks>
 Mat4 Rotation(Vec3 axis, float angle);
 
@@ -120,32 +120,32 @@ namespace RH {
 
 namespace RowMajor {
 ///	<summery>
-///		�g���s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='x'>
-///		x�����̊g�嗦
+///
 ///	</param>
 ///	<param name='y'>
-///		y�����̊g�嗦
+///
 ///	</param>
 ///	<param name='z'>
-///		z�����̊g�嗦
+///
 ///	</param>
 Mat4 Scaling(float x, float y, float z);
 
 
 
 ///	<summery>
-///		�ړ��s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='x'>
-///		x�����̈ړ���
+///
 ///	</param>
 ///	<param name='y'>
-///		y�����̈ړ���
+///
 ///	</param>
 ///	<param name='z'>
-///		z�����̈ړ���
+///
 ///	</param>
 Mat4 Translation(float x, float y, float z);
 
@@ -153,45 +153,45 @@ Mat4 Translation(float x, float y, float z);
 
 
 ///	<summery>
-///		x�������̉��]�s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='radians'>
-///		���]�p�x(���W�A��)
+///
 ///	</param>
 Mat4 RotationX(float radians);
 
 
 
 ///	<summery>
-///		y�������̉��]�s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='radians'>
-///		���]�p�x(���W�A��)
+///
 ///	</param>
 Mat4 RotationY(float radians);
 
 
 
 ///	<summery>
-///		z�������̉��]�s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='radians'>
-///		���]�p�x(���W�A��)
+///
 ///	</param>
 Mat4 RotationZ(float radians);
 
 
 ///	<summery>
-///		�C�ӎ����]���\���s�����v�Z���܂�
+///
 ///	</summery>
 ///	<param name='axis'>
-///		�C�ӎ�
+///
 ///	</param>
 ///	<param name='angle'>
-///		���]��
+///
 ///	</param>
 /// <remarks>
-///		�����\���x�N�g���͐��K�������Ă����K�v�͂����܂���
+///		
 ///	</remarks>
 Mat4 Rotation(Vec3 axis, float angle);
 

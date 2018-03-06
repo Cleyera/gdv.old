@@ -5,18 +5,8 @@
 
 namespace gdv {
 
-///	<summery>
-///		�r���[�|�[�g�������N���X�ł�
-///	</summery>
-///	<param name='Ty'>
-///		�X�J���^
-///	</param>
-/// <remarks>
-///		�e���v���[�g�����̓X�J���^�݂̂��T�|�[�g���Ă��܂�
-///	</remarks>
 template<class Ty>
 class Viewport {
-	//	Viewport�N���X�̓X�J���^�݂̂̃T�|�[�g
 	static_assert(std::is_integral<Ty>::value || std::is_floating_point<Ty>::value, "invalid template parameter.");
 
 public:
