@@ -6,7 +6,7 @@
 
 namespace gdv {
 
-template<size_t Stride, size_t Num>
+template <size_t Stride, size_t Num>
 class FixedAllocator {
 	static_assert(Stride > 7, "The stride requires more than 8.");
 	static_assert(Num > 0, "The num requires more than 1.");
@@ -21,25 +21,23 @@ public:
 	~FixedAllocator() {}
 
 	void* Allocate() noexcept {
-		assert(heap_.next_);
-		NextBlock block;
+		void *block;
 		block = heap_;
-		heap_ = block;
-		return (void*)block.next_;
+		*(size_t*)heap_ = *(size_t*)block;
+		return block;
 	}
 
 	void Deallocate(void *p) noexcept {
-		assert((size_t)p >= (size_t)buffer_ && (size_t)p < (size_t)buffer + Stride * Num);
-		((NextBlock*)p)->next_ = heap_.next_;
-		heap_.next_ = (NextBlock*)p;
+		*(size_t*)p = *(size_t*)heap_;
+		heap_ = p;
 	}
 
 	void DeallocateAll() noexcept {
 		for(size_t i = 0; i < Num - 1; ++i){
-			((NextBlock*)&buffer_[i * Stride])->next_ = (NextBlock*)&buffer_[(i + 1) * Stride];
+			*(size_t*)&buffer_[i * Stride] = *(size_t*)&buffer_[(i + 1) * Stride];
 		}
-		((NextBlock*)&buffer_[(Num - 1) * Stride])->next_ = nullptr;
-		heap_.next_ = (NextBlock*)buffer_;
+		*(size_t**)&buffer_[(Num - 1) * Stride] = nullptr;
+		heap_ = (void*)buffer_;
 	}
 
 public:
@@ -49,11 +47,8 @@ public:
 	FixedAllocator& operator = (FixedAllocator&&) = delete;
 
 private:
-	struct NextBlock {
-		NextBlock *next_;
-	};
 	byte buffer_[Stride * Num];
-	NextBlock heap_;
+	void *heap_;
 };
 
 } // namespace gdv
