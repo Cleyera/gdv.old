@@ -12,6 +12,7 @@
 
 
 #include "Tools/FixedAllocator.h"
+#include "Tools/type_list.h"
 
 using namespace gdv;
 
