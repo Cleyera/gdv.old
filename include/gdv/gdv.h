@@ -10,6 +10,9 @@
 
 #include "Math/GdvMath.h"
 
+
+#include "Tools/FixedAllocator.h"
+
 using namespace gdv;
 
 #endif

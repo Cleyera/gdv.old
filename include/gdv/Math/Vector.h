@@ -39,28 +39,28 @@ namespace simd {
 
 class Vector {
 public:
-	Vector();
-	Vector(const Vector &vec);
-	Vector(float x, float y, float z, float w);
-	Vector(Vector3<float> vec);
-	Vector(Vector3<float> vec, float w);
-	Vector(Vector4<float> vec);
-	Vector(__m128 vec);
+    Vector();
+    Vector(const Vector &vec);
+    Vector(float x, float y, float z, float w);
+    Vector(Vector3<float> vec);
+    Vector(Vector3<float> vec, float w);
+    Vector(Vector4<float> vec);
+    Vector(__m128 vec);
 
 
 public:
-	Vector& operator = (Vector3<float> vec);
-	Vector& operator = (Vector4<float> vec);
-	Vector& operator = (const Vector &vec);
+    Vector& operator = (Vector3<float> vec);
+    Vector& operator = (Vector4<float> vec);
+    Vector& operator = (const Vector &vec);
 
 
 public:
-	operator Vector3<float>();
-	operator Vector4<float>();
+    operator Vector3<float>();
+    operator Vector4<float>();
 
 
 public:
-	__m128 v;
+    __m128 v;
 };
 
 
