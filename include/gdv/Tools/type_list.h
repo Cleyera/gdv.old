@@ -8,11 +8,13 @@ namespace gdv {
 template <class ...Ty>
 struct type_list{};
 
+namespace type_list_impl {
+
 //receive----------------------------------------------------------------------
-template <template <class...> class Ty, class ...Elm>
-struct receive;
-template <template <class...> class Ty, class ...Elm>
-struct receive<Ty, type_list<Elm...>> {
+template <class Elm, template <class...> class Ty>
+struct transfer;
+template <class ...Elm, template <class...> class Ty>
+struct transfer<type_list<Elm...>, Ty> {
     using type = Ty<Elm...>;
 };
 
@@ -105,220 +107,287 @@ struct back<type_list<Ty>> {
 
 
 //at---------------------------------------------------------------------------
-template <size_t I, class Head, class ...Tail>
+template <class Ty, size_t I>
 struct at;
-template <size_t I, class Head, class ...Tail>
-struct at<I, type_list<Head, Tail...>> {
-    using type = typename at<I - 1, type_list<Tail...>>::type;
+template <class Head, class ...Tail, size_t I>
+struct at<type_list<Head, Tail...>, I> {
+    using type = typename at<type_list<Tail...>, I - 1>::type;
 };
 template <class Head, class ...Tail>
-struct at<0, type_list<Head, Tail...>> {
+struct at<type_list<Head, Tail...>, 0> {
     using type = Head;
 };
 
 
 //count------------------------------------------------------------------------
-template <class Ty, class Head, class ...Tail>
+template <class Li, class Ty>
 struct count;
-template <class Ty, class Head, class ...Tail>
-struct count<Ty, type_list<Head, Tail...>> {
+template <class Head, class ...Tail, class Ty>
+struct count<type_list<Head, Tail...>, Ty> {
     static constexpr size_t value =
-        count<Ty, type_list<Tail...>>::value
+        count<type_list<Tail...>, Ty>::value
          + (std::is_same<Ty, Head>::value ? 1 : 0);
 };
 template <class Ty>
-struct count<Ty, type_list<>> {
+struct count<type_list<>, Ty> {
     static constexpr size_t value = 0;
 };
 
 
 //count_if---------------------------------------------------------------------
-template <template<class> class Predicate, class Head, class...Tail>
+template <class Ty, template<class> class Predicate>
 struct count_if;
-template <template<class> class Predicate, class Head, class...Tail>
-struct count_if<Predicate, type_list<Head, Tail...>> {
+template <class Head, class ...Tail, template<class> class Predicate>
+struct count_if<type_list<Head, Tail...>, Predicate> {
     static constexpr size_t value =
-        count_if<Predicate, type_list<Tail...>>::value
+        count_if<type_list<Tail...>, Predicate>::value
          + (Predicate<Head>::value ? 1 : 0);
 };
 template <template<class> class Predicate>
-struct count_if<Predicate, type_list<>> {
+struct count_if<type_list<>, Predicate> {
     static constexpr size_t value = 0;
 };
 
 
 //concat-----------------------------------------------------------------------
-template <class Ty0, class Ty1>
+template <class Ty0, class ...Ty1>
 struct concat;
 template <class ...Ty0, class ...Ty1>
 struct concat<type_list<Ty0...>, type_list<Ty1...>> {
     using type = type_list<Ty0..., Ty1...>;
 };
+template <class ...Ty0, class ...Ty1>
+struct concat<type_list<Ty0...>, Ty1...> {
+    using type = type_list<Ty0..., Ty1...>;
+};
 
 
 //all_of-----------------------------------------------------------------------
-template <template<class> class Predicate, class Head, class...Tail>
+template <class Ty, template<class> class Predicate>
 struct all_of;
-template <template<class> class Predicate, class Head, class...Tail>
-struct all_of<Predicate, type_list<Head, Tail...>> {
+template <class Head, class...Tail, template<class> class Predicate>
+struct all_of<type_list<Head, Tail...>, Predicate> {
     static constexpr bool value = Predicate<Head>::value ?
-        all_of<Predicate, type_list<Tail...>>::value :
-        false;
+        all_of<type_list<Tail...>, Predicate>::value : false;
 };
 template <template<class> class Predicate>
-struct all_of<Predicate, type_list<>> {
+struct all_of<type_list<>, Predicate> {
     static constexpr bool value = true;
 };
 
 
 //any_of-----------------------------------------------------------------------
-template <template<class> class Predicate, class Head, class...Tail>
+template <class Ty, template<class> class Predicate>
 struct any_of;
-template <template<class> class Predicate, class Head, class...Tail>
-struct any_of<Predicate, type_list<Head, Tail...>> {
+template < class Head, class...Tail, template<class> class Predicate>
+struct any_of<type_list<Head, Tail...>, Predicate> {
     static constexpr bool value = Predicate<Head>::value ?
-        true : any_of<Predicate, type_list<Tail...>>::value;
+        true : any_of<type_list<Tail...>, Predicate>::value;
 };
 template <template<class> class Predicate>
-struct any_of<Predicate, type_list<>> {
+struct any_of<type_list<>, Predicate> {
     static constexpr bool value = false;
 };
 
 
 //none_of----------------------------------------------------------------------
-template <template<class> class Predicate, class Head, class...Tail>
+template <class Ty, template<class> class Predicate>
 struct none_of;
-template <template<class> class Predicate, class Head, class...Tail>
-struct none_of<Predicate, type_list<Head, Tail...>> {
+template < class Head, class...Tail, template<class> class Predicate>
+struct none_of<type_list<Head, Tail...>, Predicate> {
     static constexpr bool value = Predicate<Head>::value ?
-        false : none_of<Predicate, type_list<Tail...>>::value;
+        false : none_of<type_list<Tail...>, Predicate>::value;
 };
 template <template<class> class Predicate>
-struct none_of<Predicate, type_list<>> {
+struct none_of<type_list<>, Predicate> {
     static constexpr bool value = true;
 };
 
 
 //for_each---------------------------------------------------------------------
-template <template<class> class Function, class ...Ty>
+template <class Ty, template<class> class Function>
 struct for_each;
-template <template<class> class Function, class ...Ty>
-struct for_each<Function, type_list<Ty...>> {
+template <class ...Ty, template<class> class Function>
+struct for_each<type_list<Ty...>, Function> {
     using type = type_list<typename Function<Ty>::type...>;
 };
 
 
 
 //push_back--------------------------------------------------------------------
-template <class Ty, class ...Elm>
+template <class Elm, class ...Ty>
 struct push_back;
-template <class Ty, class ...Elm>
-struct push_back<Ty, type_list<Elm...>> {
-    using type = type_list<Elm..., Ty>;
+template <class ...Elm, class ...Ty>
+struct push_back<type_list<Elm...>, Ty...> {
+    using type = type_list<Elm..., Ty...>;
 };
 
 
 //push_back_if-----------------------------------------------------------------
-template <bool Flag, class Ty, class ...Elm>
+template <bool Flag, class Elm, class Ty>
 struct push_back_if_impl;
-template <class Ty, class ...Elm>
-struct push_back_if_impl<true, Ty, type_list<Elm...>> {
-    using type = typename push_back<Ty, type_list<Elm...>>::type;
+template <class ...Elm, class Ty>
+struct push_back_if_impl<true, type_list<Elm...>, Ty> {
+    using type = typename push_back<type_list<Elm...>, Ty>::type;
 };
-template <class Ty, class ...Elm>
-struct push_back_if_impl<false, Ty, type_list<Elm...>> {
+template <class ...Elm, class Ty>
+struct push_back_if_impl<false, type_list<Elm...>, Ty> {
     using type = type_list<Elm...>;
 };
-template <template<class> class Predicate, class Ty, class ...Elm>
+template <class Elm, class Ty, template<class> class Predicate>
 struct push_back_if;
-template <template<class> class Predicate, class Ty, class ...Elm>
-struct push_back_if<Predicate, Ty, type_list<Elm...>> {
+template <class ...Elm, class Ty, template<class> class Predicate>
+struct push_back_if<type_list<Elm...>, Ty, Predicate> {
     using type = typename push_back_if_impl<
-        Predicate<Ty>::value, Ty, type_list<Elm...>
+        Predicate<Ty>::value, type_list<Elm...>, Ty
     >::type;
 };
-template <template<class> class Predicate, class Ty, class ...Elm>
+template <class Elm, class Ty, template<class> class Predicate>
 struct push_back_if_not;
-template <template<class> class Predicate, class Ty, class ...Elm>
-struct push_back_if_not<Predicate, Ty, type_list<Elm...>> {
+template <class ...Elm, class Ty, template<class> class Predicate>
+struct push_back_if_not<type_list<Elm...>, Ty, Predicate> {
     using type = typename push_back_if_impl<
-        !Predicate<Ty>::value, Ty, type_list<Elm...>
+        !Predicate<Ty>::value, type_list<Elm...>, Ty
     >::type;
 };
 
 
 //push_front-------------------------------------------------------------------
-template <class Ty, class ...Elm>
+template <class Elm, class ...Ty>
 struct push_front;
-template <class Ty, class ...Elm>
-struct push_front<Ty, type_list<Elm...>> {
-    using type = type_list<Ty, Elm...>;
+template <class ...Elm, class ...Ty>
+struct push_front<type_list<Elm...>, Ty...> {
+    using type = type_list<Ty..., Elm...>;
 };
 
 
 //push_front_if-----------------------------------------------------------------
-template <bool Flag, class Ty, class ...Elm>
+template <bool Flag, class Elm, class Ty>
 struct push_front_if_impl;
-template <class Ty, class ...Elm>
-struct push_front_if_impl<true, Ty, type_list<Elm...>> {
-    using type = typename push_front<Ty, type_list<Elm...>>::type;
+template <class ...Elm, class Ty>
+struct push_front_if_impl<true, type_list<Elm...>, Ty> {
+    using type = typename push_front<type_list<Elm...>, Ty>::type;
 };
-template <class Ty, class ...Elm>
-struct push_front_if_impl<false, Ty, type_list<Elm...>> {
+template <class ...Elm, class Ty>
+struct push_front_if_impl<false, type_list<Elm...>, Ty> {
     using type = type_list<Elm...>;
 };
-template <template<class> class Predicate, class Ty, class ...Elm>
+template <class Elm, class Ty, template<class> class Predicate>
 struct push_front_if;
-template <template<class> class Predicate, class Ty, class ...Elm>
-struct push_front_if<Predicate, Ty, type_list<Elm...>> {
+template <class ...Elm, class Ty, template<class> class Predicate>
+struct push_front_if<type_list<Elm...>, Ty, Predicate> {
     using type = typename push_front_if_impl<
-        Predicate<Ty>::value, Ty, type_list<Elm...>
+        Predicate<Ty>::value, type_list<Elm...>, Ty
     >::type;
 };
-template <template<class> class Predicate, class Ty, class ...Elm>
+template <class Elm, class Ty, template<class> class Predicate>
 struct push_front_if_not;
-template <template<class> class Predicate, class Ty, class ...Elm>
-struct push_front_if_not<Predicate, Ty, type_list<Elm...>> {
+template <class ...Elm, class Ty, template<class> class Predicate>
+struct push_front_if_not<type_list<Elm...>, Ty, Predicate> {
     using type = typename push_front_if_impl<
-        !Predicate<Ty>::value, Ty, type_list<Elm...>
+        !Predicate<Ty>::value, type_list<Elm...>, Ty
     >::type;
 };
 
 
 
 //extract_if-------------------------------------------------------------------
-template <template<class> class Predicate, class Head, class...Tail>
+template <class Ty, template<class> class Predicate>
 struct extract_if;
-template <template<class> class Predicate, class Head, class...Tail>
-struct extract_if<Predicate, type_list<Head, Tail...>> {
+template <class Head, class...Tail, template<class> class Predicate>
+struct extract_if<type_list<Head, Tail...>, Predicate> {
     using type = typename push_front_if<
-        Predicate,
+        typename extract_if<type_list<Tail...>, Predicate>::type,
         Head,
-        typename extract_if<Predicate, type_list<Tail...>>::type
+        Predicate
     >::type;
 };
 template <template<class> class Predicate>
-struct extract_if<Predicate, type_list<>> {
+struct extract_if<type_list<>, Predicate> {
     using type = type_list<>;
 };
 
 
 
 //remove_if-------------------------------------------------------------------
-template <template<class> class Predicate, class Head, class...Tail>
+template <class Ty, template<class> class Predicate>
 struct remove_if;
-template <template<class> class Predicate, class Head, class...Tail>
-struct remove_if<Predicate, type_list<Head, Tail...>> {
+template <class Head, class...Tail, template<class> class Predicate>
+struct remove_if<type_list<Head, Tail...>, Predicate> {
     using type = typename push_front_if_not<
-        Predicate,
-        Head,
-        typename remove_if<Predicate, type_list<Tail...>>::type
+    typename extract_if<type_list<Tail...>, Predicate>::type,
+    Head,
+    Predicate
     >::type;
 };
 template <template<class> class Predicate>
-struct remove_if<Predicate, type_list<>> {
+struct remove_if<type_list<>, Predicate> {
     using type = type_list<>;
 };
+
+} // namespace type_list_impl
+
+
+template <class List, template <class...> class Ty>
+using transfer = typename type_list_impl::transfer<List, Ty>::type;
+
+template <class List>
+static constexpr size_t max = type_list_impl::max<List>::value;
+
+template <class List>
+static constexpr size_t min = type_list_impl::min<List>::value;
+
+template <class List>
+static constexpr size_t size = type_list_impl::size<List>::value;
+
+template <class List>
+static constexpr bool empty = type_list_impl::empty<List>::value;
+
+template <class List>
+using head = typename type_list_impl::head<List>::type;
+
+template <class List>
+using tail = typename type_list_impl::tail<List>::type;
+
+template <class List>
+using back = typename type_list_impl::back<List>::type;
+
+template <class List, size_t I>
+using at = typename type_list_impl::at<List, I>::type;
+
+template <class List, class Ty>
+static constexpr size_t count = type_list_impl::count<List, Ty>::value;
+
+template <class List, template<class> class Predicate>
+static constexpr size_t count_if = type_list_impl::count_if<List, Predicate>::value;
+
+template <class List1, class List2>
+using concat = typename type_list_impl::concat<List1, List2>::type;
+
+template <class List, template<class> class Predicate>
+static constexpr bool all_of = type_list_impl::all_of<List, Predicate>::value;
+
+template <class List, template<class> class Predicate>
+static constexpr bool any_of = type_list_impl::any_of<List, Predicate>::value;
+
+template <class List, template<class> class Predicate>
+static constexpr bool none_of = type_list_impl::none_of<List, Predicate>::value;
+
+template <class List, template<class> class Function>
+using for_each = typename type_list_impl::for_each<List, Function>::type;
+
+template <class List, class ...Ty>
+using push_back = typename type_list_impl::push_back<List, Ty...>::type;
+
+template <class List, class ...Ty>
+using push_front = typename type_list_impl::push_front<List, Ty...>::type;
+
+template <class List, template<class> class Predicate>
+using extract_if = typename type_list_impl::extract_if<List, Predicate>::type;
+
+template <class List, template<class> class Predicate>
+using remove_if = typename type_list_impl::remove_if<List, Predicate>::type;
+
 
 } // namespace gdv
 
