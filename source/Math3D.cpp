@@ -182,7 +182,7 @@ namespace LH {
 Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept {
     Vec3 z = Normalize(dst - pos);
     Vec3 x = Normalize(Cross(up, z));
-    Vec3 y = Cross(x, z);
+    Vec3 y = Cross(z, x);
     return{
         x.x, y.x, z.x, -Dot(pos, x),
         x.y, y.y, z.y, -Dot(pos, y),
@@ -365,8 +365,8 @@ Mat4 Orthogonal(float width, float height, float near, float far) noexcept {
 Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept {
     return {
         2.0f * near / (right - left), 0.0f, 0.0f, 0.0f,
-        0.0f, 2.0f * near / (bottom - top), 0.0f, 0.0f,
-        (right + left) / (right - left),(bottom + top) / (bottom - top),far / (near - far), -1.0f,
+        0.0f, 2.0f * near / (top - bottom), 0.0f, 0.0f,
+        (right + left) / (right - left),(bottom + top) / (top - bottom),far / (near - far), -1.0f,
         0.0f, 0.0f, far * near / (near - far), 0.0f,
     };
 }
@@ -398,7 +398,7 @@ namespace LH {
 Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept {
     Vec3 z = Normalize(dst - pos);
     Vec3 x = Normalize(Cross(up, z));
-    Vec3 y = Cross(x, z);
+    Vec3 y = Cross(z, x);
     return{
         x.x, x.y, x.z, 0.0f,
         y.x, y.y, y.z, 0.0f,
