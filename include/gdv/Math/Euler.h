@@ -12,9 +12,9 @@ namespace gdv {
 
 /**
 * @class Euler
+* @tparam Ty スカラ型のみ受付ます
 * @brief オイラー角を表現するクラスです
 * このクラスはQuaternionと相互に変換する事ができます
-* @tparam Ty スカラ型のみ受付ます
 **/
 template <class Ty>
 class Euler {
@@ -25,7 +25,7 @@ public:
     /**
     * @brief デフォルトコンストラクタ
     * @return none
-  * @exception none
+    * @exception none
     **/
     constexpr Euler() noexcept :
         x{}, y{}, z{} {}

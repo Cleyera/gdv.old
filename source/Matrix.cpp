@@ -11,12 +11,12 @@ Matrix::Matrix() :
 
 
 
-Matrix::Matrix(const Matrix &m) :
-    m{m.m[0], m.m[1], m.m[2], m.m[3]}{}
+Matrix::Matrix(const Matrix &mat) :
+    m{mat.m[0], mat.m[1], mat.m[2], mat.m[3]}{}
 
 
 
-Matrix::Matrix(    float m11, float m12, float m13, float m14,
+Matrix::Matrix( float m11, float m12, float m13, float m14,
                 float m21, float m22, float m23, float m24,
                 float m31, float m32, float m33, float m34,
                 float m41, float m42, float m43, float m44) :
@@ -33,12 +33,12 @@ Matrix::Matrix(    float m11, float m12, float m13, float m14,
 
 
 
-Matrix::Matrix(Matrix4x4<float> m) :
+Matrix::Matrix(Matrix4x4<float> mat) :
     m{}{
-    alignas(alignof(__m128)) float v1[4]{m.m[ 0], m.m[ 1], m.m[ 2], m.m[ 3]};
-    alignas(alignof(__m128)) float v2[4]{m.m[ 4], m.m[ 5], m.m[ 6], m.m[ 7]};
-    alignas(alignof(__m128)) float v3[4]{m.m[ 8], m.m[ 9], m.m[10], m.m[11]};
-    alignas(alignof(__m128)) float v4[4]{m.m[12], m.m[13], m.m[14], m.m[15]};
+    alignas(alignof(__m128)) float v1[4]{mat.m[ 0], mat.m[ 1], mat.m[ 2], mat.m[ 3]};
+    alignas(alignof(__m128)) float v2[4]{mat.m[ 4], mat.m[ 5], mat.m[ 6], mat.m[ 7]};
+    alignas(alignof(__m128)) float v3[4]{mat.m[ 8], mat.m[ 9], mat.m[10], mat.m[11]};
+    alignas(alignof(__m128)) float v4[4]{mat.m[12], mat.m[13], mat.m[14], mat.m[15]};
     this->m[0] = _mm_load_ps(v1);
     this->m[1] = _mm_load_ps(v2);
     this->m[2] = _mm_load_ps(v3);
@@ -51,11 +51,11 @@ Matrix::Matrix(__m128 m1, __m128 m2, __m128 m3, __m128 m4) :
     m{m1, m2, m3, m4}{}
 
 
-Matrix& Matrix::operator = (const Matrix4x4<float> &m) {
-    alignas(alignof(__m128)) float v1[4]{m.m[ 0], m.m[ 1], m.m[ 2], m.m[ 3]};
-    alignas(alignof(__m128)) float v2[4]{m.m[ 4], m.m[ 5], m.m[ 6], m.m[ 7]};
-    alignas(alignof(__m128)) float v3[4]{m.m[ 8], m.m[ 9], m.m[10], m.m[11]};
-    alignas(alignof(__m128)) float v4[4]{m.m[12], m.m[13], m.m[14], m.m[15]};
+Matrix& Matrix::operator = (const Matrix4x4<float> &mat) {
+    alignas(alignof(__m128)) float v1[4]{mat.m[ 0], mat.m[ 1], mat.m[ 2], mat.m[ 3]};
+    alignas(alignof(__m128)) float v2[4]{mat.m[ 4], mat.m[ 5], mat.m[ 6], mat.m[ 7]};
+    alignas(alignof(__m128)) float v3[4]{mat.m[ 8], mat.m[ 9], mat.m[10], mat.m[11]};
+    alignas(alignof(__m128)) float v4[4]{mat.m[12], mat.m[13], mat.m[14], mat.m[15]};
     this->m[0] = _mm_load_ps(v1);
     this->m[1] = _mm_load_ps(v2);
     this->m[2] = _mm_load_ps(v3);
@@ -65,11 +65,11 @@ Matrix& Matrix::operator = (const Matrix4x4<float> &m) {
 
 
 
-Matrix& Matrix::operator = (const Matrix &m) {
-    this->m[0] = m.m[0];
-    this->m[1] = m.m[1];
-    this->m[2] = m.m[2];
-    this->m[3] = m.m[3];
+Matrix& Matrix::operator = (const Matrix &mat) {
+    this->m[0] = mat.m[0];
+    this->m[1] = mat.m[1];
+    this->m[2] = mat.m[2];
+    this->m[3] = mat.m[3];
     return *this;
 }
 

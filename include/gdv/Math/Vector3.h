@@ -13,17 +13,22 @@ class alignas(alignof(Ty)) Vector3 {
 public:
 
     constexpr Vector3() noexcept :
-        x{},y{},z{}{}
+        x{}, y{}, z{}{}
+
+    constexpr Vector3(Ty v) noexcept :
+        x{v}, y{v}, z{v}{}
 
     constexpr Vector3(Ty x, Ty y, Ty z) noexcept :
-        x{x},y{y},z{z}{}
+        x{x}, y{y}, z{z}{}
 
     constexpr Vector3(const Vector3<Ty> &v) noexcept :
-        x{v.x},y{v.y},z{v.z}{}
+        x{v.x}, y{v.y}, z{v.z}{}
 
     constexpr Vector3(const Vector2<Ty> &v) noexcept :
-        x{v.x},y{v.y},z{1.0}{}
+        x{v.x}, y{v.y}, z{static_cast<Ty>(1)}{}
 
+    constexpr Vector3(const Vector2<Ty> &v, Ty z) noexcept :
+        x{v.x}, y{v.y}, z{z}{}
 
 
 
@@ -152,14 +157,14 @@ Vector3<Ty> Cross(Vector3<Ty> v1, Vector3<Ty> v2) noexcept {
 
 template<class Ty>
 Ty Angle(Vector3<Ty> v1, Vector3<Ty> v2) noexcept {
-    return static_cast<Ty>(atan2(Dot(v1, v2), Cross(v1, v2)));
+    return static_cast<Ty>(std::atan2(Dot(v1, v2), Cross(v1, v2)));
 }
 
 
 template<class Ty>
 Ty Length(Vector3<Ty> v) noexcept {
     static_assert(std::is_floating_point<Ty>::value, "Template parameters require floating point type.");
-    return static_cast<Ty>(hypot(hypot(v.x, v.y), v.z));
+    return static_cast<Ty>(std::hypot(std::hypot(v.x, v.y), v.z));
 }
 
 

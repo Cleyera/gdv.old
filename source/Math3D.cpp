@@ -1,37 +1,7 @@
-#include <math.h>
+#include <cmath>
 #include "gdv/Math/Math3D.h"
 
 namespace gdv {
-
-
-Mat4 UnitMatrix() noexcept {
-    return {
-        1.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-    };
-}
-
-
-Mat4 Transpose(const Mat4 &m) noexcept {
-    return {
-        m.m[0], m.m[4], m.m[ 8], m.m[12],
-        m.m[1], m.m[5], m.m[ 9], m.m[13],
-        m.m[2], m.m[6], m.m[10], m.m[14],
-        m.m[3], m.m[7], m.m[11], m.m[15],
-    };
-}
-
-
-Mat3 Transpose(const Mat3 &m) noexcept {
-    return {
-        m.m[0], m.m[3], m.m[6],
-        m.m[1], m.m[4], m.m[7],
-        m.m[2], m.m[5], m.m[8],
-    };
-}
-
 
 //OpenGL
 namespace ColumnMajor {
@@ -58,8 +28,8 @@ Mat4 Translation(float x, float y, float z) noexcept {
 
 
 Mat4 RotationX(float radians) noexcept {
-    float s = sinf(radians);
-    float c = cosf(radians);
+    float s = std::sin(radians);
+    float c = std::cos(radians);
     return {
         1.0f, 0.0f, 0.0f, 0.0f,
         0.0f,    c,   -s, 0.0f,
@@ -71,8 +41,8 @@ Mat4 RotationX(float radians) noexcept {
 
 
 Mat4 RotationY(float radians) noexcept {
-    float s = sinf(radians);
-    float c = cosf(radians);
+    float s = std::sin(radians);
+    float c = std::cos(radians);
     return {
            c, 0.0f,    s, 0.0f,
         0.0f, 1.0f, 0.0f, 0.0f,
@@ -83,8 +53,8 @@ Mat4 RotationY(float radians) noexcept {
 
 
 Mat4 RotationZ(float radians) noexcept {
-    float s = sinf(radians);
-    float c = cosf(radians);
+    float s = std::sin(radians);
+    float c = std::cos(radians);
     return {
            c,   -s, 0.0f, 0.0f,
            s,    c, 0.0f, 0.0f,
@@ -96,8 +66,8 @@ Mat4 RotationZ(float radians) noexcept {
 
 Mat4 Rotation(Vec3 axis, float angle) noexcept {
     axis = Normalize(axis);
-    float c = cosf(angle);
-    float s = sinf(angle);
+    float c = std::cos(angle);
+    float s = std::sin(angle);
     float x = axis.x;
     float y = axis.y;
     float z = axis.z;
@@ -275,8 +245,8 @@ Mat4 Translation(float x, float y, float z) noexcept {
 
 
 Mat4 RotationX(float radians) noexcept {
-    float s = sinf(radians);
-    float c = cosf(radians);
+    float s = std::sin(radians);
+    float c = std::cos(radians);
     return {
         1.0f, 0.0f, 0.0f, 0.0f,
         0.0f,    c,    s, 0.0f,
@@ -288,8 +258,8 @@ Mat4 RotationX(float radians) noexcept {
 
 
 Mat4 RotationY(float radians) noexcept {
-    float s = sinf(radians);
-    float c = cosf(radians);
+    float s = std::sin(radians);
+    float c = std::cos(radians);
     return {
            c, 0.0f,   -s, 0.0f,
         0.0f, 1.0f, 0.0f, 0.0f,
@@ -300,8 +270,8 @@ Mat4 RotationY(float radians) noexcept {
 
 
 Mat4 RotationZ(float radians) noexcept {
-    float s = sinf(radians);
-    float c = cosf(radians);
+    float s = std::sin(radians);
+    float c = std::cos(radians);
     return {
            c,    s, 0.0f, 0.0f,
           -s,    c, 0.0f, 0.0f,
@@ -313,8 +283,8 @@ Mat4 RotationZ(float radians) noexcept {
 
 Mat4 Rotation(Vec3 axis, float angle) noexcept {
     axis = Normalize(axis);
-    float c = cosf(angle);
-    float s = sinf(angle);
+    float c = std::cos(angle);
+    float s = std::sin(angle);
     float x = axis.x;
     float y = axis.y;
     float z = axis.z;

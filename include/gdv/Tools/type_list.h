@@ -64,13 +64,9 @@ struct size<type_list<Ty...>> {
 template <class Head, class ...Tail>
 struct empty;
 template <class Head, class ...Tail>
-struct empty<type_list<Head, Tail...>> {
-    static constexpr bool value = false;
-};
+struct empty<type_list<Head, Tail...>> : std::false_type {};
 template <>
-struct empty<type_list<>> {
-    static constexpr bool value = true;
-};
+struct empty<type_list<>> : std::true_type {};
 
 
 //head-------------------------------------------------------------------------
@@ -162,6 +158,19 @@ struct concat<type_list<Ty0...>, Ty1...> {
 };
 
 
+//contain-----------------------------------------------------------------------
+template <class Elm, class Ty>
+struct contain;
+template <class Head, class ...Tail, class Ty>
+struct contain<type_list<Head, Tail...>, Ty> {
+    static constexpr bool value = std::is_same<Head, Ty>::value ?
+        true : contain<type_list<Tail...>, Ty>::value;
+};
+template <class Ty>
+struct contain<type_list<>, Ty> : std::false_type {};
+
+
+
 //all_of-----------------------------------------------------------------------
 template <class Ty, template<class> class Predicate>
 struct all_of;
@@ -224,32 +233,24 @@ struct push_back<type_list<Elm...>, Ty...> {
 
 
 //push_back_if-----------------------------------------------------------------
-template <bool Flag, class Elm, class Ty>
-struct push_back_if_impl;
-template <class ...Elm, class Ty>
-struct push_back_if_impl<true, type_list<Elm...>, Ty> {
-    using type = typename push_back<type_list<Elm...>, Ty>::type;
-};
-template <class ...Elm, class Ty>
-struct push_back_if_impl<false, type_list<Elm...>, Ty> {
-    using type = type_list<Elm...>;
-};
 template <class Elm, class Ty, template<class> class Predicate>
 struct push_back_if;
 template <class ...Elm, class Ty, template<class> class Predicate>
-struct push_back_if<type_list<Elm...>, Ty, Predicate> {
-    using type = typename push_back_if_impl<
-        Predicate<Ty>::value, type_list<Elm...>, Ty
-    >::type;
-};
+struct push_back_if<type_list<Elm...>, Ty, Predicate>
+    : std::conditional<
+        Predicate<Ty>::value,
+        type_list<Elm..., Ty>,
+        type_list<Elm...>
+    > {};
 template <class Elm, class Ty, template<class> class Predicate>
 struct push_back_if_not;
 template <class ...Elm, class Ty, template<class> class Predicate>
-struct push_back_if_not<type_list<Elm...>, Ty, Predicate> {
-    using type = typename push_back_if_impl<
-        !Predicate<Ty>::value, type_list<Elm...>, Ty
-    >::type;
-};
+struct push_back_if_not<type_list<Elm...>, Ty, Predicate>
+    : std::conditional<
+        !Predicate<Ty>::value,
+        type_list<Elm..., Ty>,
+        type_list<Elm...>
+    > {};
 
 
 //push_front-------------------------------------------------------------------
@@ -262,32 +263,24 @@ struct push_front<type_list<Elm...>, Ty...> {
 
 
 //push_front_if-----------------------------------------------------------------
-template <bool Flag, class Elm, class Ty>
-struct push_front_if_impl;
-template <class ...Elm, class Ty>
-struct push_front_if_impl<true, type_list<Elm...>, Ty> {
-    using type = typename push_front<type_list<Elm...>, Ty>::type;
-};
-template <class ...Elm, class Ty>
-struct push_front_if_impl<false, type_list<Elm...>, Ty> {
-    using type = type_list<Elm...>;
-};
 template <class Elm, class Ty, template<class> class Predicate>
 struct push_front_if;
 template <class ...Elm, class Ty, template<class> class Predicate>
-struct push_front_if<type_list<Elm...>, Ty, Predicate> {
-    using type = typename push_front_if_impl<
-        Predicate<Ty>::value, type_list<Elm...>, Ty
-    >::type;
-};
+struct push_front_if<type_list<Elm...>, Ty, Predicate>
+    : std::conditional<
+        Predicate<Ty>::value,
+        type_list<Ty, Elm...>,
+        type_list<Elm...>
+    > {};
 template <class Elm, class Ty, template<class> class Predicate>
 struct push_front_if_not;
 template <class ...Elm, class Ty, template<class> class Predicate>
-struct push_front_if_not<type_list<Elm...>, Ty, Predicate> {
-    using type = typename push_front_if_impl<
-        !Predicate<Ty>::value, type_list<Elm...>, Ty
-    >::type;
-};
+struct push_front_if_not<type_list<Elm...>, Ty, Predicate>
+    : std::conditional<
+        !Predicate<Ty>::value,
+        type_list<Ty, Elm...>,
+        type_list<Elm...>
+    > {};
 
 
 
@@ -325,6 +318,58 @@ struct remove_if<type_list<>, Predicate> {
     using type = type_list<>;
 };
 
+
+//replace----------------------------------------------------------------------
+template <class Elm, class Src, class Dst>
+struct replace;
+template <class Head, class ...Tail, class Src, class Dst>
+struct replace<type_list<Head, Tail...>, Src, Dst> {
+    using type = typename push_front<
+        typename replace<
+            type_list<Tail...>,
+            Src,
+            Dst
+        >::type,
+        typename std::conditional<
+            std::is_same<Src, Head>::value,
+            Dst,
+            Head
+        >::type
+    >::type;
+};
+template <class Src, class Dst>
+struct replace<type_list<>, Src, Dst> {
+    using type = type_list<>;
+};
+
+
+//replace_if----------------------------------------------------------------------
+template <class Elm, class Dst, template<class> class Predicate>
+struct replace_if;
+template <class Head, class ...Tail, class Dst, template<class> class Predicate>
+struct replace_if<type_list<Head, Tail...>, Dst, Predicate> {
+    using type = typename push_front<
+        typename replace_if<
+            type_list<Tail...>,
+            Dst,
+            Predicate
+        >::type,
+        typename std::conditional<
+            Predicate<Head>::value,
+            Dst,
+            Head
+        >::type
+    >::type;
+};
+template <class Dst, template<class> class Predicate>
+struct replace_if<type_list<>, Dst, Predicate> {
+    using type = type_list<>;
+};
+
+
+
+
+
 } // namespace type_list_impl
 
 
@@ -358,6 +403,9 @@ using at = typename type_list_impl::at<List, I>::type;
 template <class List, class Ty>
 static constexpr size_t count = type_list_impl::count<List, Ty>::value;
 
+template <class List, class Ty>
+static constexpr bool contain = type_list_impl::contain<List, Ty>::value;
+
 template <class List, template<class> class Predicate>
 static constexpr size_t count_if = type_list_impl::count_if<List, Predicate>::value;
 
@@ -388,6 +436,11 @@ using extract_if = typename type_list_impl::extract_if<List, Predicate>::type;
 template <class List, template<class> class Predicate>
 using remove_if = typename type_list_impl::remove_if<List, Predicate>::type;
 
+template <class List, class Src, class Dst>
+using replace = typename type_list_impl::replace<List, Src, Dst>::type;
+
+template <class List, class Dst, template<class> class Predicate>
+using replace_if = typename type_list_impl::replace_if<List, Dst, Predicate>::type;
 
 } // namespace gdv
 

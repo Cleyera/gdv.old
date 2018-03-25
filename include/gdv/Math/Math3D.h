@@ -12,30 +12,58 @@ namespace gdv {
 
 /**
 * @brief 単位行列を作成します
+* @tparam Ty スカラ型のみ受付ます
 * @return Mat4
 * @exception none
 **/
-Mat4 UnitMatrix() noexcept;
+template <class Ty>
+Matrix4x4<Ty> UnitMatrix() noexcept {
+    constexpr Ty _0 = static_cast<Ty>(0);
+    constexpr Ty _1 = static_cast<Ty>(1);
+    return {
+        _1, _0, _0, _0,
+        _0, _1, _0, _0,
+        _0, _0, _1, _0,
+        _0, _0, _0, _1,
+    };
+}
 
 
 
 /**
 * @brief 行列を転地します
+* @tparam Ty スカラ型のみ受付ます
 * @param[in] m 転地する行列
 * @return Mat3
 * @exception none
 **/
-Mat3 Transpose(const Mat3 &m) noexcept;
+template <class Ty>
+Matrix3x3<Ty> Transpose(Matrix3x3<Ty> m) noexcept {
+    return {
+        m.m[0], m.m[3], m.m[6],
+        m.m[1], m.m[4], m.m[7],
+        m.m[2], m.m[5], m.m[8]
+    };
+}
 
 
 
 /**
 * @brief 行列を転地します
+* @tparam Ty スカラ型のみ受付ます
 * @param[in] m 転地する行列
 * @return Mat4
 * @exception none
 **/
-Mat4 Transpose(const Mat4 &m) noexcept;
+template <class Ty>
+Matrix4x4<Ty> Transpose(Matrix4x4<Ty> m) noexcept {
+    return {
+        m.m[0], m.m[4], m.m[ 8], m.m[12],
+        m.m[1], m.m[5], m.m[ 9], m.m[13],
+        m.m[2], m.m[6], m.m[10], m.m[14],
+        m.m[3], m.m[7], m.m[11], m.m[15]
+    };
+}
 
 
 

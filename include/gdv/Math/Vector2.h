@@ -2,6 +2,7 @@
 #define GDV_VECTOR2_H_
 
 #include <type_traits>
+#include <cmath>
 
 namespace gdv {
 
@@ -12,15 +13,15 @@ class Vector2 {
 public:
 
     constexpr Vector2() noexcept :
-        x{},y{}{}
+        x{}, y{}{}
 
 
     constexpr Vector2(Ty x, Ty y) noexcept :
-        x{x},y{y}{}
+        x{x}, y{y}{}
 
 
     constexpr Vector2(const Vector2<Ty> &v) noexcept :
-        x{v.x},y{v.y}{}
+        x{v.x}, y{v.y}{}
 
 
 
@@ -142,14 +143,14 @@ Ty Cross(Vector2<Ty> v1, Vector2<Ty> v2) noexcept {
 
 template<class Ty>
 Ty Angle(Vector2<Ty> v1, Vector2<Ty> v2) noexcept {
-    return static_cast<Ty>(atan2(Dot(v1, v2), Cross(v1, v2)));
+    return static_cast<Ty>(std::atan2(Dot(v1, v2), Cross(v1, v2)));
 }
 
 
 template<class Ty>
 Ty Length(Vector2<Ty> v) noexcept {
     static_assert(std::is_floating_point<Ty>::value, "Template parameters require floating point type.");
-    return static_cast<Ty>(hypot(v.x, v.y));
+    return static_cast<Ty>(std::hypot(v.x, v.y));
 }
 
 
@@ -162,10 +163,10 @@ Vector2<Ty> Normalize(Vector2<Ty> v) noexcept {
 template<class Ty>
 Vector2<Ty> Rotation(Vector2<Ty> v, Vector2<Ty> center, Ty angle) noexcept {
     static_assert(std::is_floating_point<Ty>::value, "Template parameters require floating point type.");
-    const float s = sin(angle);
-    const float c = cos(angle);
-    const float x = v.x - center.x;
-    const float y = v.y - center.y;
+    const Ty s = std::sin(angle);
+    const Ty c = std::cos(angle);
+    const Ty x = v.x - center.x;
+    const Ty y = v.y - center.y;
     return {
         x * c + y * s + center.x,
         y * c - x * s + center.y

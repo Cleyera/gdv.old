@@ -25,18 +25,18 @@ namespace simd {
 class Matrix {
 public:
     Matrix();
-    Matrix(const Matrix &m);
+    Matrix(const Matrix &mat);
     Matrix( float m11, float m12, float m13, float m14,
             float m21, float m22, float m23, float m24,
             float m31, float m32, float m33, float m34,
             float m41, float m42, float m43, float m44);
-    Matrix(Matrix4x4<float> m);
+    Matrix(Matrix4x4<float> mat);
     Matrix(__m128 m1, __m128 m2, __m128 m3, __m128 m4);
 
 
 public:
-    Matrix& operator = (const Matrix4x4<float> &m);
-    Matrix& operator = (const Matrix &m);
+    Matrix& operator = (const Matrix4x4<float> &mat);
+    Matrix& operator = (const Matrix &mat);
 
 
 public:
