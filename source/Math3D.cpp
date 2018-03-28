@@ -7,16 +7,6 @@ namespace gdv {
 namespace ColumnMajor {
 
 
-Mat4 Scaling(float x, float y, float z) noexcept {
-    return {
-           x, 0.0f, 0.0f, 0.0f,
-        0.0f,    y, 0.0f, 0.0f,
-        0.0f, 0.0f,    z, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f
-    };
-}
-
-
 Mat4 Translation(float x, float y, float z) noexcept {
     return {
         1.0f, 0.0f, 0.0f,    x,
@@ -96,7 +86,7 @@ Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept {
 }
 
 
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept {
+Mat4 Orthogonal(float left, float right, float bottom, float top, float near, float far) noexcept {
     return {
         2.0f / (right - left), 0.0f, 0.0f, (right + left) / (left - right),
         0.0f, 2.0f / (top - bottom), 0.0f, (top + bottom) / (bottom - top),
@@ -115,7 +105,7 @@ Mat4 Orthogonal(float width, float height, float near, float far) noexcept {
 }
 
 
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept {
+Mat4 Perspective(float left, float right, float bottom, float top, float near, float far) noexcept {
     return {
         2.0f * near / (right - left), 0.0f, (right + left) / (right - left), 0.0f,
         0.0f, 2.0f * near / (bottom - top), (bottom + top) / (bottom - top), 0.0f,
@@ -162,7 +152,7 @@ Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept {
 }
 
 
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept {
+Mat4 Orthogonal(float left, float right, float bottom, float top, float near, float far) noexcept {
     return {
         2.0f / (right - left), 0.0f, 0.0f, (right + left) / (left - right),
         0.0f, 2.0f / (top - bottom), 0.0f, (top + bottom) / (bottom - top),
@@ -182,7 +172,7 @@ Mat4 Orthogonal(float width, float height, float near, float far) noexcept {
 
 
 
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept {
+Mat4 Perspective(float left, float right, float bottom, float top, float near, float far) noexcept {
     return {
         2.0f * near / (right - left), 0.0f, (right + left) / (left - right), 0.0f,
         0.0f, 2.0f * near / (bottom - top), (bottom + top) / (top - bottom), 0.0f,
@@ -219,17 +209,6 @@ Mat4 PerspectiveFov(float angle, float aspect, float near, float far) noexcept {
 
 //DirectX
 namespace RowMajor {
-
-
-
-Mat4 Scaling(float x, float y, float z) noexcept {
-    return {
-           x, 0.0f, 0.0f, 0.0f,
-        0.0f,    y, 0.0f, 0.0f,
-        0.0f, 0.0f,    z, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f
-    };
-}
 
 
 
@@ -313,7 +292,7 @@ Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept {
     };
 }
 
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept {
+Mat4 Orthogonal(float left, float right, float bottom, float top, float near, float far) noexcept {
     return {
         2.0f / (right - left), 0.0f, 0.0f, 0.0f,
         0.0f, 2.0f / (top - bottom), 0.0f, 0.0f,
@@ -332,7 +311,7 @@ Mat4 Orthogonal(float width, float height, float near, float far) noexcept {
 }
 
 
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept {
+Mat4 Perspective(float left, float right, float bottom, float top, float near, float far) noexcept {
     return {
         2.0f * near / (right - left), 0.0f, 0.0f, 0.0f,
         0.0f, 2.0f * near / (top - bottom), 0.0f, 0.0f,
@@ -377,7 +356,7 @@ Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept {
     };
 }
 
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept {
+Mat4 Orthogonal(float left, float right, float bottom, float top, float near, float far) noexcept {
     return {
         2.0f / (right - left), 0.0f, 0.0f, 0.0f,
         0.0f, 2.0f / (top - bottom), 0.0f, 0.0f,
@@ -396,7 +375,7 @@ Mat4 Orthogonal(float width, float height, float near, float far) noexcept {
 }
 
 
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept {
+Mat4 Perspective(float left, float right, float bottom, float top, float near, float far) noexcept {
     return {
         2.0f * near / (right - left), 0.0f, 0.0f, 0.0f,
         0.0f, 2.0f * near / (bottom - top), 0.0f, 0.0f,

@@ -74,13 +74,37 @@ namespace ColumnMajor {
 
 /**
 * @brief スケーリング行列を作成します
+* @tparam Ty スカラ型のみ受付ます
 * @param[in] x x軸方向の拡大率
 * @param[in] y y軸方向の拡大率
 * @param[in] z z軸方向の拡大率
-* @return Mat4
+* @return Matrix4x4<Ty>
 * @exception none
 **/
-Mat4 Scaling(float x, float y, float z) noexcept;
+template <class Ty>
+Matrix4x4<Ty> Scaling(Ty x, Ty y, Ty z) noexcept {
+    constexpr Ty _0 = static_cast<Ty>(0);
+    constexpr Ty _1 = static_cast<Ty>(1);
+    return {
+         x, _0, _0, _0,
+        _0,  y, _0, _0,
+        _0, _0,  z, _0,
+        _0, _0, _0, _1
+    };
+}
+
+
+/**
+* @brief スケーリング行列を作成します
+* @tparam Ty スカラ型のみ受付ます
+* @param[in] v 拡大率
+* @return Matrix4x4<Ty>
+* @exception none
+**/
+template <class Ty>
+Matrix4x4<Ty> Scaling(Vector3<Ty> v) noexcept {
+    return Scaling(v.x, v.y, v.z);
+}
 
 
 
@@ -158,14 +182,14 @@ Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept;
 * @brief 平行投影行列を作成します
 * @param[in] left   視錐台の左端
 * @param[in] right  視錐台の右端
-* @param[in] top    視錐台の上端
 * @param[in] bottom 視錐台の下端
+* @param[in] top    視錐台の上端
 * @param[in] near   近くのクリップ面の奥行き
 * @param[in] far    遠くのクリップ面の奥行き
 * @return Mat4
 * @exception none
 **/
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept;
+Mat4 Orthogonal(float left, float right, float bottom, float top, float near, float far) noexcept;
 
 
 /**
@@ -186,14 +210,14 @@ Mat4 Orthogonal(float width, float height, float near, float far) noexcept;
 * @brief 透視投影行列を作成します
 * @param[in] left   視錐台の左端
 * @param[in] right  視錐台の右端
-* @param[in] top    視錐台の上端
 * @param[in] bottom 視錐台の下端
+* @param[in] top    視錐台の上端
 * @param[in] near   近くのクリップ面の奥行き
 * @param[in] far    遠くのクリップ面の奥行き
 * @return Mat4
 * @exception none
 **/
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept;
+Mat4 Perspective(float left, float right, float bottom, float top, float near, float far) noexcept;
 
 
 /**
@@ -231,13 +255,13 @@ namespace LH {
 Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept;
 
 
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept;
+Mat4 Orthogonal(float left, float right, float bottom, float top, float near, float far) noexcept;
 
 
 Mat4 Orthogonal(float width, float height, float near, float far) noexcept;
 
 
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept;
+Mat4 Perspective(float left, float right, float bottom, float top, float near, float far) noexcept;
 
 
 Mat4 Perspective(float width, float height, float near, float far) noexcept;
@@ -256,7 +280,23 @@ Mat4 PerspectiveFov(float angle, float aspect, float near, float far) noexcept;
 namespace RowMajor {
 
 
-Mat4 Scaling(float x, float y, float z) noexcept;
+template <class Ty>
+Matrix4x4<Ty> Scaling(Ty x, Ty y, Ty z) noexcept {
+    constexpr Ty _0 = static_cast<Ty>(0);
+    constexpr Ty _1 = static_cast<Ty>(1);
+    return {
+         x, _0, _0, _0,
+        _0,  y, _0, _0,
+        _0, _0,  z, _0,
+        _0, _0, _0, _1
+    };
+}
+
+
+template <class Ty>
+Matrix4x4<Ty> Scaling(Vector3<Ty> v) noexcept {
+    return Scaling(v.x, v.y, v.z);
+}
 
 
 Mat4 Translation(float x, float y, float z) noexcept;
@@ -282,13 +322,13 @@ namespace RH {
 Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept;
 
 
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept;
+Mat4 Orthogonal(float left, float right, float bottom, float top, float near, float far) noexcept;
 
 
 Mat4 Orthogonal(float width, float height, float near, float far) noexcept;
 
 
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept;
+Mat4 Perspective(float left, float right, float bottom, float top, float near, float far) noexcept;
 
 
 Mat4 Perspective(float width, float height, float near, float far) noexcept;
@@ -307,13 +347,13 @@ namespace LH {
 Mat4 LookAt(Vec3 pos, Vec3 dst, Vec3 up) noexcept;
 
 
-Mat4 Orthogonal(float left, float right, float top, float bottom, float near, float far) noexcept;
+Mat4 Orthogonal(float left, float right, float bottom, float top, float near, float far) noexcept;
 
 
 Mat4 Orthogonal(float width, float height, float near, float far) noexcept;
 
 
-Mat4 Perspective(float left, float right, float top, float bottom, float near, float far) noexcept;
+Mat4 Perspective(float left, float right, float bottom, float top, float near, float far) noexcept;
 
 
 Mat4 Perspective(float width, float height, float near, float far) noexcept;

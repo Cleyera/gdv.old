@@ -10,22 +10,22 @@ Camera::Camera() noexcept :
     pos_{},
     dst_{},
     up_{0.0f, 1.0f, 0.0f},
-    top_{},
     left_{},
-    bottom_{},
     right_{},
+    bottom_{},
+    top_{},
     near_{FLT_MIN},
     far_{}{}
 
-Camera::Camera(Mode mode, Vec3 pos, Vec3 dst, float top, float left, float bottom, float right, float near, float far) noexcept :
+Camera::Camera(Mode mode, Vec3 pos, Vec3 dst, float left, float right, float bottom, float top, float near, float far) noexcept :
     mode_{mode},
     pos_{pos},
     dst_{dst},
     up_{0.0f, 1.0f, 0.0f},
-    top_{top},
     left_{left},
-    bottom_{bottom},
     right_{right},
+    bottom_{bottom},
+    top_{top},
     near_{near},
     far_{far}{}
 
@@ -35,23 +35,23 @@ Camera::Camera(Mode mode, Vec3 pos, Vec3 dst, float width, float height, float n
     pos_{pos},
     dst_{dst},
     up_{0.0f, 1.0f, 0.0f},
-    top_{height / 2.0f},
     left_{-width / 2.0f},
-    bottom_{-height / 2.0f},
     right_{width / 2.0f},
+    bottom_{-height / 2.0f},
+    top_{height / 2.0f},
     near_{near},
     far_{far}{}
 
 
-Camera::Camera(Mode mode, Vec3 pos, Vec3 dst, Vec3 up, float top, float left, float bottom, float right, float near, float far) noexcept :
+Camera::Camera(Mode mode, Vec3 pos, Vec3 dst, Vec3 up, float left, float right, float bottom, float top, float near, float far) noexcept :
     mode_{mode},
     pos_{pos},
     dst_{dst},
     up_{up},
-    top_{top},
     left_{left},
-    bottom_{bottom},
     right_{right},
+    bottom_{bottom},
+    top_{top},
     near_{near},
     far_{far}{}
 
@@ -61,10 +61,10 @@ Camera::Camera(Mode mode, Vec3 pos, Vec3 dst, Vec3 up, float width, float height
     pos_{pos},
     dst_{dst},
     up_{up},
-    top_{height / 2.0f},
     left_{-width / 2.0f},
-    bottom_{-height / 2.0f},
     right_{width / 2.0f},
+    bottom_{-height / 2.0f},
+    top_{height / 2.0f},
     near_{near},
     far_{far}{}
 
@@ -75,10 +75,10 @@ Camera::Camera(Vec3 pos, Vec3 dst, Vec3 up, float fovy, float aspect, float near
     pos_{pos},
     dst_{dst},
     up_{up},
-    top_{},
     left_{},
-    bottom_{},
     right_{},
+    bottom_{},
+    top_{},
     near_{near},
     far_{far} {
     float width = (float)(near / tan(fovy / 2.0)) / 2.0f;
@@ -96,10 +96,10 @@ Camera::Camera(const Camera &c) noexcept :
     pos_{c.pos_},
     dst_{c.dst_},
     up_{c.up_},
-    top_{c.top_},
     left_{c.left_},
-    bottom_{c.bottom_},
     right_{c.right_},
+    bottom_{c.bottom_},
+    top_{c.top_},
     near_{c.near_},
     far_{c.far_}{}
 
@@ -110,10 +110,10 @@ Camera& Camera::operator = (const Camera &c) noexcept {
     pos_    = c.pos_;
     dst_    = c.dst_;
     up_     = c.up_;
-    top_    = c.top_;
     left_   = c.left_;
-    bottom_ = c.bottom_;
     right_  = c.right_;
+    bottom_ = c.bottom_;
+    top_    = c.top_;
     near_   = c.near_;
     far_    = c.far_;
     return *this;
@@ -124,10 +124,10 @@ void Camera::SetMode(Mode mode)     noexcept {mode_ = mode;}
 void Camera::SetPos(Vec3 pos)       noexcept {pos_ = pos;}
 void Camera::SetDst(Vec3 dst)       noexcept {dst_ = dst;}
 void Camera::SetUp(Vec3 up)         noexcept {up_ = up;}
-void Camera::SetTop(float top)      noexcept {top_ = top;}
-void Camera::SetBottom(float bottom)noexcept {bottom_ = bottom;}
 void Camera::SetLeft(float left)    noexcept {left_ = left;}
 void Camera::SetRight(float right)  noexcept {right_ = right;}
+void Camera::SetBottom(float bottom)noexcept {bottom_ = bottom;}
+void Camera::SetTop(float top)      noexcept {top_ = top;}
 void Camera::SetNear(float near)    noexcept {near_ = near;}
 void Camera::SetFar(float far)      noexcept {far_ = far;}
 
@@ -157,10 +157,10 @@ Camera::Mode Camera::GetMode()  const noexcept {return mode_;}
 Vec3 Camera::GetPos()           const noexcept {return pos_;}
 Vec3 Camera::GetDst()           const noexcept {return dst_;}
 Vec3 Camera::GetUp()            const noexcept {return up_;}
-float Camera::GetTop()          const noexcept {return top_;}
-float Camera::GetBottom()       const noexcept {return bottom_;}
 float Camera::GetLeft()         const noexcept {return left_;}
 float Camera::GetRight()        const noexcept {return right_;}
+float Camera::GetBottom()       const noexcept {return bottom_;}
+float Camera::GetTop()          const noexcept {return top_;}
 float Camera::GetNear()         const noexcept {return near_;}
 float Camera::GetFar()          const noexcept {return far_;}
 float Camera::GetWidth()        const noexcept {return right_ - left_;}
