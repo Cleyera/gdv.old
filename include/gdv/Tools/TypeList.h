@@ -375,7 +375,7 @@ struct ReplaceIf<TypeList<>, Dst, Predicate> {
 
 
 
-/*template <size_t I, class Ty, class Args>
+template <size_t I, class Ty, class Args>
 struct ReplacePlaceholder;
 template <size_t I, class ...Ty, class ArgHead, class ...ArgTail>
 struct ReplacePlaceholder<
@@ -401,19 +401,23 @@ struct ReplacePlaceholder<I, TypeList<Ty...>, TypeList<>> {
 };
 
 
-template <template<class...> class Function, class List>
-struct BindImpl;
-template <template<class...> class Function, class ...List>
-struct BindImpl<Function, TypeList<List...>> {
-    template <class ...Args>
-    using type = Transfer<typename ReplacePlaceholder<0, TypeList<List...>, TypeList<Args...>>::type, Function>;
-};*/
-
 } // namespace TypeListImpl
 
 
-/*template <template<class...> class Function, class ...List>
-using Bind = typename TypeListImpl::BindImpl<Function, TypeList<List...>>::type;*/
+template <template<class...> class Function, class ...List>
+struct Bind {
+    template <class ...Args>
+    using apply = typename TypeListImpl::Transfer<
+        typename TypeListImpl::ReplacePlaceholder<
+            0,
+            TypeList<List...>,
+            TypeList<Args...>
+        >::type,
+        Function
+    >::type;
+    template <class ...Args>
+    using func = apply<Args...>;
+};
 
 template <class List, template <class...> class Ty>
 using Transfer = typename TypeListImpl::Transfer<List, Ty>::type;

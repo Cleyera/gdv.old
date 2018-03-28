@@ -29,7 +29,7 @@ int main() {
     std::cout << Empty<ta0> << std::endl;
     std::cout << TypeNameString<Head<ta0>>() << std::endl;
     std::cout << TypeNameString<Replace<ta0, int, float>>() << std::endl;
-//    std::cout << TypeNameString<replace_placeholder<0, ta1, type_list<int, float>>::type>() << std::endl;
+    std::cout << TypeNameString<Bind<std::is_base_of, PlaceHolder<0>, double>::func<int>>() << std::endl;
 //    std::cout << TypeNameString<func<Bind<f, int>>::type>() << std::endl;
 
     return 0;
