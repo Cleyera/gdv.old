@@ -113,11 +113,11 @@ public:
         mode_{mode},
         pos_{pos},
         dst_{dst},
-        up_{0.0f, 1.0f, 0.0f},
-        left_{-width / 2.0f},
-        right_{width / 2.0f},
-        bottom_{-height / 2.0f},
-        top_{height / 2.0f},
+        up_{static_cast<Ty>(0), static_cast<Ty>(1), static_cast<Ty>(0)},
+        left_{-width / static_cast<Ty>(2)},
+        right_{width / static_cast<Ty>(2)},
+        bottom_{-height / static_cast<Ty>(2)},
+        top_{height / static_cast<Ty>(2)},
         near_{near},
         far_{far}{}
 
@@ -187,10 +187,10 @@ public:
         pos_{pos},
         dst_{dst},
         up_{up},
-        left_{-width / 2.0f},
-        right_{width / 2.0f},
-        bottom_{-height / 2.0f},
-        top_{height / 2.0f},
+        left_{-width / static_cast<Ty>(2)},
+        right_{width / static_cast<Ty>(2)},
+        bottom_{-height / static_cast<Ty>(2)},
+        top_{height / static_cast<Ty>(2)},
         near_{near},
         far_{far}{}
 
@@ -227,7 +227,7 @@ public:
         top_{},
         near_{near},
         far_{far} {
-            Ty width = (Ty)(near / tan(fovy / 2.0)) / 2.0f;
+            Ty width = (near / std::tan(fovy / static_cast<Ty>(2))) / static_cast<Ty>(2);
             Ty height = width / aspect;
             top_	= -height;
             bottom_ =  height;
@@ -367,8 +367,8 @@ public:
     * @exception none
     **/
     void SetWidth(Ty width) noexcept {
-        left_   = -width / 2.0f;
-        right_  =  width / 2.0f;
+        left_   = -width / static_cast<Ty>(2);
+        right_  =  width / static_cast<Ty>(2);
     }
 
     /**
@@ -378,8 +378,8 @@ public:
     * @exception none
     **/
     void SetHeight(Ty height) noexcept {
-        top_    = height / 2.0f;
-        bottom_ = height / 2.0f;
+        top_    = height / static_cast<Ty>(2);
+        bottom_ = height / static_cast<Ty>(2);
     }
 
     /**
