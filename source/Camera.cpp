@@ -146,11 +146,11 @@ void Camera::SetNearFar(float near, float far) noexcept {
 	far_   = far;
 }
 
-void Camera::SetRect(float top, float left, float bottom, float right) noexcept {
+void Camera::SetRect(float left, float right, float bottom, float top) noexcept {
+    left_      = left;
+    right_     = right;
+    bottom_    = bottom;
 	top_       = top;
-	bottom_    = bottom;
-	left_      = left;
-	right_     = right;
 }
 
 Camera::Mode Camera::GetMode()  const noexcept {return mode_;}
