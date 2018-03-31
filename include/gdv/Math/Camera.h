@@ -5,6 +5,7 @@
 #ifndef GDV_CAMERA_H_
 #define GDV_CAMERA_H_
 
+#include "gdv/Math/Math3D.h"
 #include "gdv/Math/Vector3.h"
 #include "gdv/Math/Matrix4x4.h"
 
@@ -15,6 +16,7 @@ namespace gdv {
 * @brief カメラの状態を表すクラスです
 * @details ビューとプロジェクションの情報が保存されます
 **/
+template <class Ty>
 class Camera {
 public:
 
@@ -39,7 +41,17 @@ public:
   * @return none
   * @exception none
   **/
-  Camera() noexcept;
+  Camera() noexcept :
+    mode_{},
+    pos_{},
+    dst_{},
+    up_{},
+    left_{},
+    right_{},
+    bottom_{},
+    top_{},
+    near_{},
+    far_{}{}
 
 
     /**
@@ -58,14 +70,24 @@ public:
     **/
     Camera(
         Mode mode,
-        Vec3 pos,
-        Vec3 dst,
-        float left,
-        float right,
-        float bottom,
-        float top,
-        float near,
-        float far) noexcept;
+        Vector3<Ty> pos,
+        Vector3<Ty> dst,
+        Ty left,
+        Ty right,
+        Ty bottom,
+        Ty top,
+        Ty near,
+        Ty far) noexcept :
+        mode_{mode},
+        pos_{pos},
+        dst_{dst},
+        up_{static_cast<Ty>(0), static_cast<Ty>(1), static_cast<Ty>(0)},
+        left_{left},
+        right_{right},
+        bottom_{bottom},
+        top_{top},
+        near_{near},
+        far_{far}{}
 
 
     /**
@@ -82,12 +104,22 @@ public:
     **/
     Camera(
         Mode mode,
-        Vec3 pos,
-        Vec3 dst,
-        float width,
-        float height,
-        float near,
-        float far) noexcept;
+        Vector3<Ty> pos,
+        Vector3<Ty> dst,
+        Ty width,
+        Ty height,
+        Ty near,
+        Ty far) noexcept :
+        mode_{mode},
+        pos_{pos},
+        dst_{dst},
+        up_{0.0f, 1.0f, 0.0f},
+        left_{-width / 2.0f},
+        right_{width / 2.0f},
+        bottom_{-height / 2.0f},
+        top_{height / 2.0f},
+        near_{near},
+        far_{far}{}
 
 
 
@@ -108,15 +140,25 @@ public:
     **/
     Camera(
         Mode mode,
-        Vec3 pos,
-        Vec3 dst,
-        Vec3 up,
-        float left,
-        float right,
-        float bottom,
-        float top,
-        float near,
-        float far) noexcept;
+        Vector3<Ty> pos,
+        Vector3<Ty> dst,
+        Vector3<Ty> up,
+        Ty left,
+        Ty right,
+        Ty bottom,
+        Ty top,
+        Ty near,
+        Ty far) noexcept :
+        mode_{mode},
+        pos_{pos},
+        dst_{dst},
+        up_{up},
+        left_{left},
+        right_{right},
+        bottom_{bottom},
+        top_{top},
+        near_{near},
+        far_{far}{}
 
 
     /**
@@ -134,13 +176,23 @@ public:
     **/
     Camera(
         Mode mode,
-        Vec3 pos,
-        Vec3 dst,
-        Vec3 up,
-        float width,
-        float height,
-        float near,
-        float far) noexcept;
+        Vector3<Ty> pos,
+        Vector3<Ty> dst,
+        Vector3<Ty> up,
+        Ty width,
+        Ty height,
+        Ty near,
+        Ty far) noexcept :
+        mode_{mode},
+        pos_{pos},
+        dst_{dst},
+        up_{up},
+        left_{-width / 2.0f},
+        right_{width / 2.0f},
+        bottom_{-height / 2.0f},
+        top_{height / 2.0f},
+        near_{near},
+        far_{far}{}
 
 
 
@@ -158,13 +210,30 @@ public:
     * @exception none
     **/
     Camera(
-        Vec3 pos,
-        Vec3 dst,
-        Vec3 up,
-        float fovy,
-        float aspect,
-        float near,
-        float far) noexcept;
+        Vector3<Ty> pos,
+        Vector3<Ty> dst,
+        Vector3<Ty> up,
+        Ty fovy,
+        Ty aspect,
+        Ty near,
+        Ty far) noexcept :
+        mode_{Mode::PERSPECTIVE},
+        pos_{pos},
+        dst_{dst},
+        up_{up},
+        left_{},
+        right_{},
+        bottom_{},
+        top_{},
+        near_{near},
+        far_{far} {
+            Ty width = (Ty)(near / tan(fovy / 2.0)) / 2.0f;
+            Ty height = width / aspect;
+            top_	= -height;
+            bottom_ =  height;
+            left_	= -width;
+            right_	=  width;
+        }
 
 
 
@@ -174,7 +243,17 @@ public:
     * @return none
     * @exception none
     **/
-    Camera(const Camera &c) noexcept;
+    Camera(const Camera<Ty> &c) noexcept :
+        mode_{c.mode_},
+        pos_{c.pos_},
+        dst_{c.dst_},
+        up_{c.up_},
+        left_{c.left_},
+        right_{c.right_},
+        bottom_{c.bottom_},
+        top_{c.top_},
+        near_{c.near_},
+        far_{c.far_}{}
 
 
 
@@ -184,7 +263,19 @@ public:
     * @return 自身の参照
     * @exception none
     **/
-    Camera& operator = (const Camera &c) noexcept;
+    Camera& operator = (const Camera<Ty> &c) noexcept {
+        mode_   = c.mode_;
+        pos_    = c.pos_;
+        dst_    = c.dst_;
+        up_     = c.up_;
+        left_   = c.left_;
+        right_  = c.right_;
+        bottom_ = c.bottom_;
+        top_    = c.top_;
+        near_   = c.near_;
+        far_    = c.far_;
+        return *this;
+    }
 
 
 
@@ -195,7 +286,7 @@ public:
     * @return none
     * @exception none
     **/
-    void SetMode(Mode mode) noexcept;
+    void SetMode(Mode mode) noexcept {mode_ = mode;}
 
     /**
     * @brief カメラの位置を設定します
@@ -203,7 +294,7 @@ public:
     * @return none
     * @exception none
     **/
-    void SetPos(Vec3 pos) noexcept;
+    void SetPos(Vector3<Ty> pos) noexcept {pos_ = pos;}
 
     /**
     * @brief カメラの注視点を設定します
@@ -211,7 +302,7 @@ public:
     * @return none
     * @exception none
     **/
-    void SetDst(Vec3 dst) noexcept;
+    void SetDst(Vector3<Ty> dst) noexcept {dst_ = dst;}
 
     /**
     * @brief カメラの上方を設定します
@@ -219,7 +310,7 @@ public:
     * @return none
     * @exception none
     **/
-    void SetUp(Vec3 up) noexcept;
+    void SetUp(Vector3<Ty> up) noexcept {up_ = up;}
 
     /**
     * @brief 視錐台の左端を設定します
@@ -227,7 +318,7 @@ public:
     * @return none
     * @exception none
     **/
-    void SetLeft(float left) noexcept;
+    void SetLeft(Ty left) noexcept {left_ = left;}
 
     /**
     * @brief 視錐台の右端を設定します
@@ -235,7 +326,7 @@ public:
     * @return none
     * @exception none
     **/
-    void SetRight(float right) noexcept;
+    void SetRight(Ty right) noexcept {right_ = right;}
 
     /**
     * @brief 視錐台の下端を設定します
@@ -243,7 +334,7 @@ public:
     * @return none
     * @exception none
     **/
-    void SetBottom(float bottom) noexcept;
+    void SetBottom(Ty bottom) noexcept {bottom_ = bottom;}
 
     /**
     * @brief 視錐台の上端を設定します
@@ -251,7 +342,7 @@ public:
     * @return none
     * @exception none
     **/
-    void SetTop(float top) noexcept;
+    void SetTop(Ty top) noexcept {top_ = top;}
 
     /**
     * @brief 近くのクリップ面の奥行きを設定します
@@ -259,7 +350,7 @@ public:
     * @return none
     * @exception none
     **/
-    void SetNear(float near) noexcept;
+    void SetNear(Ty near) noexcept {near_ = near;}
 
     /**
     * @brief 遠くのクリップ面の奥行きを設定します
@@ -267,7 +358,7 @@ public:
     * @return none
     * @exception none
     **/
-    void SetFar(float far) noexcept;
+    void SetFar(Ty far) noexcept{far_ = far;}
 
     /**
     * @brief 視錐台の幅を設定します
@@ -275,7 +366,10 @@ public:
     * @return none
     * @exception none
     **/
-    void SetWidth(float width) noexcept;
+    void SetWidth(Ty width) noexcept {
+        left_   = -width / 2.0f;
+        right_  =  width / 2.0f;
+    }
 
     /**
     * @brief 視錐台の高さを設定します
@@ -283,7 +377,10 @@ public:
     * @return none
     * @exception none
     **/
-    void SetHeight(float height) noexcept;
+    void SetHeight(Ty height) noexcept {
+        top_    = height / 2.0f;
+        bottom_ = height / 2.0f;
+    }
 
     /**
     * @brief クリップ面の奥行きを設定します
@@ -292,7 +389,10 @@ public:
     * @return none
     * @exception none
     **/
-    void SetNearFar(float near, float far) noexcept;
+    void SetNearFar(Ty near, Ty far) noexcept {
+        near_   = near;
+        far_    = far;
+    }
 
     /**
     * @brief 視錐台の矩形を設定します
@@ -303,7 +403,12 @@ public:
     * @return none
     * @exception none
     **/
-    void SetRect(float left, float right, float bottom, float top) noexcept;
+    void SetRect(Ty left, Ty right, Ty bottom, Ty top) noexcept {
+        left_   = left;
+        right_  = right;
+        bottom_ = bottom;
+        top_    = top;
+    }
 
 
 
@@ -313,154 +418,281 @@ public:
     * @return 投影モード
     * @exception none
     **/
-    Mode GetMode() const noexcept;
+    Mode GetMode() const noexcept {return mode_;}
 
     /**
     * @brief カメラの位置を取得します
     * @return カメラの位置
     * @exception none
     **/
-    Vec3 GetPos() const noexcept;
+    Vector3<Ty> GetPos() const noexcept {return pos_;}
 
     /**
     * @brief カメラの注視点を取得します
     * @return 注視点
     * @exception none
     **/
-    Vec3 GetDst() const noexcept;
+    Vector3<Ty> GetDst() const noexcept {return dst_;}
 
     /**
     * @brief カメラの上方ベクトルを取得します
     * @return 上方ベクトル
     * @exception none
     **/
-    Vec3 GetUp() const noexcept;
+    Vector3<Ty> GetUp() const noexcept {return up_;}
 
     /**
     * @brief カメラの視錐台の左端を取得します
     * @return 視錐台の左端
     * @exception none
     **/
-    float GetLeft() const noexcept;
+    Ty GetLeft() const noexcept{return left_;}
 
     /**
     * @brief カメラの視錐台の右端を取得します
     * @return 視錐台の右端
     * @exception none
     **/
-    float GetRight() const noexcept;
+    Ty GetRight() const noexcept {return right_;}
 
     /**
     * @brief カメラの視錐台の下端を取得します
     * @return 視錐台の下端
     * @exception none
     **/
-    float GetBottom() const noexcept;
+    Ty GetBottom() const noexcept {return bottom_;}
 
     /**
     * @brief カメラの視錐台の上端を取得します
     * @return 視錐台の上端
     * @exception none
     **/
-    float GetTop() const noexcept;
+    Ty GetTop() const noexcept {return top_;}
 
     /**
     * @brief 近くのクリップ面の奥行きを取得します
     * @return 近くのクリップ面の奥行き
     * @exception none
     **/
-    float GetNear() const noexcept;
+    Ty GetNear() const noexcept {return near_;}
 
     /**
     * @brief 遠くのクリップ面の奥行きを取得します
     * @return 遠くのクリップ面の奥行き
     * @exception none
     **/
-    float GetFar() const noexcept;
+    Ty GetFar() const noexcept {return far_;}
     
     /**
     * @brief 視錐台の幅を取得します
     * @return 視錐台の幅
     * @exception none
     **/
-    float GetWidth() const noexcept;
+    Ty GetWidth() const noexcept {return right_ - left_;}
 
     /**
     * @brief 視錐台の高さを取得します
     * @return 視錐台の高さ
     * @exception none
     **/
-    float GetHeight() const noexcept;
+    Ty GetHeight() const noexcept {return top_ - bottom_;}
 
 
 private:
-    Mode    mode_;      //! カメラの投影モード
-    Vec3    pos_;       //! カメラの位置
-    Vec3    dst_;       //! カメラの注視点
-    Vec3    up_;        //! カメラの上方ベクトル
-    float   left_;      //! 視錐台の左端
-    float   right_;     //! 視錐台の右端
-    float   bottom_;    //! 視錐台の下端
-    float   top_;       //! 視錐台の上端
-    float   near_;      //! 近くのクリップ面の奥行き
-    float   far_;       //! 遠くのクリップ面の奥行き
+    Mode        mode_;      //! カメラの投影モード
+    Vector3<Ty> pos_;       //! カメラの位置
+    Vector3<Ty> dst_;       //! カメラの注視点
+    Vector3<Ty> up_;        //! カメラの上方ベクトル
+    Ty          left_;      //! 視錐台の左端
+    Ty          right_;     //! 視錐台の右端
+    Ty          bottom_;    //! 視錐台の下端
+    Ty          top_;       //! 視錐台の上端
+    Ty          near_;      //! 近くのクリップ面の奥行き
+    Ty          far_;       //! 遠くのクリップ面の奥行き
 };
 
 
 
 namespace RowMajor {
+namespace RH {
+namespace {
+template <class Ty>
+constexpr Matrix4x4<Ty>(*ProjectionFunc[])(Ty, Ty, Ty, Ty) noexcept {Perspective, Orthogonal};
+}
+
+template <class Ty>
+Matrix4x4<Ty> Projection(Camera<Ty> c) noexcept {
+    return ProjectionFunc<Ty>[(int)c.GetMode()](c.GetWidth(), c.GetHeight(), c.GetNear(), c.GetFar());
+}
+
+template <class Ty>
+Matrix4x4<Ty> View(Camera<Ty> c) noexcept {
+    return LookAt(c.GetPos(), c.GetDst(), c.GetUp());
+}
+
+template <class Ty>
+Matrix4x4<Ty> Transform(Camera<Ty> c) noexcept {
+    return View(c) * Projection(c);
+}
+
+
+template <class Ty>
+Matrix4x4<Ty> operator * (Camera<Ty> c, Matrix4x4<Ty> m) noexcept {
+    return Transform(c) * m;
+}
+
+
+template <class Ty>
+Matrix4x4<Ty> operator * (Matrix4x4<Ty> m, Camera<Ty> c) noexcept {
+    return m * Transform(c);
+}
+
+
+template <class Ty>
+Vector3<Ty> operator * (Vector3<Ty> v, Camera<Ty> c) noexcept {
+	return Transform(c) * v;
+}
+
+}// namespace RH
+
+
+
 namespace LH {
+namespace {
+template <class Ty>
+constexpr Matrix4x4<Ty>(*ProjectionFunc[])(Ty, Ty, Ty, Ty) noexcept {Perspective, Orthogonal};
+}
 
-Mat4 Projection(Camera c) noexcept;
-Mat4 View(Camera c) noexcept;
-Mat4 Transform(Camera c) noexcept;
+template <class Ty>
+Matrix4x4<Ty> Projection(Camera<Ty> c) noexcept {
+    return ProjectionFunc<Ty>[(int)c.GetMode()](c.GetWidth(), c.GetHeight(), c.GetNear(), c.GetFar());
+}
 
-Mat4 operator * (Camera c, Mat4 m) noexcept;
-Mat4 operator * (Mat4 m, Camera c) noexcept;
-Vec3 operator * (Camera c, Vec3 v) noexcept;
+template <class Ty>
+Matrix4x4<Ty> View(Camera<Ty> c) noexcept {
+    return LookAt(c.GetPos(), c.GetDst(), c.GetUp());
+}
+
+template <class Ty>
+Matrix4x4<Ty> Transform(Camera<Ty> c) noexcept {
+	return View(c) * Projection(c);
+}
+
+
+template <class Ty>
+Matrix4x4<Ty> operator * (Camera<Ty> c, Matrix4x4<Ty> m) noexcept {
+    return Transform(c) * m;
+}
+
+
+template <class Ty>
+Matrix4x4<Ty> operator * (Matrix4x4<Ty> m, Camera<Ty> c) noexcept {
+    return m * Transform(c);
+}
+
+
+template <class Ty>
+Vector3<Ty> operator * (Vector3<Ty> v, Camera<Ty> c) noexcept {
+    return Transform(c) * v;
+}
 
 } // namespace LH
-
-namespace RH {
-
-Mat4 Projection(Camera c) noexcept;
-Mat4 View(Camera c) noexcept;
-Mat4 Transform(Camera c) noexcept;
-
-Mat4 operator * (Camera c, Mat4 m) noexcept;
-Mat4 operator * (Mat4 m, Camera c) noexcept;
-Vec3 operator * (Camera c, Vec3 v) noexcept;
-
-} // namespace RH
 } // namespace RowMajor
 
 
 
+
+
+
 namespace ColumnMajor {
-namespace LH {
-
-Mat4 Projection(Camera c) noexcept;
-Mat4 View(Camera c) noexcept;
-Mat4 Transform(Camera c) noexcept;
-
-Mat4 operator * (Camera c, Mat4 m) noexcept;
-Mat4 operator * (Mat4 m, Camera c) noexcept;
-Vec3 operator * (Vec3 v, Camera c) noexcept;
-
-} // namespace LH
-
 namespace RH {
+namespace {
+template <class Ty>
+constexpr Matrix4x4<Ty>(*ProjectionFunc[])(Ty, Ty, Ty, Ty) noexcept {Perspective, Orthogonal};
+}
 
-Mat4 Projection(Camera c) noexcept;
-Mat4 View(Camera c) noexcept;
-Mat4 Transform(Camera c) noexcept;
+template <class Ty>
+Matrix4x4<Ty> Projection(Camera<Ty> c) noexcept {
+	/*return
+		c.GetMode() == Camera<Ty>::Mode::PERSPECTIVE ?
+		Perspective(c.GetWidth(), c.GetHeight(), c.GetNear(), c.GetFar()):
+		Orthogonal(c.GetWidth(), c.GetHeight(), c.GetNear(), c.GetFar());*/
+    return ProjectionFunc<Ty>[(int)c.GetMode()](c.GetWidth(), c.GetHeight(), c.GetNear(), c.GetFar());
+}
 
-Mat4 operator * (Camera c, Mat4 m) noexcept;
-Mat4 operator * (Mat4 m, Camera c) noexcept;
-Vec3 operator * (Vec3 v, Camera c) noexcept;
+template <class Ty>
+Matrix4x4<Ty> View(Camera<Ty> c) noexcept {
+    return LookAt(c.GetPos(), c.GetDst(), c.GetUp());
+}
+
+template <class Ty>
+Matrix4x4<Ty> Transform(Camera<Ty> c) noexcept {
+    return Projection(c) * View(c);
+}
+
+template <class Ty>
+Matrix4x4<Ty> operator * (Camera<Ty> c, Matrix4x4<Ty> m) noexcept {
+    return Transform(c) * m;
+}
+
+
+template <class Ty>
+Matrix4x4<Ty> operator * (Matrix4x4<Ty> m, Camera<Ty> c) noexcept {
+    return m * Transform(c);
+}
+
+
+template <class Ty>
+Vector3<Ty> operator * (Camera<Ty> c, Vector3<Ty> v) noexcept {
+    return Transform(c) * v;
+}
 
 } // namespace RH
-} // namespace ColumnMajor
+
+
+
+namespace LH {
+namespace {
+template <class Ty>
+constexpr Matrix4x4<Ty>(*ProjectionFunc[])(Ty, Ty, Ty, Ty) noexcept {Perspective, Orthogonal};
+}
+
+template <class Ty>
+Matrix4x4<Ty> Projection(Camera<Ty> c) noexcept {
+    return ProjectionFunc<Ty>[(int)c.GetMode()](c.GetWidth(), c.GetHeight(), c.GetNear(), c.GetFar());
+}
+
+template <class Ty>
+Matrix4x4<Ty> View(Camera<Ty> c) noexcept {
+    return LookAt(c.GetPos(), c.GetDst(), c.GetUp());
+}
+
+template <class Ty>
+Matrix4x4<Ty> Transform(Camera<Ty> c) noexcept {
+    return Projection(c) * View(c);
+}
+
+
+template <class Ty>
+Matrix4x4<Ty> operator * (Camera<Ty> c, Matrix4x4<Ty> m) noexcept {
+    return Transform(c) * m;
+}
+
+
+template <class Ty>
+Matrix4x4<Ty> operator * (Matrix4x4<Ty> m, Camera<Ty> c) noexcept {
+    return m * Transform(c);
+}
+
+
+template <class Ty>
+Vector3<Ty> operator * (Camera<Ty> c, Vector3<Ty> v) noexcept {
+    return Transform(c) * v;
+}
+
+} // namespace LH
+} // namespavce ColumnMajor
 } // namespace gdv
 
 #endif
+
