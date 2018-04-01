@@ -177,6 +177,27 @@ struct Contain<TypeList<>, Ty> : std::false_type {};
 
 
 
+//Contain-----------------------------------------------------------------------
+template <size_t I, class Elm, class Ty>
+struct FindIndexImpl;
+template <size_t I, class Head, class ...Tail, class Ty>
+struct FindIndexImpl<I, TypeList<Head, Tail...>, Ty> {
+    static constexpr size_t value = std::is_same<Head, Ty>::value ? 
+            I : FindIndexImpl<I + 1, TypeList<Tail...>, Ty>::value;
+};
+template <size_t I, class Ty>
+struct FindIndexImpl<I, TypeList<>, Ty> {
+    static constexpr size_t value = I;
+};
+template <class Elms, class Ty>
+struct FindIndex;
+template <class ...Elms, class Ty>
+struct FindIndex<TypeList<Elms...>, Ty> {
+    static constexpr size_t value = FindIndexImpl<0, TypeList<Elms...>, Ty>::value;
+};
+
+
+
 //AllOf-----------------------------------------------------------------------
 template <class Ty, template<class> class Predicate>
 struct AllOf;
@@ -451,6 +472,9 @@ static constexpr size_t Count = TypeListImpl::Count<List, Ty>::value;
 
 template <class List, class Ty>
 static constexpr bool Contain = TypeListImpl::Contain<List, Ty>::value;
+
+template <class List, class Ty>
+static constexpr size_t FindIndex = TypeListImpl::FindIndex<List, Ty>::value;
 
 template <class List, template<class> class Predicate>
 static constexpr size_t CountIf = TypeListImpl::CountIf<List, Predicate>::value;
