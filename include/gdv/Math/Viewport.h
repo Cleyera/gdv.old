@@ -28,12 +28,15 @@ public:
 namespace ColumnMajor {
 
 template <class Ty>
-Mat4 ToMatrix(Viewport<Ty> v) {
+Matrix4x4<Ty> ToMatrix(Viewport<Ty> v) {
+    static constexpr Ty _0 = static_cast<Ty>(0);
+    static constexpr Ty _1 = static_cast<Ty>(1);
+    static constexpr Ty _2 = static_cast<Ty>(2);
     return {
-        v.w / 2, 0, 0, v.x + v.w / 2,
-        0, v.h / 2, 0, v.y + v.h / 2,
-        0, 0, 1, 0,
-        0, 0, 0, 1
+        v.w / _2, _0, _0, v.x + v.w / _2,
+        _0, v.h / _2, _0, v.y + v.h / _2,
+        _0, _0, _1, _0,
+        _0, _0, _0, _1
     };
 }
 
@@ -43,12 +46,15 @@ Mat4 ToMatrix(Viewport<Ty> v) {
 namespace RowMajor {
 
 template <class Ty>
-Mat4 ToMatrix(Viewport<Ty> v) {
+Matrix4x4<Ty> ToMatrix(Viewport<Ty> v) {
+    static constexpr Ty _0 = static_cast<Ty>(0);
+    static constexpr Ty _1 = static_cast<Ty>(1);
+    static constexpr Ty _2 = static_cast<Ty>(2);
     return {
-        v.w / 2, 0, 0, 0,
-        0, v.h / 2, 0, 0,
-        0, 0, 1, 0,
-        v.x + v.w / 2, v.y + v.h / 2, 0, 1
+        v.w / _2, _0, _0, _0,
+        _0, v.h / _2, _0, _0,
+        _0, _0, _1, _0,
+        v.x + v.w / _2, v.y + v.h / _2, _0, _1
     };
 }
 
