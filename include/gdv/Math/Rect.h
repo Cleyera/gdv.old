@@ -6,7 +6,7 @@
 
 namespace gdv {
 
-template<class Ty>
+template <class Ty>
 class Rect {
     static_assert(std::is_integral<Ty>::value || std::is_floating_point<Ty>::value, "invalid template parameter.");
 
