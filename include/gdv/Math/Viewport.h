@@ -1,3 +1,7 @@
+/**
+* @file Camera.h
+* @brief カメラと行列計算関数の宣言
+**/
 #ifndef GDV_VIEWPORT_H_
 #define GDV_VIEWPORT_H_
 
@@ -7,25 +11,59 @@
 
 namespace gdv {
 
+/**
+* @class Viewport
+* @brief ビューポートを表すクラスです
+* @details ビューポートの位置とサイズを格納されます
+**/
 template <class Ty>
 class Viewport {
     static_assert(std::is_integral<Ty>::value || std::is_floating_point<Ty>::value, "invalid template parameter.");
 
 public:
+
+    /**
+    * @brief デフォルトコンストラクタ
+    * @return none
+    * @exception none
+    **/
     Viewport() noexcept :
         x{}, y{}, w{}, h{} {}
 
 
 
+    /**
+    * @brief コンストラクタ
+    * @param[in] x   x座標
+    * @param[in] y   y座標
+    * @param[in] w   ビューポートの幅
+    * @param[in] h   視錐台の左端
+    * @return none
+    * @exception none
+    **/
     Viewport(Ty x, Ty y, Ty w, Ty h) noexcept :
         x{x}, y{y}, w{w}, h{h} {}
 
 
-    ViewPort(Vector2<Ty> pt, Ty w, Ty h) noexcept :
+    /**
+    * @brief コンストラクタ
+    * @param[in] pt  中心座標
+    * @param[in] w   ビューポートの幅
+    * @param[in] h   視錐台の左端
+    * @return none
+    * @exception none
+    **/
+    Viewport(Vector2<Ty> pt, Ty w, Ty h) noexcept :
         x{pt.x}, y{pt.y}, w{w}, h{h} {}
 
 
-    ViewPort(Rect<Ty> r) noexcept :
+    /**
+    * @brief コンストラクタ
+    * @param[in] r  Rect 
+    * @return none
+    * @exception none
+    **/
+    Viewport(Rect<Ty> r) noexcept :
         x{r.left + r.Width() / static_cast<Ty>(2)},
         y{r.bottom + r.Height() / static_cast<Ty>(2)},
         x{r.Width()},
@@ -33,12 +71,18 @@ public:
     
 
 
-    ViewPort(const ViewPort<Ty> &v) noexcept :
+    /**
+    * @brief コンストラクタ
+    * @param[in] v  ビューポート
+    * @return none
+    * @exception none
+    **/
+    Viewport(const Viewport<Ty> &v) noexcept :
         x{v.x}, y{v.y}, w{v.w}, h{v.h} {} 
 
 
 
-    ViewPort<Ty> operator = (const ViewPort<Ty> &v) noexcept {
+    Viewport<Ty> operator = (const Viewport<Ty> &v) noexcept {
         x = v.x;
         y = v.y;
         w = v.w;
@@ -47,7 +91,7 @@ public:
     }
 
 
-public;
+public:
     Ty GetLeft()    const noexcept {return x - w / static_cast<Ty>(2);}
     Ty GetRight()   const noexcept {return x + w / static_cast<Ty>(2);}
     Ty GetBottom()  const noexcept {return y - h / static_cast<Ty>(2);}
