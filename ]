@@ -1,4 +1,3 @@
-#include <stddef.h>
 #include "gdv/Util/Util.h"
 
 namespace gdv {
@@ -35,7 +34,7 @@ constexpr size_t BitCount(uint8 value) noexcept {
     uint16
     count = (value & 0x55) + ((value >> 1) & 0x55);
     count = (count & 0x33) + ((count >> 2) & 0x33);
-    return  (count & 0x0f) + ((count >> 4) & 0x0f);
+    return (size_t)(count & 0x0f) + ((count >> 4) & 0x0f);
 
 }
 

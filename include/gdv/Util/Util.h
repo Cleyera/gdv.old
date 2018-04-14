@@ -17,36 +17,37 @@ constexpr uint64 ConvertEndian(uint64 val) noexcept;
 
 
 // count the number of bits of 1
-constexpr int BitCount(uint8 value) noexcept;
+constexpr size_t BitCount(uint8 value) noexcept;
 
-constexpr int BitCount(uint16 value) noexcept;
+constexpr size_t BitCount(uint16 value) noexcept;
 
-constexpr int BitCount(uint32 value) noexcept;
+constexpr size_t BitCount(uint32 value) noexcept;
 
-constexpr int BitCount(uint64 value) noexcept;
+constexpr size_t BitCount(uint64 value) noexcept;
 
 
 
 
 // MSBを求める
-constexpr int MostSignificantBit(uint8 value) noexcept;
+constexpr size_t MostSignificantBit(uint8 value) noexcept;
 
-constexpr int MostSignificantBit(uint16 value) noexcept;
+constexpr size_t MostSignificantBit(uint16 value) noexcept;
 
-constexpr int MostSignificantBit(uint32 value) noexcept;
+constexpr size_t MostSignificantBit(uint32 value) noexcept;
 
-constexpr int MostSignificantBit(uint64 value) noexcept;
+constexpr size_t MostSignificantBit(uint64 value) noexcept;
 
 
 // LSBを求める
-constexpr int LeastSignificantBit(uint8 value) noexcept;
+constexpr size_t LeastSignificantBit(uint8 value) noexcept;
 
-constexpr int LeastSignificantBit(uint16 value) noexcept;
+constexpr size_t LeastSignificantBit(uint16 value) noexcept;
 
-constexpr int LeastSignificantBit(uint32 value) noexcept;
+constexpr size_t LeastSignificantBit(uint32 value) noexcept;
 
-constexpr int LeastSignificantBit(uint64 value) noexcept;
+constexpr size_t LeastSignificantBit(uint64 value) noexcept;
 
 } // namespace gdv
 
 #endif
+

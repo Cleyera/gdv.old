@@ -82,6 +82,12 @@ public:
 
 
 
+    /**
+    * @brief コピー代入演算子
+    * @param[in] v ビューポート
+    * @return 自身の参照
+    * @exception none
+    **/
     Viewport<Ty> operator = (const Viewport<Ty> &v) noexcept {
         x = v.x;
         y = v.y;
@@ -92,9 +98,33 @@ public:
 
 
 public:
+
+    /**
+    * @brief ビューポートの左端を取得します
+    * @return ビューポートの左端
+    * @exception none
+    **/
     Ty GetLeft()    const noexcept {return x - w / static_cast<Ty>(2);}
+
+    /**
+    * @brief ビューポートの右端を取得します
+    * @return ビューポートの端
+    * @exception none
+    **/
     Ty GetRight()   const noexcept {return x + w / static_cast<Ty>(2);}
+
+    /**
+    * @brief ビューポートの下端を取得します
+    * @return ビューポートの下端
+    * @exception none
+    **/
     Ty GetBottom()  const noexcept {return y - h / static_cast<Ty>(2);}
+
+    /**
+    * @brief ビューポートの上端を取得します
+    * @return ビューポートの上端
+    * @exception none
+    **/
     Ty GetTop()     const noexcept {return y + h / static_cast<Ty>(2);}
 
 
