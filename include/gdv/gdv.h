@@ -7,6 +7,7 @@
 #include "Util/Util.h"
 #include "Util/Tween.h"
 #include "Util/Color.h"
+#include "Util/window_function.h"
 
 #include "Math/GdvMath.h"
 
