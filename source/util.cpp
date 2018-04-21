@@ -1,15 +1,15 @@
 #include <stddef.h>
-#include "gdv/Util/Util.h"
+#include "gdv/Util/util.h"
 
 namespace gdv {
 
-constexpr uint16 ConvertEndian(uint16 val) noexcept {
+constexpr uint16 convet_endian(uint16 val) noexcept {
     return ((val & 0xff00) >> 8)
         |  ((val & 0x00ff) << 8);
 }
 
 
-constexpr uint32 ConvertEndian(uint32 val) noexcept {
+constexpr uint32 convet_endian(uint32 val) noexcept {
     return ((val & 0xff000000) >> 24)
         |  ((val & 0x00ff0000) >>  8)
         |  ((val & 0x0000ff00) <<  8)
@@ -17,7 +17,7 @@ constexpr uint32 ConvertEndian(uint32 val) noexcept {
 }
 
 
-constexpr uint64 ConvertEndian(uint64 val) noexcept {
+constexpr uint64 convet_endian(uint64 val) noexcept {
     return ((val & 0xff00000000000000) >> 56)
         |  ((val & 0x00ff000000000000) >> 40)
         |  ((val & 0x0000ff0000000000) >> 24)
@@ -31,7 +31,7 @@ constexpr uint64 ConvertEndian(uint64 val) noexcept {
 
 
 
-constexpr size_t BitCount(uint8 value) noexcept {
+constexpr size_t bit_count(uint8 value) noexcept {
     uint16
     count = (value & 0x55) + ((value >> 1) & 0x55);
     count = (count & 0x33) + ((count >> 2) & 0x33);
@@ -39,7 +39,7 @@ constexpr size_t BitCount(uint8 value) noexcept {
 
 }
 
-constexpr size_t BitCount(uint16 value) noexcept {
+constexpr size_t bit_count(uint16 value) noexcept {
     uint16
     count = (value & 0x5555) + ((value >> 1) & 0x5555);
     count = (count & 0x3333) + ((count >> 2) & 0x3333);
@@ -48,7 +48,7 @@ constexpr size_t BitCount(uint16 value) noexcept {
 
 }
 
-constexpr size_t BitCount(uint32 value) noexcept {
+constexpr size_t bit_count(uint32 value) noexcept {
     uint32
     count = (value & 0x55555555) + ((value >>  1) & 0x55555555);
     count = (count & 0x33333333) + ((count >>  2) & 0x33333333);
@@ -58,7 +58,7 @@ constexpr size_t BitCount(uint32 value) noexcept {
 }
 
 
-constexpr size_t BitCount(uint64 value) noexcept {
+constexpr size_t bit_count(uint64 value) noexcept {
     uint64
     count = (value & 0x5555555555555555) + ((value >>  1) & 0x5555555555555555);
     count = (count & 0x3333333333333333) + ((count >>  2) & 0x3333333333333333);
@@ -71,73 +71,74 @@ constexpr size_t BitCount(uint64 value) noexcept {
 
 
 
-constexpr size_t MostSignificantBit(uint8 value) noexcept {
+constexpr size_t msb(uint8 value) noexcept {
     value |= (value >>  1);
     value |= (value >>  2);
     value |= (value >>  4);
-    return BitCount(value);
+    return bit_count(value);
 }
 
-constexpr size_t MostSignificantBit(uint16 value) noexcept {
+constexpr size_t msb(uint16 value) noexcept {
     value |= (value >>  1);
     value |= (value >>  2);
     value |= (value >>  4);
     value |= (value >>  8);
-    return BitCount(value);
+    return bit_count(value);
 }
 
-constexpr size_t MostSignificantBit(uint32 value) noexcept {
+constexpr size_t msb(uint32 value) noexcept {
     value |= (value >>  1);
     value |= (value >>  2);
     value |= (value >>  4);
     value |= (value >>  8);
     value |= (value >> 16);
-    return BitCount(value);
+    return bit_count(value);
 }
 
-constexpr size_t MostSignificantBit(uint64 value) noexcept {
+constexpr size_t msb(uint64 value) noexcept {
     value |= (value >>  1);
     value |= (value >>  2);
     value |= (value >>  4);
     value |= (value >>  8);
     value |= (value >> 16);
     value |= (value >> 32);
-    return BitCount(value);
+    return bit_count(value);
 }
 
 
-constexpr size_t LeastSignificantBit(uint8 value) noexcept {
+constexpr size_t lsb(uint8 value) noexcept {
     value |= (value <<  1);
     value |= (value <<  2);
     value |= (value <<  4);
-    return 8 - BitCount(value);
+    return 8 - bit_count(value);
 }
 
-constexpr size_t LeastSignificantBit(uint16 value) noexcept {
+constexpr size_t lsb(uint16 value) noexcept {
     value |= (value <<  1);
     value |= (value <<  2);
     value |= (value <<  4);
     value |= (value <<  8);
-    return 16 - BitCount(value);
+    return 16 - bit_count(value);
 }
 
-constexpr size_t LeastSignificantBit(uint32 value) noexcept {
+constexpr size_t lsb(uint32 value) noexcept {
     value |= (value <<  1);
     value |= (value <<  2);
     value |= (value <<  4);
     value |= (value <<  8);
     value |= (value << 16);
-    return 32 - BitCount(value);
+    return 32 - bit_count(value);
 }
 
-constexpr size_t LeastSignificantBit(uint64 value) noexcept {
+constexpr size_t lsb(uint64 value) noexcept {
     value |= (value <<  1);
     value |= (value <<  2);
     value |= (value <<  4);
     value |= (value <<  8);
     value |= (value << 16);
     value |= (value << 32);
-    return 64 - BitCount(value);
+    return 64 - bit_count(value);
 }
 
 } // namespace gdv
+
