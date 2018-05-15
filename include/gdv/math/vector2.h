@@ -7,26 +7,26 @@
 namespace gdv {
 
 template <class Ty>
-class Vector2 {
+class vector2 {
     static_assert(std::is_integral<Ty>::value || std::is_floating_point<Ty>::value, "invalid template parameter.");
 
 public:
 
-    constexpr Vector2() noexcept :
+    constexpr vector2() noexcept :
         x{}, y{}{}
 
 
-    constexpr Vector2(Ty x, Ty y) noexcept :
+    constexpr vector2(Ty x, Ty y) noexcept :
         x{x}, y{y}{}
 
 
-    constexpr Vector2(const Vector2<Ty> &v) noexcept :
+    constexpr vector2(const vector2<Ty> &v) noexcept :
         x{v.x}, y{v.y}{}
 
 
 
 
-    Vector2<Ty>& operator = (const Vector2<Ty> &v) noexcept {
+    vector2<Ty>& operator = (const vector2<Ty> &v) noexcept {
         x = v.x;
         y = v.y;
         return *this;
@@ -42,84 +42,84 @@ public:
 
 
 template<class Ty>
-bool operator == (Vector2<Ty> v1, Vector2<Ty> v2) noexcept {
+bool operator == (vector2<Ty> v1, vector2<Ty> v2) noexcept {
     return v1.x == v2.x && v1.y == v2.y;
 }
 
 template<class Ty>
-bool operator != (Vector2<Ty> v1, Vector2<Ty> v2) noexcept {
+bool operator != (vector2<Ty> v1, vector2<Ty> v2) noexcept {
     return v1.x != v2.x || v1.y != v2.y;
 }
 
 template<class Ty>
-Vector2<Ty>& operator += (Vector2<Ty> &v1, Vector2<Ty> v2) noexcept {
+vector2<Ty>& operator += (vector2<Ty> &v1, vector2<Ty> v2) noexcept {
     v1.x += v2.x;
     v1.y += v2.y;
     return v1;
 }
 
 template<class Ty>
-Vector2<Ty>& operator += (Vector2<Ty> &v, Ty val) noexcept {
+vector2<Ty>& operator += (vector2<Ty> &v, Ty val) noexcept {
     v.x += val;
     v.y += val;
     return v;
 }
 
 template<class Ty>
-Vector2<Ty>& operator -= (Vector2<Ty> &v1, Vector2<Ty> v2) noexcept {
+vector2<Ty>& operator -= (vector2<Ty> &v1, vector2<Ty> v2) noexcept {
     v1.x -= v2.x;
     v1.y -= v2.y;
     return v1;
 }
 
 template<class Ty>
-Vector2<Ty>& operator *= (Vector2<Ty> &v, Ty val) noexcept {
+vector2<Ty>& operator *= (vector2<Ty> &v, Ty val) noexcept {
     v.x *= val;
     v.y *= val;
     return v;
 }
 
 template<class Ty>
-Vector2<Ty>& operator /= (Vector2<Ty> &v, Ty val) noexcept {
+vector2<Ty>& operator /= (vector2<Ty> &v, Ty val) noexcept {
     v.x /= val;
     v.y /= val;
     return v;
 }
 
 template<class Ty>
-Vector2<Ty>& operator -= (Vector2<Ty> &v, Ty val) noexcept {
+vector2<Ty>& operator -= (vector2<Ty> &v, Ty val) noexcept {
     v.x -= val;
     v.y -= val;
     return v;
 }
 
 template<class Ty>
-Vector2<Ty> operator + (Vector2<Ty> v1, Vector2<Ty> v2) noexcept {
+vector2<Ty> operator + (vector2<Ty> v1, vector2<Ty> v2) noexcept {
     return {v1.x + v2.x, v1.y + v2.y};
 }
 
 template<class Ty>
-Vector2<Ty> operator + (Vector2<Ty> v, Ty val) noexcept {
+vector2<Ty> operator + (vector2<Ty> v, Ty val) noexcept {
     return {v.x + val, v.y + val};
 }
 
 template<class Ty>
-Vector2<Ty> operator - (Vector2<Ty> v1, Vector2<Ty> v2) noexcept {
+vector2<Ty> operator - (vector2<Ty> v1, vector2<Ty> v2) noexcept {
     return {v1.x - v2.x, v1.y - v2.y};
 }
 
 template<class Ty>
-Vector2<Ty> operator - (Vector2<Ty> v, Ty val) noexcept {
+vector2<Ty> operator - (vector2<Ty> v, Ty val) noexcept {
     return {v.x - val, v.y - val};
 }
 
 template<class Ty>
-Vector2<Ty> operator * (Vector2<Ty> v, Ty val) noexcept {
+vector2<Ty> operator * (vector2<Ty> v, Ty val) noexcept {
     return {v.x * val, v.y * val};
 }
 
 template<class Ty>
-Vector2<Ty> operator / (Vector2<Ty> v, Ty val) noexcept {
+vector2<Ty> operator / (vector2<Ty> v, Ty val) noexcept {
     return {v.x / val, v.y / val};
 }
 
@@ -128,40 +128,40 @@ Vector2<Ty> operator / (Vector2<Ty> v, Ty val) noexcept {
 
 
 template<class Ty>
-Ty Dot(Vector2<Ty> v1, Vector2<Ty> v2) noexcept {
+Ty dot(vector2<Ty> v1, vector2<Ty> v2) noexcept {
     static_assert(std::is_floating_point<Ty>::value, "Template parameters require floating point type.");
     return v1.x * v2.x + v1.y * v2.y;
 }
 
 
 template<class Ty>
-Ty Cross(Vector2<Ty> v1, Vector2<Ty> v2) noexcept {
+Ty cross(vector2<Ty> v1, vector2<Ty> v2) noexcept {
     static_assert(std::is_floating_point<Ty>::value, "Template parameters require floating point type.");
     return v1.x * v2.y - v1.y * v2.x;
 }
 
 
 template<class Ty>
-Ty Angle(Vector2<Ty> v1, Vector2<Ty> v2) noexcept {
-    return static_cast<Ty>(std::atan2(Dot(v1, v2), Cross(v1, v2)));
+Ty angle(vector2<Ty> v1, vector2<Ty> v2) noexcept {
+    return static_cast<Ty>(std::atan2(dot(v1, v2), cross(v1, v2)));
 }
 
 
 template<class Ty>
-Ty Length(Vector2<Ty> v) noexcept {
+Ty length(vector2<Ty> v) noexcept {
     static_assert(std::is_floating_point<Ty>::value, "Template parameters require floating point type.");
     return static_cast<Ty>(std::hypot(v.x, v.y));
 }
 
 
 template<class Ty>
-Vector2<Ty> Normalize(Vector2<Ty> v) noexcept {
-    return (v / Length(v));
+vector2<Ty> normalize(vector2<Ty> v) noexcept {
+    return (v / length(v));
 }
 
 
 template<class Ty>
-Vector2<Ty> Rotation(Vector2<Ty> v, Vector2<Ty> center, Ty angle) noexcept {
+vector2<Ty> rotate(vector2<Ty> v, vector2<Ty> center, Ty angle) noexcept {
     static_assert(std::is_floating_point<Ty>::value, "Template parameters require floating point type.");
     const Ty s = std::sin(angle);
     const Ty c = std::cos(angle);
@@ -176,8 +176,8 @@ Vector2<Ty> Rotation(Vector2<Ty> v, Vector2<Ty> center, Ty angle) noexcept {
 
 
 
-using Point = Vector2<int>;
-using Vec2  = Vector2<float>;
+using point = vector2<int>;
+using vec2  = vector2<float>;
 
 } // namespace gdv
 

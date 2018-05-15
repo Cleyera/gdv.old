@@ -29,8 +29,8 @@
 #include <arm_neon.h> //arm neon
 #endif
 
-#include "gdv/Math/Vector3.h"
-#include "gdv/Math/Vector4.h"
+#include "gdv/math/vector3.h"
+#include "gdv/math/vector4.h"
 
 namespace gdv {
 
@@ -39,24 +39,24 @@ namespace simd {
 
 class Vector {
 public:
-    Vector();
-    Vector(const Vector &vec);
-    Vector(float x, float y, float z, float w);
-    Vector(Vector3<float> vec);
-    Vector(Vector3<float> vec, float w);
-    Vector(Vector4<float> vec);
-    Vector(__m128 vec);
+    Vector() noexcept;
+    Vector(const Vector &vec) noexcept;
+    Vector(float x, float y, float z, float w) noexcept;
+    Vector(vector3<float> vec) noexcept;
+    Vector(vector3<float> vec, float w) noexcept;
+    Vector(vector4<float> vec) noexcept;
+    Vector(__m128 vec) noexcept;
 
 
 public:
-    Vector& operator = (Vector3<float> vec);
-    Vector& operator = (Vector4<float> vec);
-    Vector& operator = (const Vector &vec);
+    Vector& operator = (vector3<float> vec) noexcept;
+    Vector& operator = (vector4<float> vec) noexcept;
+    Vector& operator = (const Vector &vec) noexcept;
 
 
 public:
-    operator Vector3<float>();
-    operator Vector4<float>();
+    operator vector3<float>() noexcept;
+    operator vector4<float>() noexcept;
 
 
 public:

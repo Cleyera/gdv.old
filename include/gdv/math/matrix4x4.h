@@ -2,21 +2,21 @@
 #define GDV_MATRIX4X4_H_
 
 #include <type_traits>
-#include "gdv/Math/Vector4.h"
+#include "gdv/math/vector4.h"
 
 namespace gdv {
 
 template<class Ty>
-class Matrix4x4 {
+class matrix4x4 {
     static_assert(std::is_integral<Ty>::value || std::is_floating_point<Ty>::value, "invalid template parameter.");
 
 public:
 
-    constexpr Matrix4x4<Ty>() noexcept :
+    constexpr matrix4x4<Ty>() noexcept :
         m{}{}
 
 
-    constexpr Matrix4x4<Ty>(Ty m11, Ty m12, Ty m13, Ty m14,
+    constexpr matrix4x4<Ty>(Ty m11, Ty m12, Ty m13, Ty m14,
                             Ty m21, Ty m22, Ty m23, Ty m24,
                             Ty m31, Ty m32, Ty m33, Ty m34,
                             Ty m41, Ty m42, Ty m43, Ty m44) noexcept :
@@ -26,11 +26,11 @@ public:
                                 m41, m42, m43, m44}{}
 
 
-    constexpr Matrix4x4<Ty>(const Matrix4x4<Ty> &m) noexcept = default;
+    constexpr matrix4x4<Ty>(const matrix4x4<Ty> &m) noexcept = default;
 
 
 
-    Matrix4x4<Ty>& operator = (const Matrix4x4<Ty> &v) noexcept = default;
+    matrix4x4<Ty>& operator = (const matrix4x4<Ty> &v) noexcept = default;
 
 
     float* operator[](int i) noexcept {return &m[4 * i];}
@@ -42,7 +42,7 @@ public:
 
 
 template<class Ty>
-Matrix4x4<Ty> operator+(const Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexcept {
+matrix4x4<Ty> operator+(const matrix4x4<Ty> &m1, const matrix4x4<Ty> &m2) noexcept {
     return {
         m1.m[ 0] + m2.m[ 0],
         m1.m[ 1] + m2.m[ 1],
@@ -64,7 +64,7 @@ Matrix4x4<Ty> operator+(const Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexce
 }
 
 template<class Ty>
-Matrix4x4<Ty> operator-(const Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexcept {
+matrix4x4<Ty> operator-(const matrix4x4<Ty> &m1, const matrix4x4<Ty> &m2) noexcept {
     return {
         m1.m[ 0] - m2.m[ 0],
         m1.m[ 1] - m2.m[ 1],
@@ -87,7 +87,7 @@ Matrix4x4<Ty> operator-(const Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexce
 
 
 template<class Ty>
-Matrix4x4<Ty> operator*(const Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexcept {
+matrix4x4<Ty> operator*(const matrix4x4<Ty> &m1, const matrix4x4<Ty> &m2) noexcept {
     return{
         m1.m[ 0] * m2.m[ 0] + m1.m[ 1] * m2.m[ 4] + m1.m[ 2] * m2.m[ 8] + m1.m[ 3] * m2.m[12],
         m1.m[ 0] * m2.m[ 1] + m1.m[ 1] * m2.m[ 5] + m1.m[ 2] * m2.m[ 9] + m1.m[ 3] * m2.m[13],
@@ -114,7 +114,7 @@ Matrix4x4<Ty> operator*(const Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexce
 
 
 template<class Ty>
-Matrix4x4<Ty>& operator+=(Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexcept {
+matrix4x4<Ty>& operator+=(matrix4x4<Ty> &m1, const matrix4x4<Ty> &m2) noexcept {
     m1.m[ 0] += m2.m[ 0];
     m1.m[ 1] += m2.m[ 1];
     m1.m[ 2] += m2.m[ 2];
@@ -135,7 +135,7 @@ Matrix4x4<Ty>& operator+=(Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexcept {
 }
 
 template<class Ty>
-Matrix4x4<Ty>& operator-=(Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexcept {
+matrix4x4<Ty>& operator-=(matrix4x4<Ty> &m1, const matrix4x4<Ty> &m2) noexcept {
     m1.m[ 0] -= m2.m[ 0];
     m1.m[ 1] -= m2.m[ 1];
     m1.m[ 2] -= m2.m[ 2];
@@ -157,8 +157,8 @@ Matrix4x4<Ty>& operator-=(Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexcept {
 
 
 template<class Ty>
-Matrix4x4<Ty>& operator*=(Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexcept {
-    Matrix4x4<Ty> m{
+matrix4x4<Ty>& operator*=(matrix4x4<Ty> &m1, const matrix4x4<Ty> &m2) noexcept {
+    matrix4x4<Ty> m{
         m1.m[ 0] * m2.m[ 0] + m1.m[ 1] * m2.m[ 4] + m1.m[ 2] * m2.m[ 8] + m1.m[ 3] * m2.m[12],
         m1.m[ 0] * m2.m[ 1] + m1.m[ 1] * m2.m[ 5] + m1.m[ 2] * m2.m[ 9] + m1.m[ 3] * m2.m[13],
         m1.m[ 0] * m2.m[ 2] + m1.m[ 1] * m2.m[ 6] + m1.m[ 2] * m2.m[10] + m1.m[ 3] * m2.m[14],
@@ -185,7 +185,7 @@ Matrix4x4<Ty>& operator*=(Matrix4x4<Ty> &m1, const Matrix4x4<Ty> &m2) noexcept {
 
 
 template<class Ty>
-Vector4<Ty> operator*(const Vector4<Ty> &v, const Matrix4x4<Ty> &m) noexcept {
+vector4<Ty> operator*(const vector4<Ty> &v, const matrix4x4<Ty> &m) noexcept {
     return{
         m.m[ 0] * v.x + m.m[ 4] * v.y + m.m[ 8] * v.z + m.m[12] * v.w,
         m.m[ 1] * v.x + m.m[ 5] * v.y + m.m[ 9] * v.z + m.m[13] * v.w,
@@ -195,7 +195,7 @@ Vector4<Ty> operator*(const Vector4<Ty> &v, const Matrix4x4<Ty> &m) noexcept {
 }
 
 template<class Ty>
-Vector4<Ty> operator*(const Matrix4x4<Ty> &m, const Vector4<Ty> &v) noexcept {
+vector4<Ty> operator*(const matrix4x4<Ty> &m, const vector4<Ty> &v) noexcept {
     return{
         m.m[ 0] * v.x + m.m[ 1] * v.y + m.m[ 2] * v.z + m.m[ 3] * v.w,
         m.m[ 4] * v.x + m.m[ 5] * v.y + m.m[ 6] * v.z + m.m[ 7] * v.w,
@@ -206,7 +206,7 @@ Vector4<Ty> operator*(const Matrix4x4<Ty> &m, const Vector4<Ty> &v) noexcept {
 
 
 template<class Ty>
-Vector4<Ty> operator*(const Vector3<Ty> &v, const Matrix4x4<Ty> &m) noexcept {
+vector4<Ty> operator*(const vector3<Ty> &v, const matrix4x4<Ty> &m) noexcept {
     return{
         m.m[ 0] * v.x + m.m[ 4] * v.y + m.m[ 8] * v.z + m.m[12],
         m.m[ 1] * v.x + m.m[ 5] * v.y + m.m[ 9] * v.z + m.m[13],
@@ -216,7 +216,7 @@ Vector4<Ty> operator*(const Vector3<Ty> &v, const Matrix4x4<Ty> &m) noexcept {
 }
 
 template<class Ty>
-Vector4<Ty> operator*(const Matrix4x4<Ty> &m, const Vector3<Ty> &v) noexcept {
+vector4<Ty> operator*(const matrix4x4<Ty> &m, const vector3<Ty> &v) noexcept {
     return{
         m.m[ 0] * v.x + m.m[ 1] * v.y + m.m[ 2] * v.z + m.m[ 3],
         m.m[ 4] * v.x + m.m[ 5] * v.y + m.m[ 6] * v.z + m.m[ 7],
@@ -225,7 +225,7 @@ Vector4<Ty> operator*(const Matrix4x4<Ty> &m, const Vector3<Ty> &v) noexcept {
     };
 }
 
-using Mat4 = Matrix4x4<float>;
+using mat4 = matrix4x4<float>;
 
 } // namespace gdv
 

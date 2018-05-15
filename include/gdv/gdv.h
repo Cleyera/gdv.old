@@ -1,20 +1,19 @@
 #ifndef GDV_H_
 #define GDV_H_
 
-#include "Common/Constant.h"
-#include "Common/Types.h"
+#include "constant.h"
+#include "types.h"
 
-#include "Util/util.h"
-#include "Util/Tween.h"
-#include "Util/Color.h"
-#include "Util/window_function.h"
-#include "Util/ft.h"
+#include "tools/util.h"
+#include "tools/tween.h"
+#include "tools/color.h"
+#include "tools/window_function.h"
+#include "tools/ft.h"
+#include "tools/FixedAllocator.h"
+#include "tools/type_list.h"
+#include "tools/online.h"
 
-#include "Math/GdvMath.h"
-
-
-#include "Tools/FixedAllocator.h"
-#include "Tools/TypeList.h"
+#include "math/gdv_math.h"
 
 using namespace gdv;
 

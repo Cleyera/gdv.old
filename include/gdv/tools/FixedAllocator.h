@@ -2,7 +2,7 @@
 #define GDV_FIXEDALLOCATOR_H_
 
 #include <assert.h>
-#include "gdv/Common/Types.h"
+#include "gdv/types.h"
 
 namespace gdv {
 

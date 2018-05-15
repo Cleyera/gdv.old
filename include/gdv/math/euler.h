@@ -1,5 +1,5 @@
 /**
-* @file Euler.h
+* @file euler.h
 * @brief オイラー角を表現するクラスを定義したファイルです
 **/
 #ifndef GDV_EULER_H_
@@ -11,13 +11,13 @@
 namespace gdv {
 
 /**
-* @class Euler
+* @class euler
 * @tparam Ty スカラ型のみ受付ます
 * @brief オイラー角を表現するクラスです
 * このクラスはQuaternionと相互に変換する事ができます
 **/
 template <class Ty>
-class Euler {
+class euler {
     static_assert(std::is_integral<Ty>::value || std::is_floating_point<Ty>::value, "invalid template parameter.");
 
 public:
@@ -27,7 +27,7 @@ public:
     * @return none
     * @exception none
     **/
-    constexpr Euler() noexcept :
+    constexpr euler() noexcept :
         x{}, y{}, z{} {}
 
 
@@ -40,7 +40,7 @@ public:
     * @return none
     * @exception none
     **/
-    constexpr Euler(Ty x, Ty y, Ty z) noexcept :
+    constexpr euler(Ty x, Ty y, Ty z) noexcept :
         x{x}, y{y}, z{z} {}
 
 
@@ -50,7 +50,7 @@ public:
     * @return none
     * @exception none
     **/
-    constexpr Euler(const Euler<Ty> &e) noexcept :
+    constexpr euler(const euler<Ty> &e) noexcept :
         x{e.x}, y{e.y}, z{e.z} {}
 
 
@@ -60,7 +60,7 @@ public:
     * @return 自身の参照
     * @exception none
     **/
-    Euler<Ty>& operator = (const Euler<Ty> &e) noexcept = default;
+    euler<Ty>& operator = (const euler<Ty> &e) noexcept = default;
 
 public:
     Ty x; //! pitch
@@ -71,3 +71,4 @@ public:
 } // namespace gdv
 
 #endif
+

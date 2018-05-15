@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <utility>
 #include <cstring>
-#include "gdv/Util/util.h"
+#include "gdv/tools/util.h"
 
 
 namespace gdv {
@@ -29,8 +29,8 @@ public:
         nyquist_size_{}, 
         capacity_{},
         work_{},
-        work_last_{}.
-        re_{}.
+        work_last_{},
+        re_{},
         re_first_{}, 
         im_{},
         im_first_{} {
@@ -71,9 +71,9 @@ public:
     }
 
 
-    ~ttf() {
+    ~fft() {
         destruct_range(work_, work_last_);
-        allocator.deallocate(work_, capacity_);
+        allocator_.deallocate(work_, capacity_);
     }
 
 
@@ -98,7 +98,7 @@ public:
 
         if (work_) {
             destruct_range(work_, work_last_);
-            allocator.deallocate(work_, now_size);
+            allocator_.deallocate(work_, now_size);
         }
 
         size_type alloc_size = capacity_;
@@ -108,7 +108,7 @@ public:
         construct_range(work_, work_last_);
         
         re_first_ = work_;
-        im_first_ = re_last_ + 1;
+        im_first_ = capacity_ / 2 + 1;
     }
 
 
@@ -190,7 +190,7 @@ public:
         pointer_type re_in, 
         pointer_type im_in, 
         pointer_type re_out, 
-        pointer_type re_out, 
+        pointer_type im_out, 
         size_type n) {
         resize(n);
 
@@ -222,7 +222,7 @@ public:
     
 private:
 
-    void construct_range(ponter_type first, pointer_type last) {
+    void construct_range(pointer_type first, pointer_type last) {
         for (; first != last; ++first) {
             allocator_traits::construct(allocator_, first);
         }
@@ -230,7 +230,7 @@ private:
 
 
 
-    void destroy_range(ponter_type first, pointer_type last) {
+    void destroy_range(pointer_type first, pointer_type last) {
         for (; first != last; ++first) {
             allocator_traits::destroy(allocator_, first);
         }
@@ -272,12 +272,12 @@ private:
                     size_type to = j * dst + k;
                     if (k < num2) {
                         size_type from = to + num2;
-                        re2[to] += re1[from] * std::cos(angle) + im2[form] * std::sin(angle);
-                        im2[to] += im1[from] * std::cos(angle) - re2[form] * std::sin(angle);
+                        re2[to] += re1[from] * std::cos(angle) + im2[from] * std::sin(angle);
+                        im2[to] += im1[from] * std::cos(angle) - re2[from] * std::sin(angle);
                     } else {
                         size_type from = to - num2;
                         re2[from] += re1[to] * std::cos(angle) + im2[to] * std::sin(angle);
-                        im2[form] += im1[to] * std::cos(angle) - re2[to] * std::sin(angle);
+                        im2[from] += im1[to] * std::cos(angle) - re2[to] * std::sin(angle);
                     }
                     angle += step;
                 }
@@ -298,7 +298,7 @@ private:
         pointer_type im1 = im_first_;
         pointer_type im2 = re2 + size_;
         value_type theta = static_cast<value_type>(2) * PI<value_type> / size_;
-        size_type power = msb(n) - 1;
+        size_type power = msb(size_) - 1;
         size_type dst = 2;
 
         for (size_type i = 0; i < size_; ++i) {
@@ -320,12 +320,12 @@ private:
                     size_type to = j * dst + k;
                     if (k < num2) {
                         size_type from = to + num2;
-                        re2[to] += re1[from] * std::cos(angle) - im2[form] * std::sin(angle);
-                        im2[to] += im1[from] * std::cos(angle) + re2[form] * std::sin(angle);
+                        re2[to] += re1[from] * std::cos(angle) - im2[from] * std::sin(angle);
+                        im2[to] += im1[from] * std::cos(angle) + re2[from] * std::sin(angle);
                     } else {
                         size_type from = to - num2;
                         re2[from] += re1[to] * std::cos(angle) - im2[to] * std::sin(angle);
-                        im2[form] += im1[to] * std::cos(angle) + re2[to] * std::sin(angle);
+                        im2[from] += im1[to] * std::cos(angle) + re2[to] * std::sin(angle);
                     }
                     angle += step;
                 }

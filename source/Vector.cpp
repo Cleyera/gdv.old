@@ -1,20 +1,20 @@
-#include "gdv/Math/Vector.h"
+#include "gdv/math/Vector.h"
 
 namespace gdv {
 namespace simd {
 
-Vector::Vector() :
+Vector::Vector() noexcept :
     v{} {}
 
 
 
-Vector::Vector(const Vector &v) :
+Vector::Vector(const Vector &v) noexcept :
     v{v.v} {
 }
 
 
 
-Vector::Vector(float x, float y, float z, float w) :
+Vector::Vector(float x, float y, float z, float w) noexcept :
     v{} {
     alignas(alignof(__m128)) float vec[] = {x, y, z, w};
     v = _mm_load_ps(vec);
@@ -22,7 +22,7 @@ Vector::Vector(float x, float y, float z, float w) :
 
 
 
-Vector::Vector(Vector3<float> vec) :
+Vector::Vector(vector3<float> vec) noexcept :
     v{} {
     alignas(alignof(__m128)) float f4[] = {vec.x, vec.y, vec.z, 1.0f};
     this->v = _mm_load_ps(f4);
@@ -30,7 +30,7 @@ Vector::Vector(Vector3<float> vec) :
 
 
 
-Vector::Vector(Vector3<float> vec, float w) :
+Vector::Vector(vector3<float> vec, float w) noexcept :
     v{} {
     alignas(alignof(__m128)) float f4[] = {vec.x, vec.y, vec.z, w};
     this->v = _mm_load_ps(f4);
@@ -38,7 +38,7 @@ Vector::Vector(Vector3<float> vec, float w) :
 
 
 
-Vector::Vector(Vector4<float> vec) :
+Vector::Vector(vector4<float> vec) noexcept :
     v{} {
     alignas(alignof(__m128)) float f4[] = {vec.x, vec.y, vec.z, vec.w};
     v = _mm_load_ps(f4);
@@ -47,13 +47,13 @@ Vector::Vector(Vector4<float> vec) :
 
 
 
-Vector::Vector(__m128 vec) :
+Vector::Vector(__m128 vec) noexcept :
     v{vec} {
 }
 
 
 
-Vector& Vector::operator = (Vector3<float> vec) {
+Vector& Vector::operator = (vector3<float> vec) noexcept {
     alignas(alignof(__m128)) float f4[] = {vec.x, vec.y, vec.z, 1.0f};
     v = _mm_load_ps(f4);
     return *this;
@@ -61,7 +61,7 @@ Vector& Vector::operator = (Vector3<float> vec) {
 
 
 
-Vector& Vector::operator = (Vector4<float> vec) {
+Vector& Vector::operator = (vector4<float> vec) noexcept {
     alignas(alignof(__m128)) float f4[] = {vec.x, vec.y, vec.z, vec.w};
     v = _mm_load_ps(f4);
     return *this;
@@ -69,13 +69,13 @@ Vector& Vector::operator = (Vector4<float> vec) {
 
 
 
-Vector& Vector::operator = (const Vector &vec) {
+Vector& Vector::operator = (const Vector &vec) noexcept {
     v = vec.v;
     return *this;
 }
 
 
-Vector::operator Vector3<float>() {
+Vector::operator vector3<float>() noexcept {
     alignas(alignof(__m128)) float vec[4]{};
     _mm_store_ps(vec, v);
     return {vec[0], vec[1], vec[2]};
@@ -83,7 +83,7 @@ Vector::operator Vector3<float>() {
 
 
 
-Vector::operator Vector4<float>() {
+Vector::operator vector4<float>() noexcept {
     alignas(alignof(__m128)) float vec[4]{};
     _mm_store_ps(vec, v);
     return {vec[0], vec[1], vec[2], vec[3]};

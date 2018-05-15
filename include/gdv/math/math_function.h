@@ -2,9 +2,9 @@
 #define GDV_MATH3D_H_
 
 
-#include "gdv/Math/Vector4.h"
-#include "gdv/Math/Matrix4x4.h"
-#include "gdv/Math/Matrix3x3.h"
+#include "gdv/math/vector4.h"
+#include "gdv/math/matrix4x4.h"
+#include "gdv/math/matrix3x3.h"
 
 
 namespace gdv {
@@ -17,7 +17,7 @@ namespace gdv {
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> UnitMatrix() noexcept {
+matrix4x4<Ty> unit_matrix() noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     return {
@@ -38,7 +38,7 @@ Matrix4x4<Ty> UnitMatrix() noexcept {
 * @exception none
 **/
 template <class Ty>
-Matrix3x3<Ty> Transpose(Matrix3x3<Ty> m) noexcept {
+matrix3x3<Ty> transpose(matrix3x3<Ty> m) noexcept {
     return {
         m.m[0], m.m[3], m.m[6],
         m.m[1], m.m[4], m.m[7],
@@ -56,7 +56,7 @@ Matrix3x3<Ty> Transpose(Matrix3x3<Ty> m) noexcept {
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> Transpose(Matrix4x4<Ty> m) noexcept {
+matrix4x4<Ty> transpose(matrix4x4<Ty> m) noexcept {
     return {
         m.m[0], m.m[4], m.m[ 8], m.m[12],
         m.m[1], m.m[5], m.m[ 9], m.m[13],
@@ -68,7 +68,7 @@ Matrix4x4<Ty> Transpose(Matrix4x4<Ty> m) noexcept {
 
 
 
-namespace ColumnMajor {
+namespace column_major {
 
 
 
@@ -78,11 +78,11 @@ namespace ColumnMajor {
 * @param[in] x x軸方向の拡大率
 * @param[in] y y軸方向の拡大率
 * @param[in] z z軸方向の拡大率
-* @return Matrix4x4<Ty>
+* @return matrix4x4<Ty>
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> Scaling(Ty x, Ty y, Ty z) noexcept {
+matrix4x4<Ty> scaling(Ty x, Ty y, Ty z) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     return {
@@ -98,12 +98,12 @@ Matrix4x4<Ty> Scaling(Ty x, Ty y, Ty z) noexcept {
 * @brief スケーリング行列を作成します
 * @tparam Ty スカラ型のみ受付ます
 * @param[in] v 拡大率
-* @return Matrix4x4<Ty>
+* @return matrix4x4<Ty>
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> Scaling(Vector3<Ty> v) noexcept {
-    return Scaling(v.x, v.y, v.z);
+matrix4x4<Ty> scaling(vector3<Ty> v) noexcept {
+    return scaling(v.x, v.y, v.z);
 }
 
 
@@ -114,11 +114,11 @@ Matrix4x4<Ty> Scaling(Vector3<Ty> v) noexcept {
 * @param[in] x x軸方向の移動量
 * @param[in] y y軸方向の移動量
 * @param[in] z z軸方向の移動量
-* @return Matrix4x4<Ty>
+* @return matrix4x4<Ty>
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> Translation(Ty x, Ty y, Ty z) noexcept {
+matrix4x4<Ty> translation(Ty x, Ty y, Ty z) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     return {
@@ -135,12 +135,12 @@ Matrix4x4<Ty> Translation(Ty x, Ty y, Ty z) noexcept {
 * @brief 移動行列を作成します
 * @tparam Ty スカラ型のみ受付ます
 * @param[in] v 移動量
-* @return Matrix4x4<Ty>
+* @return matrix4x4<Ty>
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> Translation(Vector3<Ty> v) noexcept {
-    return Translation(v.x, v.y, v.z);
+matrix4x4<Ty> translation(vector3<Ty> v) noexcept {
+    return translation(v.x, v.y, v.z);
 }
 
 
@@ -153,7 +153,7 @@ Matrix4x4<Ty> Translation(Vector3<Ty> v) noexcept {
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> RotationX(Ty radians) noexcept {
+matrix4x4<Ty> rotate_x(Ty radians) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     Ty s = std::sin(radians);
@@ -176,7 +176,7 @@ Matrix4x4<Ty> RotationX(Ty radians) noexcept {
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> RotationY(Ty radians) noexcept {
+matrix4x4<Ty> rotate_y(Ty radians) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     Ty s = std::sin(radians);
@@ -199,7 +199,7 @@ Matrix4x4<Ty> RotationY(Ty radians) noexcept {
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> RotationZ(Ty radians) noexcept {
+matrix4x4<Ty> rotate_z(Ty radians) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     Ty s = std::sin(radians);
@@ -224,11 +224,11 @@ Matrix4x4<Ty> RotationZ(Ty radians) noexcept {
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> Rotation(Vector3<Ty> axis, Ty angle) noexcept {
+matrix4x4<Ty> rotate(vector3<Ty> axis, Ty angle) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
 
-    axis = Normalize(axis);
+    axis = normalize(axis);
     const Ty c = std::cos(angle);
     const Ty s = std::sin(angle);
     const Ty x = axis.x;
@@ -249,7 +249,7 @@ Matrix4x4<Ty> Rotation(Vector3<Ty> axis, Ty angle) noexcept {
 
 
 
-namespace RH {
+namespace right_hand {
 
 
 /**
@@ -262,16 +262,16 @@ namespace RH {
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> LookAt(Vector3<Ty> pos, Vector3<Ty> dst, Vector3<Ty> up) noexcept {
+matrix4x4<Ty> look_at(vector3<Ty> pos, vector3<Ty> dst, vector3<Ty> up) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
-    Vector3<Ty> z = Normalize(pos - dst);
-    Vector3<Ty> x = Normalize(Cross(up, z));
-    Vector3<Ty> y = Cross(z, x);
+    vector3<Ty> z = normalize(pos - dst);
+    vector3<Ty> x = normalize(cross(up, z));
+    vector3<Ty> y = cross(z, x);
     return{
-        x.x, y.x, z.x, -Dot(pos, x),
-        x.y, y.y, z.y, -Dot(pos, y),
-        x.z, y.z, z.z, -Dot(pos, z),
+        x.x, y.x, z.x, -dot(pos, x),
+        x.y, y.y, z.y, -dot(pos, y),
+        x.z, y.z, z.z, -dot(pos, z),
         _0, _0, _0, _1
     };
 
@@ -292,7 +292,7 @@ Matrix4x4<Ty> LookAt(Vector3<Ty> pos, Vector3<Ty> dst, Vector3<Ty> up) noexcept 
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> Orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
+matrix4x4<Ty> orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -318,7 +318,7 @@ Matrix4x4<Ty> Orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) 
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> Orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
+matrix4x4<Ty> orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -346,7 +346,7 @@ Matrix4x4<Ty> Orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> Perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -371,7 +371,7 @@ Matrix4x4<Ty> Perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far)
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> Perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -394,7 +394,7 @@ Matrix4x4<Ty> Perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
 * @exception none
 **/
 template <class Ty>
-Matrix4x4<Ty> PerspectiveFov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective_fov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     Ty f = static_cast<Ty>(_1 / std::tan(angle / static_cast<Ty>(2)));
@@ -406,33 +406,33 @@ Matrix4x4<Ty> PerspectiveFov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
     };
 }
 
-} // namespace RH
+} // namespace right_hand
 
 
 
 
 
-namespace LH {
+namespace left_hand {
 
 
 template <class Ty>
-Matrix4x4<Ty> LookAt(Vector3<Ty> pos, Vector3<Ty> dst, Vector3<Ty> up) noexcept {
+matrix4x4<Ty> look_at(vector3<Ty> pos, vector3<Ty> dst, vector3<Ty> up) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
-    Vector3<Ty> z = Normalize(dst - pos);
-    Vector3<Ty> x = Normalize(Cross(up, z));
-    Vector3<Ty> y = Cross(z, x);
+    vector3<Ty> z = normalize(dst - pos);
+    vector3<Ty> x = normalize(cross(up, z));
+    vector3<Ty> y = cross(z, x);
     return{
-        x.x, y.x, z.x, -Dot(pos, x),
-        x.y, y.y, z.y, -Dot(pos, y),
-        x.z, y.z, z.z, -Dot(pos, z),
+        x.x, y.x, z.x, -dot(pos, x),
+        x.y, y.y, z.y, -dot(pos, y),
+        x.z, y.z, z.z, -dot(pos, z),
         _0, _0, _0, _1
     };
 }
 
 
 template <class Ty>
-Matrix4x4<Ty> Orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
+matrix4x4<Ty> orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -446,7 +446,7 @@ Matrix4x4<Ty> Orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) 
 
 
 template <class Ty>
-Matrix4x4<Ty> Orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
+matrix4x4<Ty> orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -460,7 +460,7 @@ Matrix4x4<Ty> Orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
 
 
 template <class Ty>
-Matrix4x4<Ty> Perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -474,7 +474,7 @@ Matrix4x4<Ty> Perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far)
 
 
 template <class Ty>
-Matrix4x4<Ty> Perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -488,7 +488,7 @@ Matrix4x4<Ty> Perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
 
 
 template <class Ty>
-Matrix4x4<Ty> PerspectiveFov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective_fov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     Ty f = static_cast<Ty>(_1 / std::tan(angle / static_cast<Ty>(2)));
@@ -500,19 +500,19 @@ Matrix4x4<Ty> PerspectiveFov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
     };
 }
 
-} // namespace LH
-} // namespace ColumnMajor
+} // namespace left_hand
+} // namespace column_major
 
 
 
 
 
 
-namespace RowMajor {
+namespace row_major {
 
 
 template <class Ty>
-Matrix4x4<Ty> Scaling(Ty x, Ty y, Ty z) noexcept {
+matrix4x4<Ty> scaling(Ty x, Ty y, Ty z) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     return {
@@ -527,14 +527,14 @@ Matrix4x4<Ty> Scaling(Ty x, Ty y, Ty z) noexcept {
 
 
 template <class Ty>
-Matrix4x4<Ty> Scaling(Vector3<Ty> v) noexcept {
-    return Scaling(v.x, v.y, v.z);
+matrix4x4<Ty> scaling(vector3<Ty> v) noexcept {
+    return scaling(v.x, v.y, v.z);
 }
 
 
 
 template <class Ty>
-Matrix4x4<Ty> Translation(Ty x, Ty y, Ty z) noexcept {
+matrix4x4<Ty> translation(Ty x, Ty y, Ty z) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     return {
@@ -548,14 +548,14 @@ Matrix4x4<Ty> Translation(Ty x, Ty y, Ty z) noexcept {
 
 
 template <class Ty>
-Matrix4x4<Ty> Translation(Vector3<Ty> v) noexcept {
-    return Translation(v.x, v.y, v.z);
+matrix4x4<Ty> translation(vector3<Ty> v) noexcept {
+    return translation(v.x, v.y, v.z);
 }
 
 
 
 template <class Ty>
-Matrix4x4<Ty> RotationX(Ty radians) noexcept {
+matrix4x4<Ty> rotate_x(Ty radians) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     Ty s = std::sin(radians);
@@ -571,7 +571,7 @@ Matrix4x4<Ty> RotationX(Ty radians) noexcept {
 
 
 template <class Ty>
-Matrix4x4<Ty> RotationY(Ty radians) noexcept {
+matrix4x4<Ty> rotate_y(Ty radians) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     Ty s = std::sin(radians);
@@ -586,7 +586,7 @@ Matrix4x4<Ty> RotationY(Ty radians) noexcept {
 
 
 template <class Ty>
-Matrix4x4<Ty> RotationZ(Ty radians) noexcept {
+matrix4x4<Ty> rotate_z(Ty radians) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     Ty s = std::sin(radians);
@@ -601,11 +601,11 @@ Matrix4x4<Ty> RotationZ(Ty radians) noexcept {
 
 
 template <class Ty>
-Matrix4x4<Ty> Rotation(Vector3<Ty> axis, Ty angle) noexcept {
+matrix4x4<Ty> rotate(vector3<Ty> axis, Ty angle) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
 
-    axis = Normalize(axis);
+    axis = normalize(axis);
     const Ty c = std::cos(angle);
     const Ty s = std::sin(angle);
     const Ty x = axis.x;
@@ -625,27 +625,27 @@ Matrix4x4<Ty> Rotation(Vector3<Ty> axis, Ty angle) noexcept {
 
 
 
-namespace RH {
+namespace right_hand {
 
 
 template <class Ty>
-Matrix4x4<Ty> LookAt(Vector3<Ty> pos, Vector3<Ty> dst, Vector3<Ty> up) noexcept {
+matrix4x4<Ty> look_at(vector3<Ty> pos, vector3<Ty> dst, vector3<Ty> up) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
-    Vector3<Ty> z = Normalize(pos - dst);
-    Vector3<Ty> x = Normalize(Cross(up, z));
-    Vector3<Ty> y = Cross(z, x);
+    vector3<Ty> z = normalize(pos - dst);
+    vector3<Ty> x = normalize(cross(up, z));
+    vector3<Ty> y = cross(z, x);
     return{
         x.x, x.y, x.z, _0,
         y.x, y.y, y.z, _0,
         z.x, z.y, z.z, _0,
-        -Dot(pos, x), -Dot(pos, y), -Dot(pos, z), _1
+        -dot(pos, x), -dot(pos, y), -dot(pos, z), _1
     };
 }
 
 
 template <class Ty>
-Matrix4x4<Ty> Orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
+matrix4x4<Ty> orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -659,7 +659,7 @@ Matrix4x4<Ty> Orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) 
 
 
 template <class Ty>
-Matrix4x4<Ty> Orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
+matrix4x4<Ty> orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -673,7 +673,7 @@ Matrix4x4<Ty> Orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
 
 
 template <class Ty>
-Matrix4x4<Ty> Perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -687,7 +687,7 @@ Matrix4x4<Ty> Perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far)
 
 
 template <class Ty>
-Matrix4x4<Ty> Perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -701,7 +701,7 @@ Matrix4x4<Ty> Perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
 
 
 template <class Ty>
-Matrix4x4<Ty> PerspectiveFov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective_fov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     Ty f = static_cast<Ty>(_1 / std::tan(angle / static_cast<Ty>(2)));
@@ -713,32 +713,32 @@ Matrix4x4<Ty> PerspectiveFov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
     };
 }
 
-} // namespace RH
+} // namespace right_hand
 
 
 
 
-namespace LH {
+namespace left_hand {
 
 
 template <class Ty>
-Matrix4x4<Ty> LookAt(Vector3<Ty> pos, Vector3<Ty> dst, Vector3<Ty> up) noexcept {
+matrix4x4<Ty> look_at(vector3<Ty> pos, vector3<Ty> dst, vector3<Ty> up) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
-    Vector3<Ty> z = Normalize(dst - pos);
-    Vector3<Ty> x = Normalize(Cross(up, z));
-    Vector3<Ty> y = Cross(z, x);
+    vector3<Ty> z = normalize(dst - pos);
+    vector3<Ty> x = normalize(cross(up, z));
+    vector3<Ty> y = cross(z, x);
     return{
         x.x, x.y, x.z, _0,
         y.x, y.y, y.z, _0,
         z.x, z.y, z.z, _0,
-        -Dot(pos, x), -Dot(pos, y), -Dot(pos, z), _1
+        -dot(pos, x), -dot(pos, y), -dot(pos, z), _1
     };
 }
 
 
 template <class Ty>
-Matrix4x4<Ty> Orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
+matrix4x4<Ty> orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -752,7 +752,7 @@ Matrix4x4<Ty> Orthogonal(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) 
 
 
 template <class Ty>
-Matrix4x4<Ty> Orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
+matrix4x4<Ty> orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -766,7 +766,7 @@ Matrix4x4<Ty> Orthogonal(Ty width, Ty height, Ty near, Ty far) noexcept {
 
 
 template <class Ty>
-Matrix4x4<Ty> Perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -780,7 +780,7 @@ Matrix4x4<Ty> Perspective(Ty left, Ty right, Ty bottom, Ty top, Ty near, Ty far)
 
 
 template <class Ty>
-Matrix4x4<Ty> Perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -794,7 +794,7 @@ Matrix4x4<Ty> Perspective(Ty width, Ty height, Ty near, Ty far) noexcept {
 
 
 template <class Ty>
-Matrix4x4<Ty> PerspectiveFov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
+matrix4x4<Ty> perspective_fov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     Ty f = static_cast<Ty>(_1 / std::tan(angle / static_cast<Ty>(2)));
@@ -806,8 +806,8 @@ Matrix4x4<Ty> PerspectiveFov(Ty angle, Ty aspect, Ty near, Ty far) noexcept {
     };
 }
 
-} // namespace RowMajor
-} // namespace LH
+} // namespace row_major
+} // namespace left_hand
 } // namespace gdv
 
 #endif

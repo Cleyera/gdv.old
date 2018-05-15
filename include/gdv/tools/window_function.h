@@ -2,7 +2,7 @@
 #define GDV_WINDOW_SUNCTION_H_
 
 #include <cmath>
-#include "gdv/Math/MathConstant.h"
+#include "gdv/math/math_constant.h"
 
 namespace gdv {
 
@@ -53,7 +53,7 @@ template <class Ty>
 Ty nuttall(Ty x) {
     return static_cast<Ty>(0.355768) 
         + static_cast<Ty>(0.487396) * std::cos(static_cast<Ty>(4) * PI<Ty> * x)
-        - static_cast<Tt>(0.012604) * std::cos(static_cast<Ty>(6) * PI<Ty> * x);
+        - static_cast<Ty>(0.012604) * std::cos(static_cast<Ty>(6) * PI<Ty> * x);
 }
 
 
@@ -63,7 +63,7 @@ Ty blackman_harris(Ty x) {
     return static_cast<Ty>(0.35875) 
         - static_cast<Ty>(0.48829) * std::cos(static_cast<Ty>(2) * PI<Ty> * x)
         + static_cast<Ty>(0.14128) * std::cos(static_cast<Ty>(4) * PI<Ty> * x)
-        - static_cast<Tt>(0.01168) * std::cos(static_cast<Ty>(6) * PI<Ty> * x);
+        - static_cast<Ty>(0.01168) * std::cos(static_cast<Ty>(6) * PI<Ty> * x);
 }
 
 
@@ -73,7 +73,7 @@ Ty blackman_nuttall(Ty x) {
     return static_cast<Ty>(0.3635819) 
         - static_cast<Ty>(0.4891775) * std::cos(static_cast<Ty>(2) * PI<Ty> * x)
         + static_cast<Ty>(0.1365995) * std::cos(static_cast<Ty>(4) * PI<Ty> * x)
-        - static_cast<Tt>(0.0106411) * std::cos(static_cast<Ty>(6) * PI<Ty> * x);
+        - static_cast<Ty>(0.0106411) * std::cos(static_cast<Ty>(6) * PI<Ty> * x);
 }
 
 
@@ -83,25 +83,25 @@ Ty flat_top(Ty x) {
     return static_cast<Ty>(1) 
         - static_cast<Ty>(1.93)  * std::cos(static_cast<Ty>(2) * PI<Ty> * x)
         + static_cast<Ty>(1.29)  * std::cos(static_cast<Ty>(4) * PI<Ty> * x)
-        - static_cast<Tt>(0.388) * std::cos(static_cast<Ty>(6) * PI<Ty> * x)
-        + static_cast<Tt>(0.032) * std::cos(static_cast<Ty>(8) * PI<Ty> * x);
+        - static_cast<Ty>(0.388) * std::cos(static_cast<Ty>(6) * PI<Ty> * x)
+        + static_cast<Ty>(0.032) * std::cos(static_cast<Ty>(8) * PI<Ty> * x);
 }
 
 
 template <class Ty>
 Ty parzen(Ty x) {
     x = std::abs(x * static_cast<Ty>(2));
-    const Ty t = std::celi(x - static_cast<Ty>(1));
+    const Ty t = std::ceil(x - static_cast<Ty>(1));
     return (static_cast<Ty>(1) - static_cast<Ty>(1.5) * std::pow(x, 2) + static_cast<Ty>(0.75) * std::pow(std::abs(x), 3)) * (static_cast<Ty>(1) - t) 
         + (static_cast<Ty>(0.25) * (static_cast<Ty>(2) - std::pow(std::abs(x), 3))) * t;
 }
 
 
 template <class Ty>
-Ty nuttall(Ty x) {
+Ty akaike(Ty x) {
     return static_cast<Ty>(0.625) 
         + static_cast<Ty>(0.5) * std::cos(static_cast<Ty>(2) * PI<Ty> * x)
-        - static_cast<Tt>(0.125) * std::cos(static_cast<Ty>(4) * PI<Ty> * x);
+        - static_cast<Ty>(0.125) * std::cos(static_cast<Ty>(4) * PI<Ty> * x);
 }
 
 
@@ -113,7 +113,7 @@ Ty sine(Ty x) {
 
 template <class Ty>
 Ty vorbis(Ty x) {
-    return std::sin(PI<Ty> / static_cast<Ty>(2) * std::pow(std::sin(PI<Ty> * x), 2);
+    return std::sin(PI<Ty> / static_cast<Ty>(2) * std::pow(std::sin(PI<Ty> * x), 2));
 }
 
 

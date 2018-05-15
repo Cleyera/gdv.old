@@ -1,7 +1,7 @@
 #ifndef GDV_UTIL_H_
 #define GDV_UTIL_H_
 
-#include "gdv/Common/Types.h"
+#include "gdv/types.h"
 
 namespace gdv {
 

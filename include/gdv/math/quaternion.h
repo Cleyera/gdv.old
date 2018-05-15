@@ -3,31 +3,31 @@
 
 
 #include <type_traits>
-#include "gdv/Math/Vector3.h"
-#include "gdv/Math/Matrix4x4.h"
-#include "gdv/Math/Euler.h"
+#include "gdv/math/vector3.h"
+#include "gdv/math/matrix4x4.h"
+#include "gdv/math/euler.h"
 
 namespace gdv {
 
-template<class Ty>
-class Quaternion {
+template <class Ty>
+class quaternion {
     static_assert(std::is_floating_point<Ty>::value, "invalid template parameter.");
 
 public:
 
-    Quaternion() noexcept :
+    quaternion() noexcept :
         t{},x{},y{},z{} {}
 
 
-    Quaternion(Ty t, Ty x, Ty y, Ty z) noexcept :
+    quaternion(Ty t, Ty x, Ty y, Ty z) noexcept :
         t{t},x{x},y{y},z{z} {}
 
 
-    Quaternion(Vector3<Ty> v, Ty angle) noexcept :
+    quaternion(vector3<Ty> v, Ty angle) noexcept :
         t{},x{},y{},z{} {
-        Vector3<Ty> v0 = Normalize(v);
-        Ty c = cos(static_cast<Ty>(0.5) * angle);
-        Ty s = sin(static_cast<Ty>(0.5) * angle);
+        vector3<Ty> v0 = normalize(v);
+        Ty c = std::cos(static_cast<Ty>(0.5) * angle);
+        Ty s = std::sin(static_cast<Ty>(0.5) * angle);
         t = c;
         x = v0.x * s;
         y = v0.y * s;
@@ -37,15 +37,15 @@ public:
 
 
 
-    Quaternion(Euler<Ty> e) noexcept :
+    quaternion(euler<Ty> e) noexcept :
         t{},x{},y{},z{} {
         constexpr Ty half = static_cast<Ty>(0.5);
-        Ty t0 = cos(e.z * half);
-        Ty t1 = sin(e.z * half);
-        Ty t2 = cos(e.x * half);
-        Ty t3 = sin(e.x * half);
-        Ty t4 = cos(e.y * half);
-        Ty t5 = sin(e.y * half);
+        Ty t0 = std::cos(e.z * half);
+        Ty t1 = std::sin(e.z * half);
+        Ty t2 = std::cos(e.x * half);
+        Ty t3 = std::sin(e.x * half);
+        Ty t4 = std::cos(e.y * half);
+        Ty t5 = std::sin(e.y * half);
 
         t = t0 * t2 * t4 + t1 * t3 * t5;
         x = t0 * t3 * t4 - t1 * t2 * t5;
@@ -55,37 +55,37 @@ public:
 
 
 
-    Quaternion(const Quaternion<Ty>& q) noexcept :
+    quaternion(const quaternion<Ty>& q) noexcept :
         t{q.t},x{q.x},y{q.y},z{q.z} {}
 
 
 
-    Quaternion<Ty>& operator = (const Quaternion<Ty> &v) noexcept = default;
+    quaternion<Ty>& operator = (const quaternion<Ty> &v) noexcept = default;
 
 
-    Quaternion<Ty>& operator = (const Euler<Ty> &e) noexcept {
-        *this = Quaternion<Ty>{e};
+    quaternion<Ty>& operator = (const euler<Ty> &e) noexcept {
+        *this = quaternion<Ty>{e};
         return *this;
     }
 
 
 
-    operator Euler<Ty>() noexcept {
+    operator euler<Ty>() noexcept {
         constexpr Ty _1 = static_cast<Ty>(1);
         constexpr Ty _2 = static_cast<Ty>(2);
-        Euler<Ty> e;
+        euler<Ty> e;
         Ty t0 = _2 * (t * x + y * z);
         Ty t1 = _1 - _2 * (x * x + y * y);
-        e.x = atan2(t0, t1);
+        e.x = std::atan2(t0, t1);
 
         t0 = _2 * (t * y - z * x);
         t0 = t0 > _1  ? _1  : t0;
         t0 = t0 < -_1 ? -_1 : t0;
-        e.y = asin(t0);
+        e.y = std::asin(t0);
 
         t0 = _2 * (t * z + x * y);
         t1 = _1 - _2 * (y * y + z * z);
-        e.z = atan2(t0, t1);
+        e.z = std::atan2(t0, t1);
         return e;
     }
 
@@ -98,11 +98,11 @@ public:
 };
 
 
-namespace ColumnMajor {
-namespace RH {
+namespace column_major {
+namespace right_hand {
 
 template <class Ty>
-Matrix4x4<Ty> ToMatrix(Quaternion<Ty> q) noexcept {
+matrix4x4<Ty> to_matrix(quaternion<Ty> q) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -126,9 +126,9 @@ Matrix4x4<Ty> ToMatrix(Quaternion<Ty> q) noexcept {
     };
 }
 
-template<class Ty>
-Quaternion<Ty> operator * (Quaternion<Ty> q1, Quaternion<Ty> q2) noexcept {
-    Quaternion<Ty> q{};
+template <class Ty>
+quaternion<Ty> operator * (quaternion<Ty> q1, quaternion<Ty> q2) noexcept {
+    quaternion<Ty> q{};
     Ty a0, a1, a2, a3;
 
     a0 = q1.t * q2.t;
@@ -158,25 +158,25 @@ Quaternion<Ty> operator * (Quaternion<Ty> q1, Quaternion<Ty> q2) noexcept {
     return q;
 }
 
-template<class Ty>
-Vector3<Ty> operator * (const Vector3<Ty> v, const Quaternion<Ty> q) noexcept {
-    Quaternion<Ty> a = q
-                        * Quaternion<Ty>{static_cast<Ty>(0), v.x, v.y, v.z}
-                        * Quaternion<Ty>{q.t, -q.x, -q.y, -q.z};
+template <class Ty>
+vector3<Ty> operator * (const quaternion<Ty> q, const vector3<Ty> v) noexcept {
+    quaternion<Ty> a = q
+                        * quaternion<Ty>{static_cast<Ty>(0), v.x, v.y, v.z}
+                        * quaternion<Ty>{q.t, -q.x, -q.y, -q.z};
     return {a.x, a.y, a.z};
 }
 
 
-template<class Ty>
-Matrix4x4<Ty> operator * (const Matrix4x4<Ty> m, const Quaternion<Ty> q) noexcept {
-    return m * ToMatrix(q);
+template <class Ty>
+matrix4x4<Ty> operator * (const matrix4x4<Ty> m, const quaternion<Ty> q) noexcept {
+    return m * to_matrix(q);
 }
 
-} // namespace RH
+} // namespace right_hand
 
-namespace LH {
+namespace left_hand {
 template <class Ty>
-Matrix4x4<Ty> ToMatrix(Quaternion<Ty> q) noexcept {
+matrix4x4<Ty> to_matrix(quaternion<Ty> q) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -200,9 +200,9 @@ Matrix4x4<Ty> ToMatrix(Quaternion<Ty> q) noexcept {
     };
 }
 
-template<class Ty>
-Quaternion<Ty> operator * (Quaternion<Ty> q1, Quaternion<Ty> q2) noexcept {
-    Quaternion<Ty> q{};
+template <class Ty>
+quaternion<Ty> operator * (quaternion<Ty> q1, quaternion<Ty> q2) noexcept {
+    quaternion<Ty> q{};
     Ty a0, a1, a2, a3;
 
     a0 = q1.t * q2.t;
@@ -233,28 +233,28 @@ Quaternion<Ty> operator * (Quaternion<Ty> q1, Quaternion<Ty> q2) noexcept {
 }
 
 
-template<class Ty>
-Vector3<Ty> operator * (const Vector3<Ty> v, const Quaternion<Ty> q) noexcept {
-    Quaternion<Ty> a = Quaternion<Ty>{q.t, q.x, q.y, q.z}
-                        * Quaternion<Ty>{static_cast<Ty>(0), v.x, v.y, v.z}
-                        * Quaternion<Ty>{q.t, -q.x, -q.y, -q.z};
+template <class Ty>
+vector3<Ty> operator * (const quaternion<Ty> q, const vector3<Ty> v) noexcept {
+    quaternion<Ty> a = quaternion<Ty>{q.t, q.x, q.y, q.z}
+                        * quaternion<Ty>{static_cast<Ty>(0), v.x, v.y, v.z}
+                        * quaternion<Ty>{q.t, -q.x, -q.y, -q.z};
     return {a.x, a.y, a.z};
 }
 
-template<class Ty>
-Matrix4x4<Ty> operator * (const Matrix4x4<Ty> m, const Quaternion<Ty> q) noexcept {
-    return m * ToMatrix(q);
+template <class Ty>
+matrix4x4<Ty> operator * (const matrix4x4<Ty> m, const quaternion<Ty> q) noexcept {
+    return m * to_matrix(q);
 }
 
-} // namespace LH
-} // namespace ColumnMajor
+} // namespace left_hand
+} // namespace column_major
 
 
-namespace RowMajor {
-namespace RH {
+namespace row_major {
+namespace right_hand {
 
 template <class Ty>
-Matrix4x4<Ty> ToMatrix(Quaternion<Ty> q) noexcept {
+matrix4x4<Ty> to_matrix(quaternion<Ty> q) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -278,9 +278,9 @@ Matrix4x4<Ty> ToMatrix(Quaternion<Ty> q) noexcept {
     };
 }
 
-template<class Ty>
-Quaternion<Ty> operator * (Quaternion<Ty> q1, Quaternion<Ty> q2) noexcept {
-    Quaternion<Ty> q{};
+template <class Ty>
+quaternion<Ty> operator * (quaternion<Ty> q1, quaternion<Ty> q2) noexcept {
+    quaternion<Ty> q{};
     Ty a0, a1, a2, a3;
 
     a0 = q1.t * q2.t;
@@ -310,28 +310,28 @@ Quaternion<Ty> operator * (Quaternion<Ty> q1, Quaternion<Ty> q2) noexcept {
     return q;
 }
 
-template<class Ty>
-Vector3<Ty> operator * (const Vector3<Ty> v, const Quaternion<Ty> q) noexcept {
-    Quaternion<Ty> a = q
-                        * Quaternion<Ty>{static_cast<Ty>(0), v.x, v.y, v.z}
-                        * Quaternion<Ty>{q.t, -q.x, -q.y, -q.z};
+template <class Ty>
+vector3<Ty> operator * (const vector3<Ty> v, const quaternion<Ty> q) noexcept {
+    quaternion<Ty> a = q
+                        * quaternion<Ty>{static_cast<Ty>(0), v.x, v.y, v.z}
+                        * quaternion<Ty>{q.t, -q.x, -q.y, -q.z};
     return {a.x, a.y, a.z};
 }
 
 
-template<class Ty>
-Matrix4x4<Ty> operator * (const Quaternion<Ty> q, const Matrix4x4<Ty> m) noexcept {
-    return ToMatrix(q) * m;
+template <class Ty>
+matrix4x4<Ty> operator * (const quaternion<Ty> q, const matrix4x4<Ty> m) noexcept {
+    return to_matrix(q) * m;
 }
 
-} // namesapce RH
+} // namesapce right_hand
 
 
 
-namespace LH {
+namespace left_hand {
 
 template <class Ty>
-Matrix4x4<Ty> ToMatrix(Quaternion<Ty> q) noexcept {
+matrix4x4<Ty> to_matrix(quaternion<Ty> q) noexcept {
     constexpr Ty _0 = static_cast<Ty>(0);
     constexpr Ty _1 = static_cast<Ty>(1);
     constexpr Ty _2 = static_cast<Ty>(2);
@@ -356,9 +356,9 @@ Matrix4x4<Ty> ToMatrix(Quaternion<Ty> q) noexcept {
 }
 
 
-template<class Ty>
-Quaternion<Ty> operator * (Quaternion<Ty> q1, Quaternion<Ty> q2) noexcept {
-    Quaternion<Ty> q{};
+template <class Ty>
+quaternion<Ty> operator * (quaternion<Ty> q1, quaternion<Ty> q2) noexcept {
+    quaternion<Ty> q{};
     Ty a0, a1, a2, a3;
 
     a0 = q1.t * q2.t;
@@ -389,26 +389,26 @@ Quaternion<Ty> operator * (Quaternion<Ty> q1, Quaternion<Ty> q2) noexcept {
 }
 
 
-template<class Ty>
-Vector3<Ty> operator * (const Vector3<Ty> v, const Quaternion<Ty> q) noexcept {
-    Quaternion<Ty> a = Quaternion<Ty>{q.t, q.x, q.y, q.z}
-                         * Quaternion<Ty>{static_cast<Ty>(0), v.x, v.y, v.z}
-                         * Quaternion<Ty>{q.t, -q.x, -q.y, -q.z};
+template <class Ty>
+vector3<Ty> operator * (const vector3<Ty> v, const quaternion<Ty> q) noexcept {
+    quaternion<Ty> a = quaternion<Ty>{q.t, q.x, q.y, q.z}
+                         * quaternion<Ty>{static_cast<Ty>(0), v.x, v.y, v.z}
+                         * quaternion<Ty>{q.t, -q.x, -q.y, -q.z};
     return {a.x, a.y, a.z};
 }
 
 
-template<class Ty>
-Matrix4x4<Ty> operator * (const Quaternion<Ty> q, const Matrix4x4<Ty> m) noexcept {
-    return ToMatrix(q) * m;
+template <class Ty>
+matrix4x4<Ty> operator * (const quaternion<Ty> q, const matrix4x4<Ty> m) noexcept {
+    return to_matrix(q) * m;
 }
 
-} // namespace LH
-} // namespace RowMajor
+} // namespace left_hand
+} // namespace row_major
 
 
 
-using Rotate = Quaternion<float>;
+using rotation = quaternion<float>;
 
 } // namespace gdv
 

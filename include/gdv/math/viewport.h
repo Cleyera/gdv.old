@@ -6,18 +6,18 @@
 #define GDV_VIEWPORT_H_
 
 #include <type_traits>
-#include "gdv/Math/Matrix4x4.h"
-#include "gdv/Math/Vector2.h"
+#include "gdv/math/matrix4x4.h"
+#include "gdv/math/vector2.h"
 
 namespace gdv {
 
 /**
-* @class Viewport
+* @class viewport
 * @brief ビューポートを表すクラスです
 * @details ビューポートの位置とサイズを格納されます
 **/
 template <class Ty>
-class Viewport {
+class viewport {
     static_assert(std::is_integral<Ty>::value || std::is_floating_point<Ty>::value, "invalid template parameter.");
 
 public:
@@ -27,7 +27,7 @@ public:
     * @return none
     * @exception none
     **/
-    Viewport() noexcept :
+    viewport() noexcept :
         x{}, y{}, w{}, h{} {}
 
 
@@ -41,7 +41,7 @@ public:
     * @return none
     * @exception none
     **/
-    Viewport(Ty x, Ty y, Ty w, Ty h) noexcept :
+    viewport(Ty x, Ty y, Ty w, Ty h) noexcept :
         x{x}, y{y}, w{w}, h{h} {}
 
 
@@ -53,17 +53,17 @@ public:
     * @return none
     * @exception none
     **/
-    Viewport(Vector2<Ty> pt, Ty w, Ty h) noexcept :
+    viewport(vector2<Ty> pt, Ty w, Ty h) noexcept :
         x{pt.x}, y{pt.y}, w{w}, h{h} {}
 
 
     /**
     * @brief コンストラクタ
-    * @param[in] r  Rect 
+    * @param[in] r  rect 
     * @return none
     * @exception none
     **/
-    Viewport(Rect<Ty> r) noexcept :
+    viewport(rect<Ty> r) noexcept :
         x{r.left + r.Width() / static_cast<Ty>(2)},
         y{r.bottom + r.Height() / static_cast<Ty>(2)},
         x{r.Width()},
@@ -77,7 +77,7 @@ public:
     * @return none
     * @exception none
     **/
-    Viewport(const Viewport<Ty> &v) noexcept :
+    viewport(const viewport<Ty> &v) noexcept :
         x{v.x}, y{v.y}, w{v.w}, h{v.h} {} 
 
 
@@ -88,7 +88,7 @@ public:
     * @return 自身の参照
     * @exception none
     **/
-    Viewport<Ty> operator = (const Viewport<Ty> &v) noexcept {
+    viewport<Ty> operator = (const viewport<Ty> &v) noexcept {
         x = v.x;
         y = v.y;
         w = v.w;
@@ -104,28 +104,28 @@ public:
     * @return ビューポートの左端
     * @exception none
     **/
-    Ty GetLeft()    const noexcept {return x - w / static_cast<Ty>(2);}
+    Ty left()    const noexcept {return x - w / static_cast<Ty>(2);}
 
     /**
     * @brief ビューポートの右端を取得します
     * @return ビューポートの端
     * @exception none
     **/
-    Ty GetRight()   const noexcept {return x + w / static_cast<Ty>(2);}
+    Ty right()   const noexcept {return x + w / static_cast<Ty>(2);}
 
     /**
     * @brief ビューポートの下端を取得します
     * @return ビューポートの下端
     * @exception none
     **/
-    Ty GetBottom()  const noexcept {return y - h / static_cast<Ty>(2);}
+    Ty bottom()  const noexcept {return y - h / static_cast<Ty>(2);}
 
     /**
     * @brief ビューポートの上端を取得します
     * @return ビューポートの上端
     * @exception none
     **/
-    Ty GetTop()     const noexcept {return y + h / static_cast<Ty>(2);}
+    Ty top()     const noexcept {return y + h / static_cast<Ty>(2);}
 
 
 
@@ -137,10 +137,10 @@ public:
 };
 
 
-namespace ColumnMajor {
+namespace column_major {
 
 template <class Ty>
-Matrix4x4<Ty> ToMatrix(Viewport<Ty> v) {
+matrix4x4<Ty> to_matrix(viewport<Ty> v) {
     static constexpr Ty _0 = static_cast<Ty>(0);
     static constexpr Ty _1 = static_cast<Ty>(1);
     static constexpr Ty _2 = static_cast<Ty>(2);
@@ -152,13 +152,13 @@ Matrix4x4<Ty> ToMatrix(Viewport<Ty> v) {
     };
 }
 
-} // nemspace ColumnMajor
+} // nemspace column_major
 
 
-namespace RowMajor {
+namespace row_major {
 
 template <class Ty>
-Matrix4x4<Ty> ToMatrix(Viewport<Ty> v) {
+matrix4x4<Ty> to_matrix(viewport<Ty> v) {
     static constexpr Ty _0 = static_cast<Ty>(0);
     static constexpr Ty _1 = static_cast<Ty>(1);
     static constexpr Ty _2 = static_cast<Ty>(2);
@@ -170,7 +170,7 @@ Matrix4x4<Ty> ToMatrix(Viewport<Ty> v) {
     };
 }
 
-} // namespace RowMajor
+} // namespace row_major
 
 } // namespace gdv
 

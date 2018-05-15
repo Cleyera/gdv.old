@@ -7,26 +7,26 @@
 namespace gdv {
 
 template <class Ty>
-class Rect {
+class rect {
     static_assert(std::is_integral<Ty>::value || std::is_floating_point<Ty>::value, "invalid template parameter.");
 
 public:
 
-    constexpr Rect() noexcept :
+    constexpr rect() noexcept :
         top{},left{},bottom{},right{}{}
 
 
-    constexpr Rect(Ty top, Ty left, Ty bottom, Ty right) noexcept :
+    constexpr rect(Ty top, Ty left, Ty bottom, Ty right) noexcept :
         top{top},left{left},bottom{bottom},right{right}{}
 
 
-    constexpr Rect(const Rect<Ty> &r) noexcept :
+    constexpr rect(const rect<Ty> &r) noexcept :
         top{r.top},left{r.left},bottom{r.bottom},right{r.right}{}
 
 
 
 
-    Rect<Ty>& operator = (const Rect<Ty> &r) noexcept {
+    rect<Ty>& operator = (const rect<Ty> &r) noexcept {
         top     = r.top;
         left    = r.left;
         bottom  = r.bottom;
@@ -36,8 +36,8 @@ public:
 
 
 public:
-    Ty Width() const noexcept {return right - left;}
-    Ty Height() const noexcept {return bottom - top;}
+    Ty width() const noexcept {return right - left;}
+    Ty height() const noexcept {return bottom - top;}
 
 
 public:

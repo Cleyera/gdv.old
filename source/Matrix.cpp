@@ -1,25 +1,25 @@
-#include "gdv/Math/Matrix.h"
-#include "gdv/Math/VectorMath3D.h"
+#include "gdv/math/Matrix.h"
+#include "gdv/math/VectorMath3D.h"
 
 namespace gdv {
 
 namespace simd {
 
 
-Matrix::Matrix() :
+matrix::matrix() noexcept :
     m{}{}
 
 
 
-Matrix::Matrix(const Matrix &mat) :
+matrix::matrix(const matrix &mat) noexcept :
     m{mat.m[0], mat.m[1], mat.m[2], mat.m[3]}{}
 
 
 
-Matrix::Matrix( float m11, float m12, float m13, float m14,
+matrix::matrix( float m11, float m12, float m13, float m14,
                 float m21, float m22, float m23, float m24,
                 float m31, float m32, float m33, float m34,
-                float m41, float m42, float m43, float m44) :
+                float m41, float m42, float m43, float m44) noexcept :
     m{}{
     alignas(alignof(__m128)) float v1[4]{m11, m12, m13, m14};
     alignas(alignof(__m128)) float v2[4]{m21, m22, m23, m24};
@@ -33,7 +33,7 @@ Matrix::Matrix( float m11, float m12, float m13, float m14,
 
 
 
-Matrix::Matrix(Matrix4x4<float> mat) :
+matrix::matrix(matrix4x4<float> mat) noexcept :
     m{}{
     alignas(alignof(__m128)) float v1[4]{mat.m[ 0], mat.m[ 1], mat.m[ 2], mat.m[ 3]};
     alignas(alignof(__m128)) float v2[4]{mat.m[ 4], mat.m[ 5], mat.m[ 6], mat.m[ 7]};
@@ -47,11 +47,11 @@ Matrix::Matrix(Matrix4x4<float> mat) :
 
 
 
-Matrix::Matrix(__m128 m1, __m128 m2, __m128 m3, __m128 m4) :
+matrix::matrix(__m128 m1, __m128 m2, __m128 m3, __m128 m4) noexcept :
     m{m1, m2, m3, m4}{}
 
 
-Matrix& Matrix::operator = (const Matrix4x4<float> &mat) {
+matrix& matrix::operator = (const matrix4x4<float> &mat) noexcept {
     alignas(alignof(__m128)) float v1[4]{mat.m[ 0], mat.m[ 1], mat.m[ 2], mat.m[ 3]};
     alignas(alignof(__m128)) float v2[4]{mat.m[ 4], mat.m[ 5], mat.m[ 6], mat.m[ 7]};
     alignas(alignof(__m128)) float v3[4]{mat.m[ 8], mat.m[ 9], mat.m[10], mat.m[11]};
@@ -65,7 +65,7 @@ Matrix& Matrix::operator = (const Matrix4x4<float> &mat) {
 
 
 
-Matrix& Matrix::operator = (const Matrix &mat) {
+matrix& matrix::operator = (const matrix &mat) noexcept {
     this->m[0] = mat.m[0];
     this->m[1] = mat.m[1];
     this->m[2] = mat.m[2];
@@ -75,7 +75,7 @@ Matrix& Matrix::operator = (const Matrix &mat) {
 
 
 
-Matrix::operator Matrix4x4<float>() {
+matrix::operator matrix4x4<float>() noexcept {
     alignas(alignof(__m128)) float v1[4]{};
     alignas(alignof(__m128)) float v2[4]{};
     alignas(alignof(__m128)) float v3[4]{};
@@ -94,7 +94,7 @@ Matrix::operator Matrix4x4<float>() {
 
 
 
-Matrix operator + (Matrix &m, float n) {
+matrix operator + (matrix &m, float n) {
     return {
         _mm_add_ps(m.m[0], _mm_set_ps1(n)),
         _mm_add_ps(m.m[1], _mm_set_ps1(n)),
@@ -105,7 +105,7 @@ Matrix operator + (Matrix &m, float n) {
 
 
 
-Matrix operator - (Matrix &m, float n) {
+matrix operator - (matrix &m, float n) {
     return {
         _mm_sub_ps(m.m[0], _mm_set_ps1(n)),
         _mm_sub_ps(m.m[1], _mm_set_ps1(n)),
@@ -116,7 +116,7 @@ Matrix operator - (Matrix &m, float n) {
 
 
 
-Matrix operator * (Matrix &m, float n) {
+matrix operator * (matrix &m, float n) {
     return {
         _mm_mul_ps(m.m[0], _mm_set_ps1(n)),
         _mm_mul_ps(m.m[1], _mm_set_ps1(n)),
@@ -127,7 +127,7 @@ Matrix operator * (Matrix &m, float n) {
 
 
 
-Matrix operator / (Matrix &m, float n) {
+matrix operator / (matrix &m, float n) {
     return {
         _mm_div_ps(m.m[0], _mm_set_ps1(n)),
         _mm_div_ps(m.m[1], _mm_set_ps1(n)),
@@ -138,7 +138,7 @@ Matrix operator / (Matrix &m, float n) {
 
 
 
-Matrix& operator += (Matrix &m, float n) {
+matrix& operator += (matrix &m, float n) {
     m.m[0] = _mm_add_ps(m.m[0], _mm_set_ps1(n));
     m.m[1] = _mm_add_ps(m.m[1], _mm_set_ps1(n));
     m.m[2] = _mm_add_ps(m.m[2], _mm_set_ps1(n));
@@ -148,7 +148,7 @@ Matrix& operator += (Matrix &m, float n) {
 
 
 
-Matrix& operator -= (Matrix &m, float n) {
+matrix& operator -= (matrix &m, float n) {
     m.m[0] = _mm_sub_ps(m.m[0], _mm_set_ps1(n));
     m.m[1] = _mm_sub_ps(m.m[1], _mm_set_ps1(n));
     m.m[2] = _mm_sub_ps(m.m[2], _mm_set_ps1(n));
@@ -158,7 +158,7 @@ Matrix& operator -= (Matrix &m, float n) {
 
 
 
-Matrix& operator *= (Matrix &m, float n) {
+matrix& operator *= (matrix &m, float n) {
     m.m[0] = _mm_mul_ps(m.m[0], _mm_set_ps1(n));
     m.m[1] = _mm_mul_ps(m.m[1], _mm_set_ps1(n));
     m.m[2] = _mm_mul_ps(m.m[2], _mm_set_ps1(n));
@@ -168,7 +168,7 @@ Matrix& operator *= (Matrix &m, float n) {
 
 
 
-Matrix& operator /= (Matrix &m, float n) {
+matrix& operator /= (matrix &m, float n) {
     m.m[0] = _mm_div_ps(m.m[0], _mm_set_ps1(n));
     m.m[1] = _mm_div_ps(m.m[1], _mm_set_ps1(n));
     m.m[2] = _mm_div_ps(m.m[2], _mm_set_ps1(n));
@@ -178,7 +178,7 @@ Matrix& operator /= (Matrix &m, float n) {
 
 
 
-Matrix operator + (Matrix &m1, Matrix &m2) {
+matrix operator + (matrix &m1, matrix &m2) {
     return {
         _mm_add_ps(m1.m[0], m2.m[0]),
         _mm_add_ps(m1.m[1], m2.m[1]),
@@ -189,7 +189,7 @@ Matrix operator + (Matrix &m1, Matrix &m2) {
 
 
 
-Matrix operator - (Matrix &m1, Matrix &m2) {
+matrix operator - (matrix &m1, matrix &m2) {
     return {
         _mm_sub_ps(m1.m[0], m2.m[0]),
         _mm_sub_ps(m1.m[1], m2.m[1]),
@@ -200,24 +200,24 @@ Matrix operator - (Matrix &m1, Matrix &m2) {
 
 
 
-Matrix operator * (Matrix &m1, Matrix &m2) {
-    Matrix m = Transpose(m2);
-    Matrix _m1 = Transpose({
+matrix operator * (matrix &m1, matrix &m2) {
+    matrix m = Transpose(m2);
+    matrix _m1 = Transpose({
         _mm_mul_ps(m1.m[0], m.m[0]),
         _mm_mul_ps(m1.m[0], m.m[1]),
         _mm_mul_ps(m1.m[0], m.m[2]),
         _mm_mul_ps(m1.m[0], m.m[3])});
-    Matrix _m2 = Transpose({
+    matrix _m2 = Transpose({
         _mm_mul_ps(m1.m[1], m.m[0]),
         _mm_mul_ps(m1.m[1], m.m[1]),
         _mm_mul_ps(m1.m[1], m.m[2]),
         _mm_mul_ps(m1.m[1], m.m[3])});
-    Matrix _m3 = Transpose({
+    matrix _m3 = Transpose({
         _mm_mul_ps(m1.m[2], m.m[0]),
         _mm_mul_ps(m1.m[2], m.m[1]),
         _mm_mul_ps(m1.m[2], m.m[2]),
         _mm_mul_ps(m1.m[2], m.m[3])});
-    Matrix _m4 = Transpose({
+    matrix _m4 = Transpose({
         _mm_mul_ps(m1.m[3], m.m[0]),
         _mm_mul_ps(m1.m[3], m.m[1]),
         _mm_mul_ps(m1.m[3], m.m[2]),
@@ -232,7 +232,7 @@ Matrix operator * (Matrix &m1, Matrix &m2) {
 
 
 
-Matrix& operator += (Matrix &m1, Matrix &m2) {
+matrix& operator += (matrix &m1, matrix &m2) {
     m1.m[0] = _mm_add_ps(m1.m[0], m2.m[0]);
     m1.m[1] = _mm_add_ps(m1.m[1], m2.m[1]);
     m1.m[2] = _mm_add_ps(m1.m[2], m2.m[2]);
@@ -242,7 +242,7 @@ Matrix& operator += (Matrix &m1, Matrix &m2) {
 
 
 
-Matrix& operator -= (Matrix &m1, Matrix &m2) {
+matrix& operator -= (matrix &m1, matrix &m2) {
     m1.m[0] = _mm_sub_ps(m1.m[0], m2.m[0]);
     m1.m[1] = _mm_sub_ps(m1.m[1], m2.m[1]);
     m1.m[2] = _mm_sub_ps(m1.m[2], m2.m[2]);
@@ -252,24 +252,24 @@ Matrix& operator -= (Matrix &m1, Matrix &m2) {
 
 
 
-Matrix& operator *= (Matrix &m1, Matrix &m2) {
-    Matrix m = Transpose(m2);
-    Matrix _m1 = Transpose({
+matrix& operator *= (matrix &m1, matrix &m2) {
+    matrix m = Transpose(m2);
+    matrix _m1 = Transpose({
         _mm_mul_ps(m1.m[0], m.m[0]),
         _mm_mul_ps(m1.m[0], m.m[1]),
         _mm_mul_ps(m1.m[0], m.m[2]),
         _mm_mul_ps(m1.m[0], m.m[3])});
-    Matrix _m2 = Transpose({
+    matrix _m2 = Transpose({
         _mm_mul_ps(m1.m[1], m.m[0]),
         _mm_mul_ps(m1.m[1], m.m[1]),
         _mm_mul_ps(m1.m[1], m.m[2]),
         _mm_mul_ps(m1.m[1], m.m[3])});
-    Matrix _m3 = Transpose({
+    matrix _m3 = Transpose({
         _mm_mul_ps(m1.m[2], m.m[0]),
         _mm_mul_ps(m1.m[2], m.m[1]),
         _mm_mul_ps(m1.m[2], m.m[2]),
         _mm_mul_ps(m1.m[2], m.m[3])});
-    Matrix _m4 = Transpose({
+    matrix _m4 = Transpose({
         _mm_mul_ps(m1.m[3], m.m[0]),
         _mm_mul_ps(m1.m[3], m.m[1]),
         _mm_mul_ps(m1.m[3], m.m[2]),
@@ -283,8 +283,8 @@ Matrix& operator *= (Matrix &m1, Matrix &m2) {
 
 
 
-Vector operator * (Matrix &m, Vector &v) {
-    Matrix _m = Transpose(m);
+Vector operator * (matrix &m, Vector &v) {
+    matrix _m = Transpose(m);
     __m128 v1 = _mm_mul_ps(_m.m[0], v.v);
     __m128 v2 = _mm_mul_ps(_m.m[1], v.v);
     __m128 v3 = _mm_mul_ps(_m.m[2], v.v);
@@ -294,7 +294,7 @@ Vector operator * (Matrix &m, Vector &v) {
 
 
 
-Vector operator * (Vector &v, Matrix &m) {
+Vector operator * (Vector &v, matrix &m) {
     __m128 v1 = _mm_mul_ps(m.m[0], v.v);
     __m128 v2 = _mm_mul_ps(m.m[1], v.v);
     __m128 v3 = _mm_mul_ps(m.m[2], v.v);
@@ -304,7 +304,7 @@ Vector operator * (Vector &v, Matrix &m) {
 
 
 
-Vector& operator *= (Vector &v, Matrix &m) {
+Vector& operator *= (Vector &v, matrix &m) {
     __m128 v1 = _mm_mul_ps(m.m[0], v.v);
     __m128 v2 = _mm_mul_ps(m.m[1], v.v);
     __m128 v3 = _mm_mul_ps(m.m[2], v.v);
