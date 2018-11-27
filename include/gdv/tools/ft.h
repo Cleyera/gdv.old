@@ -5,7 +5,6 @@
 #include <type_traits>
 #include <utility>
 #include <cstring>
-#include "gdv/tools/util.h"
 
 
 namespace gdv {
@@ -26,6 +25,7 @@ public:
     fft() : 
         allocator_{},
         size_{}, 
+        power_{},
         nyquist_size_{}, 
         capacity_{},
         work_{},
@@ -80,19 +80,19 @@ public:
 
 public:
     void resize(size_type n) {
-        if (n < 2 || size_ == n) { return; }
+        if (size_ == n || n < 2) { return; }
 
-        size_type power = msb(n) - 1;
+        if (n <= capacity_) { return; } 
+
+        size_type power = (size_type)std::log2(n);
 
         // n must be a power of 2.
-        if (n & ~power) { return; }
+        if (n & (~(((size_type)1) << power))) { return; }
 
+        power_ = (size_type)std::log2(n);
+        capacity_ = n * 4;
         size_ = n;
         nyquist_size_ = n / 2;
-
-       if (n <= capacity_) { return; } 
-        capacity_ = n * 4;
-
 
         size_type now_size = capacity_;
 
@@ -108,7 +108,7 @@ public:
         construct_range(work_, work_last_);
         
         re_first_ = work_;
-        im_first_ = capacity_ / 2 + 1;
+        im_first_ = work_ + (capacity_ / 2 + 1);
     }
 
 
@@ -121,8 +121,7 @@ public:
         size_type n) {
         resize(n);
 
-        size_type power = msb(n) - 1;
-        if (n & ~power) { return; }
+        if (n & (~(((size_type)1) << power_))) { return; }
 
         re_ = re_first_;
         im_ = im_first_;
@@ -144,8 +143,10 @@ public:
         size_type n) {
         resize(n);
 
-        size_type power = msb(n) - 1;
-        if (n & ~power) { return; }
+        if (n & (~(((size_type)1) << power_))) { return; }
+
+        re_first_ = work_;
+        im_first_ = work_ + (capacity_ / 2 + 1);
 
         re_ = re_first_;
         im_ = im_first_;
@@ -165,8 +166,10 @@ public:
     void calc(pointer_type in, pointer_type out, size_type n) {
         resize(n);
 
-        size_type power = msb(n) - 1;
-        if (n & ~power) { return; }
+        if (n & (~(((size_type)1) << power_))) { return; }
+
+        re_first_ = work_;
+        im_first_ = work_ + (capacity_ / 2 + 1);
 
         re_ = re_first_;
         im_ = im_first_;
@@ -194,8 +197,10 @@ public:
         size_type n) {
         resize(n);
 
-        size_type power = msb(n) - 1;
-        if (n & ~power) { return; }
+        if (n & (~(((size_type)1) << power_))) { return; }
+
+        re_first_ = work_;
+        im_first_ = work_ + (capacity_ / 2 + 1);
 
         re_ = re_first_;
         im_ = im_first_;
@@ -254,36 +259,39 @@ private:
         pointer_type re2 = re1 + size_;
         pointer_type im1 = im_first_;
         pointer_type im2 = re2 + size_;
-        value_type theta = static_cast<value_type>(2) * PI<value_type> / size_;
-        size_type power = msb(size_) - 1;
+        value_type theta = static_cast<value_type>(2) * pi<value_type> / size_;
         size_type dst = 2;
 
-        for (size_type i = 0; i < power; ++i) {
+
+        for (size_type i = 0; i < power_; ++i) {
 
             size_type num = size_ / dst;
             value_type step = theta / num;
 
-            for (size_type j = 0; j < size_; ++j) {
+            for (size_type j = 0; j < num; ++j) {
 
                 value_type angle{};
-                size_type num2 = num / 2;
+                size_type num2 = size_ / 2;
 
-                for (int k = 0; k < num; ++k) {
+                for (size_type k = 0; k < size_; ++k) {
                     size_type to = j * dst + k;
+                    value_type s = std::sin(angle);
+                    value_type c = std::cos(angle);
                     if (k < num2) {
                         size_type from = to + num2;
-                        re2[to] += re1[from] * std::cos(angle) + im2[from] * std::sin(angle);
-                        im2[to] += im1[from] * std::cos(angle) - re2[from] * std::sin(angle);
+                        re2[to] = re1[to] + re1[from] * c + im1[from] * s;
+                        im2[to] = im1[to] + im1[from] * c - re1[from] * s;
                     } else {
                         size_type from = to - num2;
-                        re2[from] += re1[to] * std::cos(angle) + im2[to] * std::sin(angle);
-                        im2[from] += im1[to] * std::cos(angle) - re2[to] * std::sin(angle);
+                        re2[to] = re1[from] + re1[to] * c + im1[to] * s;
+                        im2[to] = im1[from] + im1[to] * c - re1[to] * s;
                     }
                     angle += step;
                 }
             }
             std::swap(re1, re2);
             std::swap(im1, im2);
+            dst *= 2;
         }
 
         re_ = re1;
@@ -297,8 +305,7 @@ private:
         pointer_type re2 = re1 + size_;
         pointer_type im1 = im_first_;
         pointer_type im2 = re2 + size_;
-        value_type theta = static_cast<value_type>(2) * PI<value_type> / size_;
-        size_type power = msb(size_) - 1;
+        value_type theta = static_cast<value_type>(2) * pi<value_type> / size_;
         size_type dst = 2;
 
         for (size_type i = 0; i < size_; ++i) {
@@ -306,7 +313,7 @@ private:
             im1[i] /= size_;
         }
 
-        for (size_type i = 0; i < power; ++i) {
+        for (size_type i = 0; i < power_; ++i) {
 
             size_type num = size_ / dst;
             value_type step = theta / num;
@@ -314,24 +321,27 @@ private:
             for (size_type j = 0; j < size_; ++j) {
 
                 value_type angle{};
-                size_type num2 = num / 2;
+                size_type num2 = size_ / 2;
 
-                for (int k = 0; k < num; ++k) {
+                for (size_type k = 0; k < size_; ++k) {
                     size_type to = j * dst + k;
+                    value_type s = std::sin(angle);
+                    value_type c = std::cos(angle);
                     if (k < num2) {
                         size_type from = to + num2;
-                        re2[to] += re1[from] * std::cos(angle) - im2[from] * std::sin(angle);
-                        im2[to] += im1[from] * std::cos(angle) + re2[from] * std::sin(angle);
+                        re2[to] = re1[to] + re1[from] * c - im1[from] * s;
+                        im2[to] = im1[to] + im1[from] * c + re1[from] * s;
                     } else {
                         size_type from = to - num2;
-                        re2[from] += re1[to] * std::cos(angle) - im2[to] * std::sin(angle);
-                        im2[from] += im1[to] * std::cos(angle) + re2[to] * std::sin(angle);
+                        re2[to] = re1[from] + re1[to] * c - im1[to] * s;
+                        im2[to] = im1[from] + im1[to] * c + re1[to] * s;
                     }
                     angle += step;
                 }
             }
             std::swap(re1, re2);
             std::swap(im1, im2);
+            dst *= 2;
         }
 
         re_ = re1;
@@ -342,6 +352,7 @@ private:
 private:
     allocator_type allocator_;
     size_type size_;
+    size_type power_;
     size_type nyquist_size_;
     size_type capacity_;
     pointer_type work_;
