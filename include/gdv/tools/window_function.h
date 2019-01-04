@@ -2,7 +2,7 @@
 #define GDV_WINDOW_SUNCTION_H_
 
 #include <cmath>
-#include "gdv/math/math_constant.h"
+#include <gdv/constant.h>
 
 namespace gdv {
 

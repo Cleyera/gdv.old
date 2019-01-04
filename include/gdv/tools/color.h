@@ -3,8 +3,8 @@
 
 #include <algorithm>
 #include <math.h>
-#include "gdv/types.h"
-#include "gdv/tools/tween.h"
+#include <gdv/types.h>
+#include <gdv/tools/tween.h>
 
 
 namespace gdv {

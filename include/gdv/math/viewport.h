@@ -6,8 +6,8 @@
 #define GDV_VIEWPORT_H_
 
 #include <type_traits>
-#include "gdv/math/matrix4x4.h"
-#include "gdv/math/vector2.h"
+#include <gdv/math/matrix4x4.h>
+#include <gdv/math/vector2.h>
 
 namespace gdv {
 

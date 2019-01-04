@@ -2,7 +2,7 @@
 #define GDV_VECTOR3_H_
 
 #include <type_traits>
-#include "gdv/math/vector2.h"
+#include <gdv/math/vector2.h>
 
 namespace gdv {
 

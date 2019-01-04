@@ -2,10 +2,10 @@
 #define TWEEN_HEADER_
 
 #include <cmath>
-#include "gdv/math/math_constant.h"
-#include "gdv/math/vector2.h"
-#include "gdv/math/vector3.h"
-#include "gdv/math/vector4.h"
+#include <gdv/math/constant.h>
+#include <gdv/math/vector2.h>
+#include <gdv/math/vector3.h>
+#include <gdv/math/vector4.h>
 
 namespace gdv {
 

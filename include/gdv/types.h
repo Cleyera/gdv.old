@@ -1,6 +1,6 @@
 /**
-* @file Types.h
-* @brief gdv内で使用する型のエイリアスが定義されたファイルです
+* @file types.h
+* @brief define the alias of types
 **/
 #ifndef GDV_TYPES_H_
 #define GDV_TYPES_H_

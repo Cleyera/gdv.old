@@ -5,9 +5,9 @@
 #ifndef GDV_CAMERA_H_
 #define GDV_CAMERA_H_
 
-#include "gdv/math/math_function.h"
-#include "gdv/math/vector3.h"
-#include "gdv/math/matrix4x4.h"
+#include <gdv/math/math_function.h>
+#include <gdv/math/vector3.h>
+#include <gdv/math/matrix4x4.h>
 
 namespace gdv {
 

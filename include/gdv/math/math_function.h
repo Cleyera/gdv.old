@@ -2,9 +2,9 @@
 #define GDV_MATH3D_H_
 
 
-#include "gdv/math/vector4.h"
-#include "gdv/math/matrix4x4.h"
-#include "gdv/math/matrix3x3.h"
+#include <gdv/math/vector4.h>
+#include <gdv/math/matrix4x4.h>
+#include <gdv/math/matrix3x3.h>
 
 
 namespace gdv {

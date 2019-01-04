@@ -2,7 +2,7 @@
 #define GDV_MATRIX4X4_H_
 
 #include <type_traits>
-#include "gdv/math/vector4.h"
+#include <gdv/math/vector4.h>
 
 namespace gdv {
 

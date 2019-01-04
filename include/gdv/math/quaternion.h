@@ -3,9 +3,9 @@
 
 
 #include <type_traits>
-#include "gdv/math/vector3.h"
-#include "gdv/math/matrix4x4.h"
-#include "gdv/math/euler.h"
+#include <gdv/math/vector3.h>
+#include <gdv/math/matrix4x4.h>
+#include <gdv/math/euler.h>
 
 namespace gdv {
 
